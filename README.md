@@ -1,2 +1,2 @@
 # admin
-admin fundi forums
+admin for fundi forums
