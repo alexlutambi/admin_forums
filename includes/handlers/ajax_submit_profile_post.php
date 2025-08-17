@@ -1,5 +1,5 @@
 <?php
-require '../../config/config.php';
+require '../../../database/connection.php';
 include("../classes/User.php");
 include("../classes/Post.php");
 include("../classes/Notification.php");

@@ -21,7 +21,7 @@
 	</style>
 
 	<?php  
-	require 'config/config.php';
+	require '../database/connection.php';
 	include("includes/classes/User.php");
 	include("includes/classes/Post.php");
 	include("includes/classes/Notification.php");

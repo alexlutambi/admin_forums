@@ -1,5 +1,5 @@
 <?php  
-require 'config/config.php';
+require '../database/connection.php';
 include("includes/classes/User.php");
 include("includes/classes/Fundi.php");
 include("includes/classes/Duka.php");

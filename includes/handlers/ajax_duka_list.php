@@ -1,5 +1,5 @@
 <?php
-include("../../config/config.php");
+include("../../../database/connection.php");
 include("../../includes/classes/Duka.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];

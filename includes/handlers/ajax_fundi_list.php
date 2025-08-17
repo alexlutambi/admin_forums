@@ -1,5 +1,5 @@
 <?php
-include("../../config/config.php");
+include("../../../database/connection.php");
 include("../../includes/classes/Fundi.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];

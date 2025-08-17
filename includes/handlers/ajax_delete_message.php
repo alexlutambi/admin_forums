@@ -1,5 +1,5 @@
 <?php
-include("../../config/config.php");
+include("../../../database/connection.php");
 
 if(isset($_POST['id'])) {
 	$id = $_POST['id'];
