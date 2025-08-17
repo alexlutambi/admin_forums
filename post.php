@@ -33,7 +33,7 @@ else {
 		<div class="posts_area">
 
 			<?php 
-				$post = new Post($con, $userLoggedIn);
+				$post = new Post($conn, $userLoggedIn);
 				$post->getSinglePost($id);
 			?>
 

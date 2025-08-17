@@ -1415,8 +1415,8 @@ if (typeof jQuery === 'undefined') {
 
       if (autoPlace) {
         var orgPlacement = placement
-        var $container   = this.options.container ? $(this.options.container) : this.$element.parent()
-        var containerDim = this.getPosition($container)
+        var $conntainer   = this.options.container ? $(this.options.container) : this.$element.parent()
+        var containerDim = this.getPosition($conntainer)
 
         placement = placement == 'bottom' && pos.bottom + actualHeight > containerDim.bottom ? 'top'    :
                     placement == 'top'    && pos.top    - actualHeight < containerDim.top    ? 'bottom' :

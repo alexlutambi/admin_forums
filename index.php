@@ -36,7 +36,7 @@ if(isset($_POST['post'])){
 	}
 
 	if($uploadOk) {
-		$post = new Post($con, $userLoggedIn);
+		$post = new Post($conn, $userLoggedIn);
 		$post->submitPost($_POST['post_text'], 'none', $imageName);
 	}
 	else {
@@ -124,7 +124,7 @@ if(isset($_POST['post'])){
 
 		<div class="trends">
 			<?php 
-			$query = mysqli_query($con, "SELECT * FROM trends ORDER BY hits DESC LIMIT 9");
+			$query = mysqli_query($conn, "SELECT * FROM trends ORDER BY hits DESC LIMIT 9");
 
 			foreach ($query as $row) {
 				

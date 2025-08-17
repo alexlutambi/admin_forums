@@ -15,7 +15,7 @@ include("includes/form_handlers/settings_handler.php");
 	Modify the values and click 'Update Details'
 
 	<?php
-	$user_data_query = mysqli_query($con, "SELECT first_name, last_name, email FROM users WHERE username='$userLoggedIn'");
+	$user_data_query = mysqli_query($conn, "SELECT first_name, last_name, email FROM users WHERE username='$userLoggedIn'");
 	$row = mysqli_fetch_array($user_data_query);
 
 	$first_name = $row['first_name'];

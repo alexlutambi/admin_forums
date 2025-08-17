@@ -6,16 +6,16 @@ $query = $_POST['query'];
 $userLoggedIn = $_POST['userLoggedIn'];
 
 if(is_int(filter_var($query, FILTER_VALIDATE_INT)) != null){
-$usersReturned = mysqli_query($con, "SELECT * FROM tbl_maduka WHERE duka_id LIKE '$query%' LIMIT 8");
+$usersReturned = mysqli_query($conn, "SELECT * FROM tbl_maduka WHERE duka_id LIKE '$query%' LIMIT 8");
 }
 else {
-	$usersReturned = mysqli_query($con, "SELECT * FROM tbl_maduka WHERE shop_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
+	$usersReturned = mysqli_query($conn, "SELECT * FROM tbl_maduka WHERE shop_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
 }
 
 if($query != "") {
 	while($row = mysqli_fetch_array($usersReturned)) {
 
-		$user = new Duka($con, $userLoggedIn);
+		$user = new Duka($conn, $userLoggedIn);
 
 		if($row['username'] != $userLoggedIn) {
 			$mutual_friends = $user->getMutualDukaTokens($row['username']) . " friends in common";

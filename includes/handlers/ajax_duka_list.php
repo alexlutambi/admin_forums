@@ -4,10 +4,10 @@ include("../../includes/classes/Duka.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];
 
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC LIMIT 3");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC LIMIT 3");
 
 	while($row = mysqli_fetch_array($usersReturnedQuery)) {
-		$user = new Duka($con, $userLoggedIn);
+		$user = new Duka($conn, $userLoggedIn);
 
 		if($row['shop_name'] != $userLoggedIn)
 			$mutual_friends = $user->getMutualDukaTokens($row['duka_id']) . " friends in common";

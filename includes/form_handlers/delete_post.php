@@ -6,7 +6,7 @@ require '../../../database/connection.php';
 
 	if(isset($_POST['result'])) {
 		if($_POST['result'] == 'true')
-			$query = mysqli_query($con, "UPDATE posts SET deleted='yes' WHERE id='$post_id'");
+			$query = mysqli_query($conn, "UPDATE posts SET deleted='yes' WHERE id='$post_id'");
 	}
 
 ?>

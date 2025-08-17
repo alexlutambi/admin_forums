@@ -19,12 +19,12 @@ for($i = 0; $i < count($login_object['activation_hint']); $i++){
   $duka_status = $login_object['activation_hint'][$i]['duka_status'];
     
      
-    if(mysqli_query($conn, "UPDATE tbl_maduka SET duka_status = '$duka_status' WHERE duka_id = '$duka_id';")){
+    if(mysqli_query($connn, "UPDATE tbl_maduka SET duka_status = '$duka_status' WHERE duka_id = '$duka_id';")){
                     
   
         $sql_image = "SELECT * FROM tbl_maduka WHERE duka_id = '$duka_id' ORDER BY duka_id ASC;";		
              
-        $result_image = mysqli_query($conn, $sql_image);
+        $result_image = mysqli_query($connn, $sql_image);
         
         while($row_image_data=mysqli_fetch_array($result_image)){
            $image_sub_hint = $row_image_data[7];

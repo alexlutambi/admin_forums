@@ -4,10 +4,10 @@ include("../../includes/classes/Individual.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];
 
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC LIMIT 3");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC LIMIT 3");
 
 	while($row = mysqli_fetch_array($usersReturnedQuery)) {
-		$user = new Individual($con, $userLoggedIn);
+		$user = new Individual($conn, $userLoggedIn);
 
 		if($row['username'] != $userLoggedIn)
 			$mutual_friends = $user->getMutualIndividualTokens($row['mteja_id']) . " friends in common";

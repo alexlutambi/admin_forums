@@ -25,10 +25,10 @@ else {
 	else {
 
 if(is_int(filter_var($query, FILTER_VALIDATE_INT)) != null){
-$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja WHERE mteja_id LIKE '$query%' LIMIT 8");
+$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_wateja WHERE mteja_id LIKE '$query%' LIMIT 8");
 }
 else {
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja WHERE mteja_full_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_wateja WHERE mteja_full_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
 }
 		//Check if results were found 
 		if(mysqli_num_rows($usersReturnedQuery) == 0)
@@ -41,7 +41,7 @@ else {
 		echo "<a href='search_individual.php?q=" . $query ."&type=name'>Names</a>, <a href='search_individual.php?q=" . $query ."&type=username'>Usernames</a><br><br><hr id='search_hr'>";
 
 		while($row = mysqli_fetch_array($usersReturnedQuery)) {
-			$user_obj = new Individual($con, $user['username']);
+			$user_obj = new Individual($conn, $user['username']);
 
 			$mutual_friends = "";
 

@@ -4,10 +4,10 @@ include("../../includes/classes/Fundi.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];
 
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC LIMIT 3");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC LIMIT 3");
 
 	while($row = mysqli_fetch_array($usersReturnedQuery)) {
-		$user = new Fundi($con, $userLoggedIn);
+		$user = new Fundi($conn, $userLoggedIn);
 
 		if($row['shop_name'] != $userLoggedIn)
 			$mutual_friends = $user->getMutualFundiTokens($row['fundi_id']) . " friends in common";

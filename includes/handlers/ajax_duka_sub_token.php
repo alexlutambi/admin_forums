@@ -19,12 +19,12 @@ for($i = 0; $i < count($login_object['token_sub_hint']); $i++){
   $total_new_token = $login_object['token_sub_hint'][$i]['total_new_token'];
     
      
-    if(mysqli_query($conn, "UPDATE tbl_duka_kazi_jumla SET total_kazi = '$total_new_token' WHERE duka_id = '$duka_id';")){
+    if(mysqli_query($connn, "UPDATE tbl_duka_kazi_jumla SET total_kazi = '$total_new_token' WHERE duka_id = '$duka_id';")){
                     
   
         $sql_image = "SELECT * FROM tbl_duka_kazi_jumla WHERE duka_id = '$duka_id' ORDER BY duka_id ASC;";		
              
-        $result_image = mysqli_query($conn, $sql_image);
+        $result_image = mysqli_query($connn, $sql_image);
         
         while($row_image_data=mysqli_fetch_array($result_image)){
        

@@ -1,11 +1,11 @@
 <?php
 class Message {
 	private $user_obj;
-	private $con;
+	private $conn;
 
-	public function __construct($con, $user){
-		$this->con = $con;
-		$this->user_obj = new User($con, $user);
+	public function __construct($conn, $user){
+		$this->con = $conn;
+		$this->user_obj = new User($conn, $user);
 	}
 
 	public function getMostRecentUser() {
@@ -138,19 +138,19 @@ class Message {
 	public function getConvos() {
 		$userLoggedIn = $this->user_obj->getUsername();
 		$return_string = "";
-		$convos = array();
+		$connvos = array();
 
 		$query = mysqli_query($this->con, "SELECT user_to, user_from FROM messages WHERE user_to='$userLoggedIn' OR user_from='$userLoggedIn' ORDER BY id DESC");
 
 		while($row = mysqli_fetch_array($query)) {
 			$user_to_push = ($row['user_to'] != $userLoggedIn) ? $row['user_to'] : $row['user_from'];
 
-			if(!in_array($user_to_push, $convos)) {
-				array_push($convos, $user_to_push);
+			if(!in_array($user_to_push, $connvos)) {
+				array_push($connvos, $user_to_push);
 			}
 		}
 
-		foreach($convos as $username) {
+		foreach($connvos as $username) {
 			$user_found_obj = new User($this->con, $username);
 			$latest_message_details = $this->getLatestMessage($userLoggedIn, $username);
 
@@ -176,7 +176,7 @@ class Message {
 		$page = $data['page'];
 		$userLoggedIn = $this->user_obj->getUsername();
 		$return_string = "";
-		$convos = array();
+		$connvos = array();
 
 		if($page == 1)
 			$start = 0;
@@ -190,15 +190,15 @@ class Message {
 		while($row = mysqli_fetch_array($query)) {
 			$user_to_push = ($row['user_to'] != $userLoggedIn) ? $row['user_to'] : $row['user_from'];
 
-			if(!in_array($user_to_push, $convos)) {
-				array_push($convos, $user_to_push);
+			if(!in_array($user_to_push, $connvos)) {
+				array_push($connvos, $user_to_push);
 			}
 		}
 
 		$num_iterations = 0; //Number of messages checked 
 		$count = 1; //Number of messages posted
 
-		foreach($convos as $username) {
+		foreach($connvos as $username) {
 
 			if($num_iterations++ < $start)
 				continue;

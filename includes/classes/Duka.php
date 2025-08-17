@@ -1,11 +1,11 @@
 <?php
 class Duka {
 	private $duka;
-	private $con;
+	private $conn;
 
-	public function __construct($con, $duka){
-		$this->con = $con;
-		$user_details_query = mysqli_query($con, "SELECT * FROM tbl_maduka WHERE username='$duka'");
+	public function __construct($conn, $duka){
+		$this->con = $conn;
+		$user_details_query = mysqli_query($conn, "SELECT * FROM tbl_maduka WHERE username='$duka'");
 		$this->duka = mysqli_fetch_array($user_details_query);
 	}
 

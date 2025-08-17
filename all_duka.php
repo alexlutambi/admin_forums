@@ -9,8 +9,8 @@ include("includes/header.php");
 	<?php 
 
 
-				$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC");
-				$usersReturnedQueryAll = mysqli_query($con, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC");
+				$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC");
+				$usersReturnedQueryAll = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC");
 		
 
 		//Check if results were found 
@@ -20,7 +20,7 @@ include("includes/header.php");
 			echo mysqli_num_rows($usersReturnedQueryAll) . " duka found: <br> <br>";
 
 		while($row = mysqli_fetch_array($usersReturnedQuery)) {
-			$user_obj = new Duka($con, $user['username']);
+			$user_obj = new Duka($conn, $user['username']);
 
 			$button = "";
 			$mutual_friends = "";
