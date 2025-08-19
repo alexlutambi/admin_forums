@@ -222,18 +222,21 @@ if(isset($_POST['post_message'])) {
 
  			$profile_user_obj = new Fundi($conn, $username); 
  			if($profile_user_obj->isClosed()) {
- 				header("Location: user_closed.php");
+        echo '<div class="user-is-logged-out">Logged Out</div>';
+ 				// header("Location: user_closed.php");
  			}
 
     }else if($account_type == "duka"){
 	$profile_user_obj = new Duka($conn, $username); 
  			if($profile_user_obj->isClosed()) {
- 				header("Location: user_closed.php");
+         echo '<div class="user-is-logged-out">Logged Out</div>';
+ 				// header("Location: user_closed.php");
  			}
     }else if($account_type == "mteja"){ 
       $profile_user_obj = new Individual($conn, $username); 
  			if($profile_user_obj->isClosed()) {
- 				header("Location: user_closed.php");
+         echo '<div class="user-is-logged-out">Logged Out</div>';
+ 				// header("Location: user_closed.php");
  			}
     }
 
