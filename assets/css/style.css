@@ -101,7 +101,7 @@ nav a:hover {
 
 .main_column {
 	float:right;
-	width: 70%;
+	width: 68%;
 	z-index: -1;
 	min-height: 170px;
 }
@@ -332,7 +332,13 @@ color: #00A3DD;
 .deep_blue {
 	background-color: #0043f0;
 }
-
+.left-main-user-container{
+	display: grid;
+    height: auto;
+    grid-auto-flow: row;
+    grid-gap: 2px;
+    grid-template-rows: min-content auto;
+}
 .profile_left input[type="submit"] {
 	width: 90%;
 	height: 30px;
