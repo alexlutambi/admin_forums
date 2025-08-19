@@ -751,7 +751,7 @@ $status = $payment['status'];
         <?php  
         
 
-          echo "<h4>You and <a href='" . $username ."'>" . $username. "</a></h4><hr><br>";
+          echo "<h4>You and <a href='profile.php?profile_username=" . $username ."'>" . $username. "</a></h4><hr><br>";
 
           echo "<div class='loaded_messages' id='scroll_messages'>";
             echo $username;

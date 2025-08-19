@@ -108,10 +108,10 @@ else {
 
 
 					<div class='result_profile_pic'>
-						<a href='" . $row['username'] ."'><img id='duka-list-img-" . $row['duka_id'] . "' class='profile-available duka-list-img duka-list-img-" . $row['duka_id'] . "' duka_id='" . $row['duka_id'] . "' duka_profile='" . $row['duka_profile'] . "' src='../duka/duka_logo_profile/duka_logo_thumb_color/" . $row['duka_thumb_color'] ."'></a>
+						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='duka-list-img-" . $row['duka_id'] . "' class='profile-available duka-list-img duka-list-img-" . $row['duka_id'] . "' duka_id='" . $row['duka_id'] . "' duka_profile='" . $row['duka_profile'] . "' src='../duka/duka_logo_profile/duka_logo_thumb_color/" . $row['duka_thumb_color'] ."'></a>
 					</div>
 
-						<a href='" . $row['username'] ."'> " . $row['duka_full_name'] . "
+						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['duka_full_name'] . "
 						<p id='grey'> " . $row['shop_name'] ."</p>
 						</a>
 						<br>

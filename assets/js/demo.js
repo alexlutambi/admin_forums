@@ -629,7 +629,7 @@ function get_display_thumb_image(server_link, image_id, thumb_image_url, real_im
     }
     featured.onerror=function(){
      //console.log("No thumb network connection or image is not available.");
-     featured.src= server_link+"fundiForums/fundi_smarts/admin/assets/images/progresss_img/fundi_forums_logo.png";
+     featured.src= server_link+"fundiForums/fundi_smarts/admin_forums/assets/images/progresss_img/fundi_forums_logo.png";
     
     }
    }
@@ -655,7 +655,7 @@ function get_display_thumb_image(server_link, image_id, thumb_image_url, real_im
       }
       featured.onerror=function(){
       //console.log("No real network connection or image is not available.");
-      featured.src= server_link+"fundiForums/fundi_smarts/admin/assets/images/progresss_img/fundi_forums_logo.png";
+      featured.src= server_link+"fundiForums/fundi_smarts/admin_forums/assets/images/progresss_img/fundi_forums_logo.png";
     
       }
       }
@@ -1380,7 +1380,7 @@ var server_link = body_main.getAttribute("server_link");
     var output = '';
     output += '<img src="';
 	output += server_link;
-	output += 'fundiForums/fundi_smarts/admin/assets/images/progresss_img/spinner_transparent.jpg" width="20" height="20" />';
+	output += 'fundiForums/fundi_smarts/admin_forums/assets/images/progresss_img/spinner_transparent.jpg" width="20" height="20" />';
     return output;
  }
 

@@ -25,7 +25,7 @@ if($query != "") {
 		}
 
 			echo "<div class='resultDisplay'>
-					<a href='" . $row['username'] . "' style='color: #000'>
+					<a href='profile.php?profile_username=" . $row['username'] . "' style='color: #000'>
 						<div class='liveSearchProfilePic'>
 							<img id='individual-list-img-" . $row['mteja_id'] . "' class='profile-available individual-list-img individual-list-img-" . $row['mteja_id'] . "' mteja_id='" . $row['mteja_id'] . "' mteja_profile='" . $row['mteja_profile'] . "' src='../mteja/mteja_profile/mteja_thumb_color/" . $row['mteja_thumb_color'] ."'>
 						</div>

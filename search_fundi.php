@@ -108,10 +108,10 @@ else {
 
 
 					<div class='result_profile_pic'>
-						<a href='" . $row['username'] ."'><img id='fundi-list-img-" . $row['fundi_id'] . "' class='profile-available fundi-list-img fundi-list-img-" . $row['fundi_id'] . "' fundi_id='" . $row['fundi_id'] . "' fundi_profile='" . $row['fundi_profile'] . "' src='../fundi/fundi_profile/fundi_thumb_color/" . $row['fundi_thumb_color'] ."'></a>
+						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='fundi-list-img-" . $row['fundi_id'] . "' class='profile-available fundi-list-img fundi-list-img-" . $row['fundi_id'] . "' fundi_id='" . $row['fundi_id'] . "' fundi_profile='" . $row['fundi_profile'] . "' src='../fundi/fundi_profile/fundi_thumb_color/" . $row['fundi_thumb_color'] ."'></a>
 					</div>
 
-						<a href='" . $row['username'] ."'> " . $row['fundi_full_name'] . " " . $row['fundi_last_name'] . "
+						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['fundi_full_name'] . " " . $row['fundi_last_name'] . "
 						<p id='grey'> " . $row['shop_name'] ."</p>
 						</a>
 						<br>

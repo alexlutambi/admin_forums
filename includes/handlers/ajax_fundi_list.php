@@ -28,7 +28,7 @@ if(strlen($row['fundi_last_name']) > 10){
 			$more_shop_name = "...";
 		}
 		echo "<div class='resultDisplay fundiDisplay'>
-				<a href='" . $row['username'] . "' style='color: #1485BD'>
+				<a href='profile.php?profile_username=" . $row['username'] . "' style='color: #1485BD'>
 					<div class='liveSearchProfilePic'>
 						<img id='fundi-list-img-" . $row['fundi_id'] . "' class='fundi-list-img fundi-list-img-" . $row['fundi_id'] . "' fundi_id='" . $row['fundi_id'] . "' fundi_profile='" . $row['fundi_profile'] . "' src='../fundi/fundi_profile/fundi_thumb_color/" . $row['fundi_thumb_color'] ."'>
 					</div>

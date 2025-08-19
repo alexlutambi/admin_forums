@@ -108,10 +108,10 @@ else {
 
 
 					<div class='result_profile_pic'>
-						<a href='" . $row['username'] ."'><img id='individual-list-img-" . $row['mteja_id'] . "' class='profile-available individual-list-img individual-list-img-" . $row['mteja_id'] . "' mteja_id='" . $row['mteja_id'] . "' mteja_profile='" . $row['mteja_profile'] . "' src='../mteja/mteja_profile/mteja_thumb_color/" . $row['mteja_thumb_color'] ."'></a>
+						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='individual-list-img-" . $row['mteja_id'] . "' class='profile-available individual-list-img individual-list-img-" . $row['mteja_id'] . "' mteja_id='" . $row['mteja_id'] . "' mteja_profile='" . $row['mteja_profile'] . "' src='../mteja/mteja_profile/mteja_thumb_color/" . $row['mteja_thumb_color'] ."'></a>
 					</div>
 
-						<a href='" . $row['username'] ."'> " . $row['mteja_full_name'] . "
+						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['mteja_full_name'] . "
 						<p id='grey'> " . $row['username'] ."</p>
 						</a>
 						<br>
