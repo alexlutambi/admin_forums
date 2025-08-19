@@ -85,6 +85,7 @@ nav a:hover {
 	width: 300px;
 	float: left;
 	margin-bottom: 20px;
+	z-index: 1;
 }
 
 .user_details img {
