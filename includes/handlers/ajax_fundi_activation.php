@@ -1,6 +1,6 @@
 <?php
 sleep(2);
-include("connection.php");
+include("../../../database/connection.php");
 
 $requestPayLoad = file_get_contents("php://input");
 
@@ -8,7 +8,7 @@ $requestPayLoad = file_get_contents("php://input");
 $login_object = json_decode($requestPayLoad, true);
 
 function get_likes_user($login_object){
-include("connection.php");
+include("../../../database/connection.php");
 
      $response_fundis = [];
        
