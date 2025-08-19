@@ -47,7 +47,7 @@ if(isset($_POST['post_message'])) {
 	<div class="main_column column" id="main_column">
 		<?php  
 		if($user_to != "new"){
-			echo "<h4>You and <a href='profile.php?profile_username=";
+			echo "<h4>You and <a href='profile_admin.php?profile_username=";
 			echo "$user_to'>" . $user_to_obj->getFirstAndLastName() . "</a></h4><hr><br>";
 
 			echo "<div class='loaded_messages' id='scroll_messages'>";
