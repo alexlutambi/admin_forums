@@ -86,7 +86,7 @@ else {
 			?>
 
 
-			<a href="<?php echo $userLoggedIn; ?>">
+			<a href="profile_admin.php?profile_username=<?php echo $userLoggedIn; ?>">
 				<?php echo $user['first_name']; ?>
 			</a>
 			<a href="index.php">
