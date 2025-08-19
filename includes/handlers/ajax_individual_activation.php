@@ -19,12 +19,12 @@ for($i = 0; $i < count($login_object['activation_hint']); $i++){
   $mteja_status = $login_object['activation_hint'][$i]['mteja_status'];
     
      
-    if(mysqli_query($connn, "UPDATE tbl_wateja SET mteja_status = '$mteja_status' WHERE mteja_id = '$mteja_id';")){
+    if(mysqli_query($conn, "UPDATE tbl_wateja SET mteja_status = '$mteja_status' WHERE mteja_id = '$mteja_id';")){
                     
   
         $sql_image = "SELECT * FROM tbl_wateja WHERE mteja_id = '$mteja_id' ORDER BY mteja_id ASC;";		
              
-        $result_image = mysqli_query($connn, $sql_image);
+        $result_image = mysqli_query($conn, $sql_image);
         
         while($row_image_data=mysqli_fetch_array($result_image)){
            $image_sub_hint = $row_image_data[7];

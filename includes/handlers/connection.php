@@ -5,7 +5,7 @@ $username = "fund_fundishop_user";  //replace it with your database username
   $dbname = "fund_fundishop_db";
 
 // Create connection
-$connn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
 //database_connection.php

@@ -19,12 +19,12 @@ for($i = 0; $i < count($login_object['activation_hint']); $i++){
   $fundi_status = $login_object['activation_hint'][$i]['fundi_status'];
     
      
-    if(mysqli_query($connn, "UPDATE tbl_mafundi SET fundi_status = '$fundi_status' WHERE fundi_id = '$fundi_id';")){
+    if(mysqli_query($conn, "UPDATE tbl_mafundi SET fundi_status = '$fundi_status' WHERE fundi_id = '$fundi_id';")){
                     
   
         $sql_image = "SELECT * FROM tbl_mafundi WHERE fundi_id = '$fundi_id' ORDER BY fundi_id ASC;";		
              
-        $result_image = mysqli_query($connn, $sql_image);
+        $result_image = mysqli_query($conn, $sql_image);
         
         while($row_image_data=mysqli_fetch_array($result_image)){
            $image_sub_hint = $row_image_data[7];
