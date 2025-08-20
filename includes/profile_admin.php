@@ -1,11 +1,11 @@
 <?php 
 include("includes/header.php");
 
-$message_obj = new Message($con, $userLoggedIn);
+$message_obj = new Message($conn, $userLoggedIn);
 
 if(isset($_GET['profile_username'])) {
 	$username = $_GET['profile_username'];
-	$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$username'");
+	$user_details_query = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
 
   if(mysqli_num_rows($user_details_query) == 0) {
     echo "User does not exist";
@@ -19,12 +19,12 @@ if(isset($_GET['profile_username'])) {
 
 
 if(isset($_POST['remove_friend'])) {
-  $user = new User($con, $userLoggedIn);
+  $user = new User($conn, $userLoggedIn);
   $user->removeFriend($username);
 }
 
 if(isset($_POST['add_friend'])) {
-	$user = new User($con, $userLoggedIn);
+	$user = new User($conn, $userLoggedIn);
 	$user->sendRequest($username);
 }
 
@@ -33,13 +33,13 @@ if(isset($_POST['respond_request'])) {
 }
 
 if(isset($_POST['cancel_request'])) {
-  $user = new User($con, $userLoggedIn);
+  $user = new User($conn, $userLoggedIn);
   $user->cancelRequest($username);
 }
 
 if(isset($_POST['post_message'])) {
   if(isset($_POST['message_body'])) {
-    $body = mysqli_real_escape_string($con, $_POST['message_body']);
+    $body = mysqli_real_escape_string($conn, $_POST['message_body']);
     $date = date("Y-m-d H:i:s");
     $message_obj->sendMessage($username, $body, $date);
   }
@@ -75,12 +75,12 @@ if(isset($_POST['post_message'])) {
 
  		<form action="<?php echo $username; ?>" method="POST">
  			<?php 
- 			$profile_user_obj = new User($con, $username); 
+ 			$profile_user_obj = new User($conn, $username); 
  			if($profile_user_obj->isClosed()) {
  				header("Location: user_closed.php");
  			}
 
- 			$logged_in_user_obj = new User($con, $userLoggedIn); 
+ 			$logged_in_user_obj = new User($conn, $userLoggedIn); 
 
  			if($userLoggedIn != $username) {
 
@@ -134,7 +134,7 @@ if(isset($_POST['post_message'])) {
         <?php  
         
 
-          echo "<h4>You and <a href='" . $username ."'>" . $profile_user_obj->getFirstAndLastName() . "</a></h4><hr><br>";
+          echo "<h4>You and <a href='profile_admin.php?profile_username=" . $username ."'>" . $profile_user_obj->getFirstAndLastName() . "</a></h4><hr><br>";
 
           echo "<div class='loaded_messages' id='scroll_messages'>";
             echo $message_obj->getMessages($username);
@@ -178,7 +178,7 @@ if(isset($_POST['post_message'])) {
         <div class="modal-body">
           <p>This will appear on the newsfeed for your friends to see. </p>
 
-          <form class="profile_post" action="profile_admin.php" method="POST" enctype="multipart/form-data">
+          <form class="profile_post" action="profile.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <textarea class="form-control" name="post_body"></textarea>
               <input type="hidden" name="user_from" value="<?php echo $userLoggedIn; ?>">
