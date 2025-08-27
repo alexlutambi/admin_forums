@@ -1,4 +1,7 @@
 <?php 
+ob_start(); //Turns on output buffering 
+session_start();
+
 include("includes/header.php");
 
 if(isset($_POST['post'])){
