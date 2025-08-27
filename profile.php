@@ -286,6 +286,20 @@ if($logged_in_fundi_obj->isFundiStatus($username)) {
           echo $account_type;
           echo '" class="btn-activate-deactivate success" >Activate</button>';
         }
+
+        echo '<button id="btn-default-password-';
+                  echo $user_array['fundi_id'];
+                echo '" fundi_id="';
+          echo $user_array['fundi_id'];
+          echo '" fundi_status="';
+          if($user_array['fundi_status'] == 'Enable'){
+            echo 'DisEnable';
+          }else{
+            echo 'Enable';
+          }
+          echo '" account_type="';
+          echo $account_type;
+          echo '" class="btn-default-password warning" >Default Password</button>';
   }else if($account_type == "duka"){
     $logged_in_duka_obj = new Duka($conn, $userLoggedIn); 
 if($logged_in_duka_obj->isDukaStatus($username)) {
@@ -318,6 +332,21 @@ if($logged_in_duka_obj->isDukaStatus($username)) {
           echo $account_type;
           echo '" class="btn-activate-deactivate success" >Activate</button>';
         }
+
+          echo '<button id="btn-default-password-';
+                  echo $user_array['duka_id'];
+                echo '" duka_id="';
+          echo $user_array['duka_id'];
+          echo '" duka_status="';
+          if($user_array['duka_status'] == 'Enable'){
+            echo 'DisEnable';
+          }else{
+            echo 'Enable';
+          }
+          echo '" account_type="';
+          echo $account_type;
+          echo '" class="btn-default-password warning" >Default Password</button>';
+
   }else if($account_type == "mteja"){ 
         $logged_in_mteja_obj = new Individual($conn, $userLoggedIn); 
 if($logged_in_mteja_obj->isIndividualStatus($username)) {
@@ -350,6 +379,20 @@ if($logged_in_mteja_obj->isIndividualStatus($username)) {
           echo $account_type;
           echo '" class="btn-activate-deactivate success" >Activate</button>';
         }
+
+        echo '<button id="btn-default-password-';
+                  echo $user_array['mteja_id'];
+                echo '" mteja_id="';
+          echo $user_array['mteja_id'];
+          echo '" mteja_status="';
+          if($user_array['mteja_status'] == 'Enable'){
+            echo 'DisEnable';
+          }else{
+            echo 'Enable';
+          }
+          echo '" account_type="';
+          echo $account_type;
+          echo '" class="btn-default-password warning" >Default Password</button>';    
   }
  			echo '</div>';
  			}

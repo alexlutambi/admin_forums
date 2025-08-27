@@ -2,6 +2,46 @@ $(document).ready(function() {
 
 	console.log("demo loaded...");
 	
+	
+
+	var btn_default_password = document.getElementsByClassName('btn-default-password');
+
+      for(var s = 0; s < btn_default_password.length; s++){
+       
+        btn_default_password[s].addEventListener('click', function(){
+      var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+
+		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+fundi_id).value);
+
+		var current_token = product_id.getAttribute("current_token");
+		   console.log("total_sub_new_token=>"+total_new_token);
+load_sub_token_fundi_data(current_token, fundi_id, total_new_token, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+duka_id).value);
+
+		var current_token = product_id.getAttribute("current_token");
+		   console.log("total_sub_new_token=>"+total_new_token);
+load_sub_token_duka_data(current_token, duka_id, total_new_token, product_id);
+
+	}else if(account_type == "mteja"){
+		var mteja_id = product_id.getAttribute("mteja_id");
+
+		console.log("mteja_sub_mteja_id=>"+mteja_id);
+
+		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+mteja_id).value);
+
+		var current_token = product_id.getAttribute("current_token");
+		   console.log("total_sub_new_token=>"+total_new_token);
+load_sub_token_mteja_data(current_token, mteja_id, total_new_token, product_id);
+	}
+       });
+      }
 	var user_sub_token_post_btn = document.getElementsByClassName('user-sub-token-post-btn');
 
       for(var s = 0; s < user_sub_token_post_btn.length; s++){
