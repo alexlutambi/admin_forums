@@ -11,34 +11,20 @@ $(document).ready(function() {
         btn_default_password[s].addEventListener('click', function(){
       var product_id = document.getElementById(this.id);
 var account_type = product_id.getAttribute("account_type");
-
+var default_password_container = document.getElementById("default-password-container");
 
 	if(account_type == "fundi"){
 		var fundi_id = product_id.getAttribute("fundi_id");
-
-		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+fundi_id).value);
-
-		var current_token = product_id.getAttribute("current_token");
-		   console.log("total_sub_new_token=>"+total_new_token);
-load_sub_token_fundi_data(current_token, fundi_id, total_new_token, product_id);
-	}else if(account_type == "duka"){
+get_user_set_default_password_alert(fundi_id, account_type, default_password_container, product_id);
+	
+}else if(account_type == "duka"){
 		var duka_id = product_id.getAttribute("duka_id");
-		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+duka_id).value);
-
-		var current_token = product_id.getAttribute("current_token");
-		   console.log("total_sub_new_token=>"+total_new_token);
-load_sub_token_duka_data(current_token, duka_id, total_new_token, product_id);
-
+	get_user_set_default_password_alert(duka_id, account_type, default_password_container, product_id);
+	
 	}else if(account_type == "mteja"){
 		var mteja_id = product_id.getAttribute("mteja_id");
-
-		console.log("mteja_sub_mteja_id=>"+mteja_id);
-
-		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+mteja_id).value);
-
-		var current_token = product_id.getAttribute("current_token");
-		   console.log("total_sub_new_token=>"+total_new_token);
-load_sub_token_mteja_data(current_token, mteja_id, total_new_token, product_id);
+	get_user_set_default_password_alert(mteja_id, account_type, default_password_container, product_id);
+	
 	}
        });
       }
@@ -50,16 +36,15 @@ load_sub_token_mteja_data(current_token, mteja_id, total_new_token, product_id);
       var product_id = document.getElementById(this.id);
 var account_type = product_id.getAttribute("account_type");
 
-
 	if(account_type == "fundi"){
 		var fundi_id = product_id.getAttribute("fundi_id");
 
 		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+fundi_id).value);
-
 		var current_token = product_id.getAttribute("current_token");
 		   console.log("total_sub_new_token=>"+total_new_token);
 load_sub_token_fundi_data(current_token, fundi_id, total_new_token, product_id);
-	}else if(account_type == "duka"){
+
+}else if(account_type == "duka"){
 		var duka_id = product_id.getAttribute("duka_id");
 		var total_new_token = Number(product_id.getAttribute("current_token")) - Number(document.getElementById("user-sub-token-post-value-"+duka_id).value);
 
@@ -1404,6 +1389,239 @@ function selectedFundiActivation(account_type, result){
 		 }
         return output;
         }
+
+		 function get_user_set_default_password_alert(user_id, account_type, default_password_container, btn_default_password){
+    default_password_container.innerHTML = '';
+  var li_success_list = addUserSetDefaultPasswordAlert(user_id, account_type);
+  default_password_container.innerHTML = li_success_list;
+  default_password_container.style.display = 'online';
+  
+  var complete_product_default_password = document.getElementById("complete-product-default-password-"+user_id);
+ complete_product_default_password.addEventListener('click', function(){
+      var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+var user_id = product_id.getAttribute("user_id");
+var default_password = "123456789";
+
+	if(account_type == "fundi"){
+		
+get_fundi_set_default_password(user_id, default_password, complete_product_default_password, btn_default_password);
+
+}else if(account_type == "duka"){
+	get_duka_set_default_password(user_id, default_password, complete_product_default_password, btn_default_password);
+
+	}else if(account_type == "mteja"){
+		get_mteja_set_default_password(user_id, default_password, complete_product_default_password, btn_default_password);
+
+	}
+       });
+    }
+
+	function get_fundi_set_default_password(user_id, default_password, complete_product_default_password, btn_default_password){
+
+	//console.log("left continue");
+    btn_default_password.classList.add("activation-loading");
+    get_small_spinner(complete_product_default_password);
+var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "default_password";
+product_hint["fundi_id"] = user_id;
+product_hint["default_password"] = default_password;
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_fundi_default_password.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+console.log('Result_fundi_password_default: ' + result);
+btn_default_password.classList.remove("activation-loading");
+complete_product_default_password.innerHTML = '';
+//activation-loading
+    var json_result = JSON.parse(result);
+
+         for(var k = 0; k < json_result.length; k++){
+          var status = json_result[k].status;
+		      var message = json_result[k].message;
+			var default_password = json_result[k].default_password;
+		var fundi_id = json_result[k].fundi_id;
+		
+		  get_defult_password_changed(fundi_id, status, message, default_password, complete_product_default_password);
+		}
+
+}
+};
+xhr_quality.send(JSON.stringify({"default_password_hint" : product_hints}));
+}
+function get_duka_set_default_password(user_id, default_password, complete_product_default_password, btn_default_password){
+
+	//console.log("left continue");
+    btn_default_password.classList.add("activation-loading");
+    get_small_spinner(complete_product_default_password);
+var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "default_password";
+product_hint["duka_id"] = user_id;
+product_hint["default_password"] = default_password;
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_duka_default_password.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+console.log('Result_duka_password_default: ' + result);
+//btn_default_password.classList.remove("activation-loading");
+//complete_product_default_password.innerHTML = '';
+//activation-loading
+    var json_result = JSON.parse(result);
+
+         for(var k = 0; k < json_result.length; k++){
+          var status = json_result[k].status;
+		      var message = json_result[k].message;
+			var default_password = json_result[k].default_password;
+		var duka_id = json_result[k].duka_id;
+		
+		  get_defult_password_changed(duka_id, status, message, default_password, complete_product_default_password);
+		}
+
+}
+};
+xhr_quality.send(JSON.stringify({"default_password_hint" : product_hints}));
+}
+function get_mteja_set_default_password(user_id, default_password, complete_product_default_password, btn_default_password){
+
+	//console.log("left continue");
+    btn_default_password.classList.add("activation-loading");
+    get_small_spinner(complete_product_default_password);
+var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "default_password";
+product_hint["mteja_id"] = user_id;
+product_hint["default_password"] = default_password;
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_individual_default_password.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result_individual = xhr_quality.responseText;
+console.log('Result_individual_password_default: ' + result_individual);
+btn_default_password.classList.remove("activation-loading");
+complete_product_default_password.innerHTML = '';
+//activation-loading
+    var json_individual_result = JSON.parse(result_individual);
+
+         for(var k = 0; k < json_individual_result.length; k++){
+          var status = json_individual_result[k].status;
+		      var message = json_individual_result[k].message;
+			var default_password = json_individual_result[k].default_password;
+		var mteja_id = json_individual_result[k].mteja_id;
+		
+		  get_defult_password_changed(mteja_id, status, message, default_password, complete_product_default_password);
+		}
+
+}
+};
+xhr_quality.send(JSON.stringify({"default_password_hint" : product_hints}));
+}
+ function get_defult_password_changed(user_id, status, message, default_password){
+	var default_password_container = document.getElementById("default-password-container");
+    default_password_container.innerHTML = '';
+  var li_success_list = selectedDefultPasswordChangedLink(user_id, status, message, default_password);
+  default_password_container.innerHTML = li_success_list;
+  default_password_container.style.display = 'online';
+    }
+
+
+    function selectedDefultPasswordChangedLink(user_id, status, message, default_password){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+   output += '<div id="default-password-changed-container-';
+  output += user_id;
+  output += '" class="';
+  if(status == "default_password_successfully"){
+ output += 'default-password-success';
+  }else{
+ output += 'default-password-failed';
+  }
+  output += ' column default-password-changed-container default-password-changed-container-';
+  output += user_id;
+  output += '">';
+ output += '<h5>';
+output += message;
+  output += '</h5>';
+  output += '<p>Password : ';
+  output += default_password;
+  output += '</p>';
+    output += '</div>';
+    return output;
+ }
+		function addUserSetDefaultPasswordAlert(user_id, account_type){
+  //console.log("replay starts");
+
+  var output = '';
+  output += '<div id="default-password-product-product-container-';
+  output += user_id;
+  output += '" account_type="';
+ output += account_type; 
+  output += '" class="column default-password-descount-product-container default-password-product-product-container-';
+  output += user_id;
+  output += '">';
+  output += 'Are you sure?';
+  output += '<div class="default-password-product-descount-action-container">';
+  output += '<button id="complete-product-default-password-';
+  output += user_id;
+  output += '" user_id="';
+  output += user_id;
+  output += '" account_type="';
+    output += account_type;
+output += '" class="btn btn-sm btn-danger complete-descount-default-password complete-product-default-password-';
+  output += user_id;
+  output += '">Change</button>';
+  output += '<button id="cancel-complete-product-default-password-';
+  output += user_id;
+  output += '" user_id="';
+  output += user_id;
+  output += '" account_type="';
+      output += account_type;
+  output += '" class="btn btn-sm btn-success cancel-complete-descount-default-password cancel-complete-product-default-password-';
+  output += user_id;
+  output += '">Cancel</button>';
+  output += '</div>';
+  output += '</div>';
+  return output;
+}
  function get_small_spinner(add_shop_location){
     add_shop_location.innerHTML = '';
   var li_success_list = selectedSmallSpinnerLink();
@@ -1423,6 +1641,8 @@ var server_link = body_main.getAttribute("server_link");
 	output += 'fundiForums/fundi_smarts/admin_forums/assets/images/progresss_img/spinner_transparent.jpg" width="20" height="20" />';
     return output;
  }
+
+
 
 
 

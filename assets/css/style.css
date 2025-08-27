@@ -348,7 +348,7 @@ color: #00A3DD;
 	border: none;
 	color: #fff;
 }
-.btn-activate-deactivate {
+.btn-activate-deactivate, .btn-default-password {
 	width: 90%;
 	height: 30px;
 	border-radius: 5px;
@@ -766,13 +766,48 @@ color: #00A3DD;
     color: #fff;
 }
 
-
+ .default-password-descount-product-container{
+        width: 96%;
+        float: left;
+        margin-left: 2%;
+		margin-top: 0.25rem;
+        margin-right: 2%;
+        margin-bottom: 0.25rem;
+        text-align: center;
+    }
+	.default-password-product-descount-action-container{
+    width: 98%;
+    float: left;
+    margin-left: 1%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.complete-descount-default-password{
+    float: left;
+    width: 40%;
+    }
+    .cancel-complete-descount-default-password{
+    float: right;
+    width: 40%;
+    }
 .message .deleteButton {
    color: #fff;
    margin: 0 5px 5px 0;
    cursor: pointer;
 }
 
+.default-password-changed-container{
+margin: 0.25rem;
+}
+.default-password-changed-container h5{
+	font-weight: normal;
+}
+.default-password-success h5{
+	color: #1EB53A;
+}
+.default-password-failed h5{
+color: #e74c3c;
+}
 .postedImage img {
 	max-height: 300px;
     max-width: 100%;

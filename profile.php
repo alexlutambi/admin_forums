@@ -396,7 +396,9 @@ if($logged_in_mteja_obj->isIndividualStatus($username)) {
   }
  			echo '</div>';
  			}
-
+   echo '<div id="default-password-container" class="default-password-container">';
+        
+      echo '</div>';
  			?>
  		
  		<input type="submit" class="deep_blue" data-toggle="modal" data-target="#post_form" value="Post Something">

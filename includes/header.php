@@ -1,4 +1,7 @@
 <?php  
+ob_start(); //Turns on output buffering 
+session_start();
+
 require '../database/connection.php';
 include("includes/classes/User.php");
 include("includes/classes/Fundi.php");
