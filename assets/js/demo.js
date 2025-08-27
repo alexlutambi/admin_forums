@@ -718,7 +718,7 @@ xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
 xhr_quality.onreadystatechange = function () {
 if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
 var result = xhr_quality.responseText;
-console.log('Result_duka_activation: ' + result);
+console.log('Result_individual_activation: ' + result);
 btn_activate_deactivate.classList.remove("activation-loading");
 btn_activate_deactivate.innerHTML = 'DeActivate';
 //activation-loading

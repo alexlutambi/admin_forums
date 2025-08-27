@@ -33,7 +33,7 @@ for($i = 0; $i < count($login_object['activation_hint']); $i++){
                   $response_fundi_data = [
             "status"=>"activation_successfully",
             "message"=>"activation successfully",
-           "mteja_id"=>$row_image_data[0], "mteja_status"=>$row_image_data[8]
+           "mteja_id"=>$row_image_data[0], "mteja_status"=>$row_image_data[7]
           ];
        
          $response_fundis[] = $response_fundi_data;

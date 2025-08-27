@@ -35,7 +35,7 @@ for($i = 0; $i < count($login_object['default_password_hint']); $i++){
           "status"=>"default_password_successfully",
             "message"=>"Changed successfully",
             "default_password"=>$default_password,
-           "mteja_id"=>$row_image_data[0], "mteja_status"=>$row_image_data[8]
+           "mteja_id"=>$row_image_data[0], "mteja_status"=>$row_image_data[7]
           ];
        
          $response_fundis[] = $response_fundi_data;
