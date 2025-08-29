@@ -1300,7 +1300,6 @@ function selectedIndividualActivation(account_type, result){
         //console.log("success");
          var output = '';
         
-         var json_result = JSON.parse(result);
        var json_result = JSON.parse(result);
 	   //[{"status":"activation_successfully","message":"activation successfully","duka_id":"57","fundi_status":"Enable"}]
 
