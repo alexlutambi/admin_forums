@@ -9,7 +9,7 @@ include("includes/header.php");
 	<?php 
 
 
-				$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC");
+				$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC LIMIT 0, 10");
 				$usersReturnedQueryAll = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC");
 		
 
