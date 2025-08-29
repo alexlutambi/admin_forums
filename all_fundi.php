@@ -23,9 +23,10 @@ $this_page_first_result = ($page_start-1)*$per_page_start;
 //check remaining pages
 $remained_pages = $number_of_pages - $page_start;
 
+	$sql_fundi_results = "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC LIMIT ".$this_page_first_result.','.$per_page_start.";";
 
-				$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC LIMIT ".$this_page_first_result.','.$per_page_start.";");
-				
+	  $usersReturnedQuery = mysqli_query($conn, $sql_fundi_results);
+
 				$usersReturnedQueryAll = mysqli_query($conn, "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC");
 		
 
