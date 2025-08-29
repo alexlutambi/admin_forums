@@ -270,6 +270,11 @@ var server_link = body_main.getAttribute("server_link");
           var remained_pages = json_result[k].remained_pages;
           var number_of_pages = json_result[k].number_of_pages;
 	var page = json_result[k].page;
+	 var load_more = document.getElementById("load-more");
+	 load_more.setAttribute("number_of_pages", number_of_pages);
+ load_more.setAttribute("remained_pages", remained_pages);
+ load_more.setAttribute("data-page", page);
+
 	var fundi_id = json_result[k].fundi_id;
 	var username = json_result[k].username;
 	var fundi_status = json_result[k].fundi_status;
