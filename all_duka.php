@@ -114,7 +114,9 @@ include("includes/header.php");
 
 
 </div>
-
+<div id="load-more-container" class="load-more-container">
+      <button id="load-more" class="load-more" action_code = "1" data-page="0" shops-code="0">Load More</button>
+    </div>
 <script>
 	$(document).ready(function() {
 
@@ -148,4 +150,74 @@ var search_form_id_container = document.getElementById(search_form_id);
  
 });
 
+  var request_in_progress = false;
+	  load_more = document.getElementById("load-more");
+
+   load_more.addEventListener("click", loadMore);
+	  window.onscroll = function(){
+		   scrollReaction();
+	  }
+      // Load even the first page with Ajax
+	   function scrollReaction(){
+		  var content_height = container.offsetHeight;
+		  var current_y = window.innerHeight + window.pageYOffset;
+		  //console.log(current_y + '/' + content_height);
+		  if(current_y >= content_height){
+			  loadMore();
+		  }
+	  }
+      function loadMore() {
+		  if(request_in_progress){ return; }
+		  
+		  request_in_progress = true;
+		  
+        showSpinner();
+        hideLoadMore();
+
+        var page = parseInt(load_more.getAttribute('data-page'));
+		var demo_code = parseInt(load_more.getAttribute('demo-code'));
+		//console.log("demo_code"+demo_code);
+		heading_data(demo_code);
+		var next_page = page + 1;
+		
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'include/demo-lists.php?page=' + next_page+'&&demo_code='+demo_code, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.onreadystatechange = function () {
+          if(xhr.readyState == 4 && xhr.status == 200) {
+            var result = xhr.responseText;
+          //console.log('Result: ' + result);
+
+            hideSpinner();
+			setCurrentPage(next_page);
+            // append results to end of blog posts
+			
+			appendToDiv(container, result);
+			
+            showLoadMore();
+			request_in_progress = false;
+			
+          }
+        };
+        xhr.send();
+      }
+      loadMore();
+
+      function showSpinner() {
+        var spinner = document.getElementById("spinner");
+        spinner.style.display = 'block';
+      }
+
+      function hideSpinner() {
+        var spinner = document.getElementById("spinner");
+        spinner.style.display = 'none';
+      }
+
+      function showLoadMore() {
+        load_home_center_more.style.display = 'inline';
+      }
+
+      function hideLoadMore() {
+        load_home_center_more.style.display = 'none';
+      }
 </script>

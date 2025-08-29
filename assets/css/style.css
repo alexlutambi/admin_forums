@@ -333,6 +333,32 @@ color: #00A3DD;
 .deep_blue {
 	background-color: #0043f0;
 }
+.load-more-container{
+    width: 98%;
+    float: left;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+.load-more {
+    display: none;
+    border: transparent;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+    margin-left: 43%;
+    color: var(--black3);
+    border: 1px solid var(--black3);
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.25;
+    background: var(--grey4);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.load-more:hover{
+    background: var(--orange1);
+    border-color: transparent;
+    color: var(--white);
+}
 .left-main-user-container{
 	display: grid;
     height: auto;
