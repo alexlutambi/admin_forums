@@ -2,7 +2,42 @@ $(document).ready(function() {
 
 	console.log("demo loaded...");
 	
-	
+	var btn_all_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
+
+ for(var a = 0; a < btn_all_activate_deactivate_all.length; a++){
+    var btn_activate_deactivate_id = btn_all_activate_deactivate_all[a].id;
+      
+//console.log("details request by image");
+var fundi_list_container = document.getElementById(btn_activate_deactivate_id);
+fundi_list_container.addEventListener('click', function(){
+console.log("left_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+if(document.getElementsByClassName('activation-loading').length == 0){
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+var fundi_status = product_id.getAttribute("fundi_status");
+
+load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+var duka_status = product_id.getAttribute("duka_status");
+
+	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
+	}else if(account_type == "mteja"){
+			var mteja_id = product_id.getAttribute("mteja_id");
+var mteja_status = product_id.getAttribute("mteja_status");
+
+	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
+	}
+
+}
+
+
+})
+
+	}
 
 	var btn_default_password = document.getElementsByClassName('btn-default-password');
 
@@ -692,6 +727,84 @@ function get_display_thumb_image(server_link, image_id, thumb_image_url, real_im
       })
       }
 
+	  function load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, btn_activate_deactivate){
+		
+	//console.log("left continue");
+    btn_activate_deactivate.classList.add("activation-loading");
+    get_small_spinner(btn_activate_deactivate);
+var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "activation";
+product_hint["mteja_id"] = mteja_id;
+product_hint["mteja_status"] = mteja_status;
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_individual_activation.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+console.log('Result_individual_activation: ' + result);
+btn_activate_deactivate.classList.remove("activation-loading");
+btn_activate_deactivate.innerHTML = 'DeActivate';
+//activation-loading
+
+var fundi_activation_deactivation_container = document.getElementById("fundi-activation-deactivation-container-"+mteja_id);
+var li_success_list = selectedAllIndividualActivation(account_type, result);
+fundi_activation_deactivation_container.innerHTML = li_success_list;
+fundi_activation_deactivation_container.style.display = 'online';
+
+
+var btn_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
+
+ for(var a = 0; a < btn_activate_deactivate_all.length; a++){
+    var btn_activate_deactivate_id = btn_activate_deactivate_all[a].id;
+      
+//console.log("details request by image");
+var fundi_list_container = document.getElementById(btn_activate_deactivate_id);
+fundi_list_container.addEventListener('click', function(){
+console.log("left_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+if(document.getElementsByClassName('activation-loading').length == 0){
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+var fundi_status = product_id.getAttribute("fundi_status");
+
+load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+var duka_status = product_id.getAttribute("duka_status");
+
+	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
+	}else if(account_type == "mteja"){
+			var mteja_id = product_id.getAttribute("mteja_id");
+var mteja_status = product_id.getAttribute("mteja_status");
+
+	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
+	}
+
+}
+
+
+})
+
+	}
+
+}
+};
+xhr_quality.send(JSON.stringify({"activation_hint" : product_hints}));
+	  }
 	  function load_active_de_activate_individual_data(account_type, mteja_status, mteja_id, btn_activate_deactivate){
 	
 	//console.log("left continue");
@@ -727,6 +840,7 @@ var fundi_activation_deactivation_container = document.getElementById("fundi-act
 var li_success_list = selectedIndividualActivation(account_type, result);
 fundi_activation_deactivation_container.innerHTML = li_success_list;
 fundi_activation_deactivation_container.style.display = 'online';
+
 
 var btn_activate_deactivate_all = document.getElementsByClassName('btn-activate-deactivate');
 
@@ -764,6 +878,75 @@ var mteja_status = product_id.getAttribute("mteja_status");
 })
 
 	}
+
+}
+};
+xhr_quality.send(JSON.stringify({"activation_hint" : product_hints}));
+}
+function load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, btn_activate_deactivate){
+	//console.log("left continue");
+    btn_activate_deactivate.classList.add("activation-loading");
+    get_small_spinner(btn_activate_deactivate);
+var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "activation";
+product_hint["duka_id"] = duka_id;
+product_hint["duka_status"] = duka_status;
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_duka_activation.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+console.log('Result_duka_activation: ' + result);
+btn_activate_deactivate.classList.remove("activation-loading");
+btn_activate_deactivate.innerHTML = 'DeActivate';
+//activation-loading
+
+var fundi_activation_deactivation_container = document.getElementById("fundi-activation-deactivation-container-"+duka_id);
+var li_success_list = selectedAllDukaActivation(account_type, result);
+fundi_activation_deactivation_container.innerHTML = li_success_list;
+fundi_activation_deactivation_container.style.display = 'online';
+
+  var btn_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
+
+      for(var s = 0; s < btn_activate_deactivate_all.length; s++){
+       
+        btn_activate_deactivate_all[s].addEventListener('click', function(){
+      var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+	   if(document.getElementsByClassName('activation-loading').length == 0){
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+var fundi_status = product_id.getAttribute("fundi_status");
+
+load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+var duka_status = product_id.getAttribute("duka_status");
+
+	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
+	}else if(account_type == "mteja"){
+		var mteja_id = product_id.getAttribute("mteja_id");
+var mteja_status = product_id.getAttribute("mteja_status");
+
+	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
+	}
+
+}
+       });
+      }
 
 }
 };
@@ -1171,6 +1354,81 @@ btn_add_token.innerHTML = 'Sub Token';
 };
 xhr_quality.send(JSON.stringify({"token_sub_hint" : product_hints}));
 }
+function load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, btn_activate_deactivate){
+  btn_activate_deactivate.classList.add("activation-loading");
+    get_small_spinner(btn_activate_deactivate);
+var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "activation";
+product_hint["fundi_id"] = fundi_id;
+product_hint["fundi_status"] = fundi_status;
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_fundi_activation.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+console.log('Result_activation: ' + result);
+btn_activate_deactivate.classList.remove("activation-loading");
+btn_activate_deactivate.innerHTML = 'DeActivate';
+//activation-loading
+
+var fundi_activation_deactivation_container = document.getElementById("fundi-activation-deactivation-container-"+fundi_id);
+var li_success_list = selectedAllFundiActivation(account_type, result);
+fundi_activation_deactivation_container.innerHTML = li_success_list;
+fundi_activation_deactivation_container.style.display = 'online';
+
+var btn_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
+
+ for(var a = 0; a < btn_activate_deactivate_all.length; a++){
+    var btn_activate_deactivate_id = btn_activate_deactivate_all[a].id;
+      
+//console.log("details request by image");
+var fundi_list_container = document.getElementById(btn_activate_deactivate_id);
+fundi_list_container.addEventListener('click', function(){
+console.log("left_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+if(document.getElementsByClassName('activation-loading').length == 0){
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+var fundi_status = product_id.getAttribute("fundi_status");
+
+load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+var duka_status = product_id.getAttribute("duka_status");
+
+	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
+	}else if(account_type == "mteja"){
+		var mteja_id = product_id.getAttribute("mteja_id");
+var mteja_status = product_id.getAttribute("mteja_status");
+
+	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
+	}
+
+}
+
+
+})
+
+	}
+
+}
+};
+xhr_quality.send(JSON.stringify({"activation_hint" : product_hints}));
+}
 	  function load_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, btn_activate_deactivate) {
   //console.log("left continue");
     btn_activate_deactivate.classList.add("activation-loading");
@@ -1389,6 +1647,148 @@ function selectedFundiActivation(account_type, result){
         return output;
         }
 
+
+		// ALL ACTION
+		function selectedAllDukaActivation(account_type, result){
+
+        //console.log("success");
+         var output = '';
+        
+         var json_result = JSON.parse(result);
+       var json_result = JSON.parse(result);
+	   //[{"status":"activation_successfully","message":"activation successfully","duka_id":"57","fundi_status":"Enable"}]
+
+         for(var k = 0; k < json_result.length; k++){
+          var status = json_result[k].status;
+          var message = json_result[k].message;
+		  var duka_id = json_result[k].duka_id;
+		  var duka_status = json_result[k].duka_status;
+		  if(duka_status == 'Enable') {
+        
+		output += '<button id="btn-all-activate-deactivate-';
+		 output += duka_id;
+		output += '" duka_id="';
+          output += duka_id;
+          output += '" account_type="';
+		 output += account_type; 
+		  output += '" duka_status="';
+          if(duka_status == 'Enable'){
+           output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" class="btn-all-activate-deactivate danger" >DeActivate</button>';
+ 				}else{
+          			output += '<button id="btn-all-activate-deactivate-';
+					  output += duka_id;
+					output += '" duka_id="';
+          output += duka_id;
+		  output += '" account_type="';
+		 output += account_type; 
+          output += '" duka_status="';
+          if(duka_status == 'Enable'){
+            output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" class="btn-all-activate-deactivate success" >Activate</button>';
+        }
+		 }
+        return output;
+        }
+function selectedAllIndividualActivation(account_type, result){
+
+        //console.log("success");
+         var output = '';
+        
+       var json_result = JSON.parse(result);
+	   //[{"status":"activation_successfully","message":"activation successfully","duka_id":"57","fundi_status":"Enable"}]
+
+         for(var k = 0; k < json_result.length; k++){
+          var status = json_result[k].status;
+          var message = json_result[k].message;
+		  var mteja_id = json_result[k].mteja_id;
+		  var mteja_status = json_result[k].mteja_status;
+		  if(mteja_status == 'Enable') {
+        
+		output += '<button id="btn-all-activate-deactivate-';
+		output += mteja_id;
+		    output += '" mteja_id="';
+          output += mteja_id;
+          output += '" account_type="';
+		 output += account_type; 
+		  output += '" mteja_status="';
+          if(mteja_status == 'Enable'){
+           output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" class="btn-all-activate-deactivate danger" >DeActivate</button>';
+ 				}else{
+          			output += '<button id="btn-all-activate-deactivate-';
+					output += mteja_id;
+					output += '" mteja_id="';
+          output += mteja_id;
+		  output += '" account_type="';
+		 output += account_type; 
+          output += '" mteja_status="';
+          if(mteja_status == 'Enable'){
+            output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" class="btn-all-activate-deactivate success" >Activate</button>';
+        }
+		 }
+        return output;
+        }
+function selectedAllFundiActivation(account_type, result){
+
+        //console.log("success");
+         var output = '';
+        
+         var json_result = JSON.parse(result);
+       var json_result = JSON.parse(result);
+	   //[{"status":"activation_successfully","message":"activation successfully","fundi_id":"57","fundi_status":"Enable"}]
+
+         for(var k = 0; k < json_result.length; k++){
+          var status = json_result[k].status;
+          var message = json_result[k].message;
+		  var fundi_id = json_result[k].fundi_id;
+		  var fundi_status = json_result[k].fundi_status;
+		  if(fundi_status == 'Enable') {
+        
+		output += '<button id="btn-all-activate-deactivate-';
+		  output += fundi_id;
+		output += '" fundi_id="';
+          output += fundi_id;
+          output += '" account_type="';
+		 output += account_type; 
+		  output += '" fundi_status="';
+          if(fundi_status == 'Enable'){
+           output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" class="btn-all-activate-deactivate danger" >DeActivate</button>';
+ 				}else{
+          			output += '<button id="btn-all-activate-deactivate-';
+					  output += fundi_id;
+					  output += '" fundi_id="';
+          output += fundi_id;
+		  output += '" account_type="';
+		 output += account_type; 
+          output += '" fundi_status="';
+          if(fundi_status == 'Enable'){
+            output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" class="btn-all-activate-deactivate success" >Activate</button>';
+        }
+		 }
+        return output;
+        }
 		 function get_user_set_default_password_alert(user_id, account_type, default_password_container, btn_default_password){
     default_password_container.innerHTML = '';
   var li_success_list = addUserSetDefaultPasswordAlert(user_id, account_type);

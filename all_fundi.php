@@ -9,7 +9,7 @@ include("includes/header.php");
 	<?php 
 	$sql_fundi_all_total_results = "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC;";		
 	 $per_page_start = 10;
-  $page_start = 0;
+  $page_start = 1;
 	  $result_fundi_all_total_results = mysqli_query($conn, $sql_fundi_all_total_results);
 	  $number_of_results = mysqli_num_rows($result_fundi_all_total_results);
 
@@ -81,13 +81,25 @@ $remained_pages = $number_of_pages - $page_start;
 
 			}
 
-			echo "<div class='search_result'>";
-					echo "<div id='fundi-activation-deactivation-container-";
+			echo "<div class='all-user-single-container'>
+				
+					<div class='all-user-single-profile-pic'>
+					
+						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='fundi-list-img-" . $row['fundi_id'] . "' class='profile-available fundi-list-img fundi-list-img-" . $row['fundi_id'] . "' fundi_id='" . $row['fundi_id'] . "' fundi_profile='" . $row['fundi_profile'] . "' src='../fundi/fundi_profile/fundi_thumb_color/" . $row['fundi_thumb_color'] ."' style='height: 100px;'></a>
+					</div>
+<div class='all-user-single-center-content'>
+						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['fundi_full_name'] . " " . $row['fundi_last_name'] . "
+						<p id='grey'> " . $row['shop_name'] ."</p>
+						</a>
+						<br>
+						" . $mutual_friends ."<br>
+</div>";
+echo "<div id='fundi-activation-deactivation-container-";
 					 echo $row['fundi_id'];
-					echo "' class='searchPageFriendButtons'>";
+					echo "' class='all-user-single-action-container'>";
 
 						if($row['fundi_status'] == 'Enable'){
- 					echo "<button id='btn-activate-deactivate-";
+ 					echo "<button id='btn-all-activate-deactivate-";
 					 echo $row['fundi_id'];
 					echo "' fundi_id='";
           echo $row['fundi_id'];
@@ -97,9 +109,9 @@ $remained_pages = $number_of_pages - $page_start;
           }else{
             echo "Enable";
           }
-          echo "' account_type='fundi' class='btn-activate-deactivate danger' >DeActivate</button>";
+          echo "' account_type='fundi' class='btn-all-activate-deactivate danger' >DeActivate</button>";
  				}else{
-          			echo "<button id='btn-activate-deactivate-";
+          			echo "<button id='btn-all-activate-deactivate-";
 					echo $row['fundi_id'];
 					echo "' fundi_id='";
           echo $row['fundi_id'];
@@ -109,24 +121,12 @@ $remained_pages = $number_of_pages - $page_start;
           }else{
             echo "Enable";
           }
-          echo "' account_type='fundi' class='btn-activate-deactivate success' >Activate</button>";
+          echo "' account_type='fundi' class='btn-all-activate-deactivate success' >Activate</button>";
         }
 	
 					echo "</div>
 
-
-					<div class='result_profile_pic'>
-						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='fundi-list-img-" . $row['fundi_id'] . "' class='profile-available fundi-list-img fundi-list-img-" . $row['fundi_id'] . "' fundi_id='" . $row['fundi_id'] . "' fundi_profile='" . $row['fundi_profile'] . "' src='../fundi/fundi_profile/fundi_thumb_color/" . $row['fundi_thumb_color'] ."' style='height: 100px;'></a>
-					</div>
-
-						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['fundi_full_name'] . " " . $row['fundi_last_name'] . "
-						<p id='grey'> " . $row['shop_name'] ."</p>
-						</a>
-						<br>
-						" . $mutual_friends ."<br>
-
-				</div>
-				<hr id='search_hr'>";
+				</div>";
 
 					
 		} //End while
@@ -140,13 +140,14 @@ $remained_pages = $number_of_pages - $page_start;
 
 <div id="load-more-container" class="load-more-container">
       <button id="load-more" class="load-more" number_of_pages = "<?php echo $number_of_pages; ?>" remained_pages = "<?php echo $remained_pages; ?>"  data-page="1">Load More</button>
-    </div>
+    <img id="loading-more" class="loading-more" src="assets/images/icons/loading.gif">
+	</div>
 <script>
 	 var request_in_progress = false;
 	$(document).ready(function() {
 
 	console.log("all fundi...");
-	
+	hideSpinner();
 	
 	var search_text_input_all = document.getElementsByClassName('search-text-input');
 
@@ -177,11 +178,21 @@ window.onscroll = function(){
 	  }
       // Load even the first page with Ajax
 	   function scrollReaction(){
-		  var content_height = container.offsetHeight;
+		var main_column = document.getElementById("main-column");
+			
+		  var content_height = main_column.offsetHeight;
 		  var current_y = window.innerHeight + window.pageYOffset;
 		  //console.log(current_y + '/' + content_height);
 		  if(current_y >= content_height){
-			  loadMore();
+			var load_more = document.getElementById("load-more");
+			
+			if(parseInt(load_more.getAttribute("remained_pages")) > 0){
+				loadMore();
+			}else{
+				 hideSpinner();
+				 hideLoadMore();
+			}
+			  
 		  }
 	  }
       function loadMore() {
@@ -205,16 +216,19 @@ product_hint["per_page"] = 10;
 product_hint["page"] = next_page;
 product_hints.push(product_hint);
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'includes/handlers/ajax_all_fundi.php', true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.onreadystatechange = function () {
-          if(xhr.readyState == 4 && xhr.status == 200) {
-            var result = xhr.responseText;
-          console.log('Result_all_fundi: ' + result);
+		var action_quality = "includes/handlers/ajax_all_fundi.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+// console.log('Result_all_fundi: ' + result);
 
             hideSpinner();
-			setCurrentPage(next_page);
             // append results to end of blog posts
 			
 			var main_column = document.getElementById("main-column");
@@ -225,10 +239,9 @@ product_hints.push(product_hint);
             showLoadMore();
 			request_in_progress = false;
 			
-          }
-        };
-    
-		xhr.send(JSON.stringify({"all_hint" : product_hints}));
+}
+};
+xhr_quality.send(JSON.stringify({"all_hint" : product_hints}));
       }
 
 	  
@@ -237,7 +250,43 @@ product_hints.push(product_hint);
  console.log("li_success_list=>"+li_success_list);
 appendToDiv(container, li_success_list);
 container.style.display = 'online';
+get_load_fundi_data();
+var btn_all_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
 
+ for(var a = 0; a < btn_all_activate_deactivate_all.length; a++){
+    var btn_activate_deactivate_id = btn_all_activate_deactivate_all[a].id;
+      
+//console.log("details request by image");
+var fundi_list_container = document.getElementById(btn_activate_deactivate_id);
+fundi_list_container.addEventListener('click', function(){
+console.log("left_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+if(document.getElementsByClassName('activation-loading').length == 0){
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+var fundi_status = product_id.getAttribute("fundi_status");
+
+load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+var duka_status = product_id.getAttribute("duka_status");
+
+	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
+	}else if(account_type == "mteja"){
+			var mteja_id = product_id.getAttribute("mteja_id");
+var mteja_status = product_id.getAttribute("mteja_status");
+
+	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
+	}
+
+}
+
+
+})
+
+	}
     }
 
  function appendToDiv(div, new_html){
@@ -285,39 +334,9 @@ var server_link = body_main.getAttribute("server_link");
 	var shop_name = json_result[k].shop_name;
 	var fundi_full_name = json_result[k].fundi_full_name;
 	
-			output += '<div class="search_result">';
-					output += '<div id="fundi-activation-deactivation-container-';
-					 output += fundi_id;
-					output += '" class="searchPageFriendButtons">';
-
-						if(fundi_status == 'Enable'){
- 					output += '<button id="btn-activate-deactivate-';
-					 output += fundi_id;
-					output += '" fundi_id="';
-          output += fundi_id;
-          output += '" fundi_status="';
-          if(fundi_status == 'Enable'){
-           output += 'DisEnable';
-          }else{
-            output += 'Enable';
-          }
-          output += '" account_type="fundi" class="btn-activate-deactivate danger" >DeActivate</button>';
- 				}else{
-          			output += '<button id="btn-activate-deactivate-';
-					output += fundi_id;
-					output += '" fundi_id="';
-          output += fundi_id;
-          output += '" fundi_status="';
-          if(fundi_status == 'Enable'){
-            output += 'DisEnable';
-          }else{
-            output += 'Enable';
-          }
-          output += '" account_type="fundi" class="btn-activate-deactivate success" >Activate</button>';
-        }
-	
-					output += '</div>';
-					output += '<div class="result_profile_pic">';
+			output += '<div class="all-user-single-container">';
+					
+					output += '<div class="all-user-single-profile-pic">';
 						output += '<a href="profile.php?profile_username=';
 						 output += username;
 						 output += '"><img id="fundi-list-img-';
@@ -333,11 +352,12 @@ var server_link = body_main.getAttribute("server_link");
 							 output += '" style="height: 100px;"></a>';
 					output += '</div>';
 
+						output += '<div class="all-user-single-center-content">';
 						output += '<a href="profile.php?profile_username=';
 						 output += username;
 						 output += '">';
 						 output += fundi_full_name;
-						 output += '" "';
+						 output += ' ';
 						  output += fundi_last_name;
 						output += '<p id="grey">';
 						 output += shop_name;
@@ -345,28 +365,61 @@ var server_link = body_main.getAttribute("server_link");
 						output += '</a>';
 						output += '<br>';
 						output += '0 friends in common<br>';
+						output += '</div>';
+						output += '<div id="fundi-activation-deactivation-container-';
+					 output += fundi_id;
+					output += '" class="all-user-single-action-container">';
 
+						if(fundi_status == 'Enable'){
+ 					output += '<button id="btn-all-activate-deactivate-';
+					 output += fundi_id;
+					output += '" fundi_id="';
+          output += fundi_id;
+          output += '" fundi_status="';
+          if(fundi_status == 'Enable'){
+           output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" account_type="fundi" class="btn-all-activate-deactivate danger" >DeActivate</button>';
+ 				}else{
+          			output += '<button id="btn-all-activate-deactivate-';
+					output += fundi_id;
+					output += '" fundi_id="';
+          output += fundi_id;
+          output += '" fundi_status="';
+          if(fundi_status == 'Enable'){
+            output += 'DisEnable';
+          }else{
+            output += 'Enable';
+          }
+          output += '" account_type="fundi" class="btn-all-activate-deactivate success" >Activate</button>';
+        }
+	
+					output += '</div>';
 				output += '</div>';
-				output += '<hr id="search_hr">';
 
 		 }
    return output;
  }
       function showSpinner() {
-        var spinner = document.getElementById("spinner");
+        var spinner = document.getElementById("loading-more");
         spinner.style.display = 'block';
       }
 
       function hideSpinner() {
-        var spinner = document.getElementById("spinner");
+        var spinner = document.getElementById("loading-more");
         spinner.style.display = 'none';
       }
 
       function showLoadMore() {
-        load_home_center_more.style.display = 'inline';
+		
+		var load_more = document.getElementById("load-more");
+        load_more.style.display = 'inline';
       }
 
       function hideLoadMore() {
-        load_home_center_more.style.display = 'none';
+		var load_more = document.getElementById("load-more");
+        load_more.style.display = 'none';
       }
 </script>
