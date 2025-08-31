@@ -226,7 +226,9 @@ textarea:focus {
 	display: inline;
 	font-size: 14px;
 }
-
+.hide-content{
+	display: none;
+}
 .profile_left {
 	top: -10px;
 	width: 17%;

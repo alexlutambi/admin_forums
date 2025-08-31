@@ -59,7 +59,7 @@ if(isset($_POST['post'])){
 
 		<div class="posts_area"></div>
 		<!-- <button id="load_more">Load More Posts</button> -->
-		<img id="loading" src="assets/images/icons/loading.gif">
+		<img id="loading" class="hide-content" src="assets/images/icons/loading.gif">
 
 
 	</div>
