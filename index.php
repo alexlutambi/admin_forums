@@ -1,4 +1,5 @@
 <?php 
+
 include("includes/header.php");
 
 if(isset($_POST['post'])){
@@ -47,12 +48,28 @@ if(isset($_POST['post'])){
 
 }
 ?>
+<div class="main_column column">
+		<form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
+			<input type="file" name="fileToUpload" id="fileToUpload">
+			<textarea name="post_text" id="post_text" placeholder="Got Annauncement to say?"></textarea>
+			<input type="submit" name="post" id="post_button" value="Post">
+			<hr>
 
-	<div class="user_details column">
-		<a href="<?php echo $userLoggedIn; ?>">  <img src="<?php echo $user['profile_pic']; ?>"> </a>
+		</form>
+
+		<div class="posts_area"></div>
+		<!-- <button id="load_more">Load More Posts</button> -->
+		<img id="loading" class="hide-content" src="assets/images/icons/loading.gif">
+
+
+	</div>
+	<!-- LEFT USER MAIN CONTAINER STARTS -->
+<div id="left-main-user-container" class="left-main-user-container" user_logged_in="<?php echo $_SESSION['username']; ?>">
+<div class="user_details column">
+		<a href="profile_admin.php?profile_username=<?php echo $userLoggedIn; ?>">  <img src="<?php echo $user['profile_pic']; ?>"> </a>
 
 		<div class="user_details_left_right">
-			<a href="<?php echo $userLoggedIn; ?>">
+			<a href="profile_admin.php?profile_username=<?php echo $userLoggedIn; ?>">
 			<?php 
 			echo $user['first_name'] . " " . $user['last_name'];
 
@@ -64,22 +81,6 @@ if(isset($_POST['post'])){
 
 			?>
 		</div>
-
-	</div>
-
-	<div class="main_column column">
-		<form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
-			<input type="file" name="fileToUpload" id="fileToUpload">
-			<textarea name="post_text" id="post_text" placeholder="Got Annauncement to say?"></textarea>
-			<input type="submit" name="post" id="post_button" value="Post">
-			<hr>
-
-		</form>
-
-		<div class="posts_area"></div>
-		<!-- <button id="load_more">Load More Posts</button> -->
-		<img id="loading" src="assets/images/icons/loading.gif">
-
 
 	</div>
 <!--FUNDI LIST STARTS-->
@@ -118,7 +119,8 @@ if(isset($_POST['post'])){
 			</div>
 </div>
 <!--USER LIST ENDS-->
-	<div class="user_details column">
+</div>
+<div class="user_details column">
 
 		<h4>Popular</h4>
 
@@ -146,9 +148,7 @@ if(isset($_POST['post'])){
 
 
 	</div>
-
-
-
+	<!-- LEFT USER MAIN CONTAINER ENDS -->
 
 	<script>
 	//var userLoggedIn = '<?php echo $userLoggedIn; ?>';

@@ -1,18 +1,18 @@
 <?php 
 include("includes/header.php");
 
-$message_obj = new Message($con, $userLoggedIn);
+$message_obj = new Message($conn, $userLoggedIn);
 $account_type = "";
 if(isset($_GET['profile_username'])) {
 	$username = $_GET['profile_username'];
-$user_details_query = mysqli_query($con, "SELECT * FROM tbl_mafundi WHERE username='$username'");
+$user_details_query = mysqli_query($conn, "SELECT * FROM tbl_mafundi WHERE username='$username'");
 $account_type = "fundi";
   if(mysqli_num_rows($user_details_query) == 0) {
     $account_type = "duka";
-     $user_details_query = mysqli_query($con, "SELECT * FROM tbl_maduka WHERE username='$username'");
+     $user_details_query = mysqli_query($conn, "SELECT * FROM tbl_maduka WHERE username='$username'");
 
   if(mysqli_num_rows($user_details_query) == 0) {
-      $user_details_query = mysqli_query($con, "SELECT * FROM tbl_wateja WHERE username='$username'");
+      $user_details_query = mysqli_query($conn, "SELECT * FROM tbl_wateja WHERE username='$username'");
 $account_type = "mteja";
   if(mysqli_num_rows($user_details_query) == 0) {
     echo "user does not exist : ".$username;
@@ -42,13 +42,13 @@ $user_array = mysqli_fetch_array($user_details_query);
 
 if(isset($_GET['profile_username'])) {
 	$username = $_GET['profile_username'];
-	$user_address_details_query = mysqli_query($con, " SELECT * FROM tbl_fundi_address INNER JOIN tbl_countries ON tbl_countries.country_id = tbl_fundi_address.country_id INNER JOIN tbl_regions ON tbl_regions.region_id = tbl_fundi_address.region_id INNER JOIN tbl_wilaya ON tbl_wilaya.wilaya_id = tbl_fundi_address.wilaya_id WHERE fundi_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username')");
+	$user_address_details_query = mysqli_query($conn, " SELECT * FROM tbl_fundi_address INNER JOIN tbl_countries ON tbl_countries.country_id = tbl_fundi_address.country_id INNER JOIN tbl_regions ON tbl_regions.region_id = tbl_fundi_address.region_id INNER JOIN tbl_wilaya ON tbl_wilaya.wilaya_id = tbl_fundi_address.wilaya_id WHERE fundi_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username')");
 
   if(mysqli_num_rows($user_address_details_query) == 0) {
-   	$user_address_details_query = mysqli_query($con, " SELECT * FROM tbl_maduka_address INNER JOIN tbl_countries ON tbl_countries.country_id = tbl_maduka_address.country_id INNER JOIN tbl_regions ON tbl_regions.region_id = tbl_maduka_address.region_id INNER JOIN tbl_wilaya ON tbl_wilaya.wilaya_id = tbl_maduka_address.wilaya_id WHERE duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username')");
+   	$user_address_details_query = mysqli_query($conn, " SELECT * FROM tbl_maduka_address INNER JOIN tbl_countries ON tbl_countries.country_id = tbl_maduka_address.country_id INNER JOIN tbl_regions ON tbl_regions.region_id = tbl_maduka_address.region_id INNER JOIN tbl_wilaya ON tbl_wilaya.wilaya_id = tbl_maduka_address.wilaya_id WHERE duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username')");
 
   if(mysqli_num_rows($user_address_details_query) == 0) {
-   	$user_address_details_query = mysqli_query($con, " SELECT * FROM tbl_mteja_address INNER JOIN tbl_countries ON tbl_countries.country_id = tbl_mteja_address.country_id INNER JOIN tbl_regions ON tbl_regions.region_id = tbl_mteja_address.region_id INNER JOIN tbl_wilaya ON tbl_wilaya.wilaya_id = tbl_mteja_address.wilaya_id WHERE mteja_id IN(SELECT mteja_id FROM tbl_wateja WHERE username='$username')");
+   	$user_address_details_query = mysqli_query($conn, " SELECT * FROM tbl_mteja_address INNER JOIN tbl_countries ON tbl_countries.country_id = tbl_mteja_address.country_id INNER JOIN tbl_regions ON tbl_regions.region_id = tbl_mteja_address.region_id INNER JOIN tbl_wilaya ON tbl_wilaya.wilaya_id = tbl_mteja_address.wilaya_id WHERE mteja_id IN(SELECT mteja_id FROM tbl_wateja WHERE username='$username')");
 
   if(mysqli_num_rows($user_address_details_query) == 0) {
     echo "address fundi does not exist";
@@ -71,17 +71,17 @@ $user_address_array = mysqli_fetch_array($user_address_details_query);
 }
 if(isset($_GET['profile_username'])) {
 	$username = $_GET['profile_username'];
-	$fundi_tokens_query = mysqli_query($con, "SELECT *, (SELECT SUM(amount) FROM transactions WHERE user_id = tbl_fundi_kazi_jumla.fundi_id AND status = 'success') AS total_payment FROM tbl_fundi_kazi_jumla WHERE fundi_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username')");
+	$fundi_tokens_query = mysqli_query($conn, "SELECT *, (SELECT SUM(amount) FROM transactions WHERE user_id = tbl_fundi_kazi_jumla.fundi_id AND status = 'success') AS total_payment FROM tbl_fundi_kazi_jumla WHERE fundi_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username')");
 
   $data_token_available = true;
 
   if(mysqli_num_rows($fundi_tokens_query) == 0) {
-   $fundi_tokens_query = mysqli_query($con, "SELECT *, (SELECT SUM(amount) FROM transactions WHERE user_id = tbl_duka_kazi_jumla.duka_id AND status = 'success') AS total_payment FROM tbl_duka_kazi_jumla WHERE duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username')");
+   $fundi_tokens_query = mysqli_query($conn, "SELECT *, (SELECT SUM(amount) FROM transactions WHERE user_id = tbl_duka_kazi_jumla.duka_id AND status = 'success') AS total_payment FROM tbl_duka_kazi_jumla WHERE duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username')");
 
   $data_token_available = true;
 
   if(mysqli_num_rows($fundi_tokens_query) == 0) {
- $fundi_tokens_query = mysqli_query($con, "SELECT *, (SELECT SUM(amount) FROM transactions WHERE user_id = tbl_mteja_kazi_jumla.mteja_id AND status = 'success') AS total_payment FROM tbl_mteja_kazi_jumla WHERE mteja_id IN(SELECT mteja_id FROM tbl_wateja WHERE username='$username')");
+ $fundi_tokens_query = mysqli_query($conn, "SELECT *, (SELECT SUM(amount) FROM transactions WHERE user_id = tbl_mteja_kazi_jumla.mteja_id AND status = 'success') AS total_payment FROM tbl_mteja_kazi_jumla WHERE mteja_id IN(SELECT mteja_id FROM tbl_wateja WHERE username='$username')");
 
   $data_token_available = true;
 
@@ -105,15 +105,15 @@ if(isset($_GET['profile_username'])) {
 
 if(isset($_GET['profile_username'])) {
 	$username = $_GET['profile_username'];
-	$fundi_paymets_query = mysqli_query($con, "SELECT * FROM transactions WHERE user_status = 'fundi' AND  user_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username') ORDER BY id DESC");
+	$fundi_paymets_query = mysqli_query($conn, "SELECT * FROM transactions WHERE user_status = 'fundi' AND  user_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username') ORDER BY id DESC");
 $data_payment_available = true;
   
   if(mysqli_num_rows($fundi_paymets_query) == 0) {
-   	$fundi_paymets_query = mysqli_query($con, "SELECT * FROM transactions WHERE user_status = 'duka' AND  user_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username') ORDER BY id DESC");
+   	$fundi_paymets_query = mysqli_query($conn, "SELECT * FROM transactions WHERE user_status = 'duka' AND  user_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username') ORDER BY id DESC");
 $data_payment_available = true;
   
   if(mysqli_num_rows($fundi_paymets_query) == 0) {
-    	$fundi_paymets_query = mysqli_query($con, "SELECT * FROM transactions WHERE user_status = 'mteja' AND  user_id IN(SELECT mteja_id FROM tbl_wateja WHERE username='$username') ORDER BY id DESC");
+    	$fundi_paymets_query = mysqli_query($conn, "SELECT * FROM transactions WHERE user_status = 'mteja' AND  user_id IN(SELECT mteja_id FROM tbl_wateja WHERE username='$username') ORDER BY id DESC");
 $data_payment_available = true;
   
   if(mysqli_num_rows($fundi_paymets_query) == 0) {
@@ -127,11 +127,11 @@ $data_payment_available = true;
 
 if(isset($_GET['profile_username'])) {
 	$username = $_GET['profile_username'];
-	$fundi_professional_query = mysqli_query($con, " SELECT * FROM tbl_fundi_registered_professional INNER JOIN tbl_fundi_professional ON tbl_fundi_professional.professional_id = tbl_fundi_registered_professional.professional_id WHERE fundi_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username') ORDER BY fundi_reg_pro_id DESC");
+	$fundi_professional_query = mysqli_query($conn, " SELECT * FROM tbl_fundi_registered_professional INNER JOIN tbl_fundi_professional ON tbl_fundi_professional.professional_id = tbl_fundi_registered_professional.professional_id WHERE fundi_id IN(SELECT fundi_id FROM tbl_mafundi WHERE username='$username') ORDER BY fundi_reg_pro_id DESC");
 $data_professional_available = true;
   
   if(mysqli_num_rows($fundi_professional_query) == 0) {
-   	$fundi_professional_query = mysqli_query($con, " SELECT *, (SELECT COUNT(*) FROM tbl_maduka_products WHERE professional_id = tbl_maduka_registered_professional.professional_id AND duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username')) AS total_product FROM tbl_maduka_registered_professional INNER JOIN tbl_fundi_professional ON tbl_fundi_professional.professional_id = tbl_maduka_registered_professional.professional_id WHERE duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username') ORDER BY duka_id DESC");
+   	$fundi_professional_query = mysqli_query($conn, " SELECT *, (SELECT COUNT(*) FROM tbl_maduka_products WHERE professional_id = tbl_maduka_registered_professional.professional_id AND duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username')) AS total_product FROM tbl_maduka_registered_professional INNER JOIN tbl_fundi_professional ON tbl_fundi_professional.professional_id = tbl_maduka_registered_professional.professional_id WHERE duka_id IN(SELECT duka_id FROM tbl_maduka WHERE username='$username') ORDER BY duka_id DESC");
 $data_professional_available = true;
   
   if(mysqli_num_rows($fundi_professional_query) == 0) {
@@ -144,12 +144,12 @@ $data_professional_available = true;
 }
 
 if(isset($_POST['remove_friend'])) {
-  $user = new User($con, $userLoggedIn);
+  $user = new User($conn, $userLoggedIn);
   $user->removeFriend($username);
 }
 
 if(isset($_POST['add_friend'])) {
-	$user = new User($con, $userLoggedIn);
+	$user = new User($conn, $userLoggedIn);
 	$user->sendRequest($username);
 }
 
@@ -158,13 +158,13 @@ if(isset($_POST['respond_request'])) {
 }
 
 if(isset($_POST['cancel_request'])) {
-  $user = new User($con, $userLoggedIn);
+  $user = new User($conn, $userLoggedIn);
   $user->cancelRequest($username);
 }
 
 if(isset($_POST['post_message'])) {
   if(isset($_POST['message_body'])) {
-    $body = mysqli_real_escape_string($con, $_POST['message_body']);
+    $body = mysqli_real_escape_string($conn, $_POST['message_body']);
     $date = date("Y-m-d H:i:s");
     $message_obj->sendMessage($username, $body, $date);
   }
@@ -220,20 +220,23 @@ if(isset($_POST['post_message'])) {
  			<?php 
       if($account_type == "fundi"){ 
 
- 			$profile_user_obj = new Fundi($con, $username); 
+ 			$profile_user_obj = new Fundi($conn, $username); 
  			if($profile_user_obj->isClosed()) {
- 				header("Location: user_closed.php");
+        echo '<div class="user-is-logged-out">Logged Out</div>';
+ 				// header("Location: user_closed.php");
  			}
 
     }else if($account_type == "duka"){
-	$profile_user_obj = new Duka($con, $username); 
+	$profile_user_obj = new Duka($conn, $username); 
  			if($profile_user_obj->isClosed()) {
- 				header("Location: user_closed.php");
+         echo '<div class="user-is-logged-out">Logged Out</div>';
+ 				// header("Location: user_closed.php");
  			}
     }else if($account_type == "mteja"){ 
-      $profile_user_obj = new Individual($con, $username); 
+      $profile_user_obj = new Individual($conn, $username); 
  			if($profile_user_obj->isClosed()) {
- 				header("Location: user_closed.php");
+         echo '<div class="user-is-logged-out">Logged Out</div>';
+ 				// header("Location: user_closed.php");
  			}
     }
 
@@ -252,7 +255,7 @@ if(isset($_POST['post_message'])) {
     echo '" class="fundi-activation-deactivation-container">';
 
    if($account_type == "fundi"){ 
-$logged_in_fundi_obj = new Fundi($con, $userLoggedIn); 
+$logged_in_fundi_obj = new Fundi($conn, $userLoggedIn); 
 if($logged_in_fundi_obj->isFundiStatus($username)) {
         
  					echo '<button id="btn-activate-deactivate-';
@@ -283,8 +286,10 @@ if($logged_in_fundi_obj->isFundiStatus($username)) {
           echo $account_type;
           echo '" class="btn-activate-deactivate success" >Activate</button>';
         }
+
+     
   }else if($account_type == "duka"){
-    $logged_in_duka_obj = new Duka($con, $userLoggedIn); 
+    $logged_in_duka_obj = new Duka($conn, $userLoggedIn); 
 if($logged_in_duka_obj->isDukaStatus($username)) {
         
  					echo '<button id="btn-activate-deactivate-';
@@ -315,8 +320,9 @@ if($logged_in_duka_obj->isDukaStatus($username)) {
           echo $account_type;
           echo '" class="btn-activate-deactivate success" >Activate</button>';
         }
+
   }else if($account_type == "mteja"){ 
-        $logged_in_mteja_obj = new Individual($con, $userLoggedIn); 
+        $logged_in_mteja_obj = new Individual($conn, $userLoggedIn); 
 if($logged_in_mteja_obj->isIndividualStatus($username)) {
         
  					echo '<button id="btn-activate-deactivate-';
@@ -347,10 +353,59 @@ if($logged_in_mteja_obj->isIndividualStatus($username)) {
           echo $account_type;
           echo '" class="btn-activate-deactivate success" >Activate</button>';
         }
+
+       
   }
  			echo '</div>';
+ if($account_type == "fundi"){
+   echo '<button id="btn-default-password-';
+       
+                  echo $user_array['fundi_id'];
+                echo '" fundi_id="';
+          echo $user_array['fundi_id'];
+          echo '" fundi_status="';
+          if($user_array['fundi_status'] == 'Enable'){
+            echo 'DisEnable';
+          }else{
+            echo 'Enable';
+          }
+          echo '" account_type="';
+          echo $account_type;
+          echo '" class="btn-default-password warning" >Default Password</button>';
+ }else if($account_type == "duka"){
+ echo '<button id="btn-default-password-';
+                  echo $user_array['duka_id'];
+                echo '" duka_id="';
+          echo $user_array['duka_id'];
+          echo '" duka_status="';
+          if($user_array['duka_status'] == 'Enable'){
+            echo 'DisEnable';
+          }else{
+            echo 'Enable';
+          }
+          echo '" account_type="';
+          echo $account_type;
+          echo '" class="btn-default-password warning" >Default Password</button>';
+ }else if($account_type == "mteja"){
+   echo '<button id="btn-default-password-';
+                  echo $user_array['mteja_id'];
+                echo '" mteja_id="';
+          echo $user_array['mteja_id'];
+          echo '" mteja_status="';
+          if($user_array['mteja_status'] == 'Enable'){
+            echo 'DisEnable';
+          }else{
+            echo 'Enable';
+          }
+          echo '" account_type="';
+          echo $account_type;
+          echo '" class="btn-default-password warning" >Default Password</button>'; 
+ }
+       
  			}
-
+   echo '<div id="default-password-container" class="default-password-container">';
+        
+      echo '</div>';
  			?>
  		
  		<input type="submit" class="deep_blue" data-toggle="modal" data-target="#post_form" value="Post Something">
@@ -745,13 +800,13 @@ $status = $payment['status'];
     </div>
       </div>
       </div>
-        <img id="loading" src="assets/images/icons/loading.gif">
+        <img id="loading" class="hide-content" src="assets/images/icons/loading.gif">
       </div>
       <div role="tabpanel" class="tab-pane" id="messages_div">
         <?php  
         
 
-          echo "<h4>You and <a href='" . $username ."'>" . $username. "</a></h4><hr><br>";
+          echo "<h4>You and <a href='profile.php?profile_username=" . $username ."'>" . $username. "</a></h4><hr><br>";
 
           echo "<div class='loaded_messages' id='scroll_messages'>";
             echo $username;

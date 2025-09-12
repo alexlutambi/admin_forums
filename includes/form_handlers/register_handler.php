@@ -55,7 +55,7 @@ if(isset($_POST['register_button'])){
 			$em = filter_var($em, FILTER_VALIDATE_EMAIL);
 
 			//Check if email already exists 
-			$e_check = mysqli_query($con, "SELECT email FROM users WHERE email='$em'");
+			$e_check = mysqli_query($conn, "SELECT email FROM users WHERE email='$em'");
 
 			//Count the number of rows returned
 			$num_rows = mysqli_num_rows($e_check);
@@ -103,7 +103,7 @@ if(isset($_POST['register_button'])){
 
 		//Generate username by concatenating first name and last name
 		$username = strtolower($fname . "_" . $lname);
-		$check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username='$username'");
+		$check_username_query = mysqli_query($conn, "SELECT username FROM users WHERE username='$username'");
 
 
 		$i = 0; 
@@ -114,7 +114,7 @@ if(isset($_POST['register_button'])){
 			 $temp_username = $username; //Reset temporary username back to original username
 			 $i++;
 			 $temp_username = $username."_".$i;
-			 $check_username_query = mysqli_query($con, "SELECT username FROM users WHERE username='$temp_username'");
+			 $check_username_query = mysqli_query($conn, "SELECT username FROM users WHERE username='$temp_username'");
 		 }
 		 
 		 $username = $temp_username; //$temp_username will now contain the unique username
@@ -126,12 +126,12 @@ if(isset($_POST['register_button'])){
 			$profile_pic = "assets/images/profile_pics/defaults/head_deep_blue.png";
 		else if($rand == 2)
 			$profile_pic = "assets/images/profile_pics/defaults/head_emerald.png";
-if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM admin_group_code WHERE code = '$reg_admin_group_code' AND is_active = 1 ")) == 0){
+if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM admin_group_code WHERE code = '$reg_admin_group_code' AND is_active = 1 ")) == 0){
 
 			array_push($error_array, "<span style='color: #c80000ff;'>Invalid Admin Group Code!</span><br>");
 		
 		}else{
-$query = mysqli_query($con, "INSERT INTO users VALUES (NULL, '$fname', '$lname', '$username', '$em', '$password', '$date', '$profile_pic', '0', '0', 'no', ',', '$reg_admin_group_code', '1')");
+$query = mysqli_query($conn, "INSERT INTO users VALUES (NULL, '$fname', '$lname', '$username', '$em', '$password', '$date', '$profile_pic', '0', '0', 'no', ',', '$reg_admin_group_code', '1')");
 		
 		array_push($error_array, "<span style='color: #14C800;'>You're all set! Go ahead and login!</span><br>");
 

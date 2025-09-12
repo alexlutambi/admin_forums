@@ -25,10 +25,10 @@ else {
 	else {
 
 if(is_int(filter_var($query, FILTER_VALIDATE_INT)) != null){
-$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja WHERE mteja_id LIKE '$query%' LIMIT 8");
+$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_wateja WHERE mteja_id LIKE '$query%' LIMIT 8");
 }
 else {
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja WHERE mteja_full_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_wateja WHERE mteja_full_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
 }
 		//Check if results were found 
 		if(mysqli_num_rows($usersReturnedQuery) == 0)
@@ -41,7 +41,7 @@ else {
 		echo "<a href='search_individual.php?q=" . $query ."&type=name'>Names</a>, <a href='search_individual.php?q=" . $query ."&type=username'>Usernames</a><br><br><hr id='search_hr'>";
 
 		while($row = mysqli_fetch_array($usersReturnedQuery)) {
-			$user_obj = new Individual($con, $user['username']);
+			$user_obj = new Individual($conn, $user['username']);
 
 			$mutual_friends = "";
 
@@ -108,10 +108,10 @@ else {
 
 
 					<div class='result_profile_pic'>
-						<a href='" . $row['username'] ."'><img id='individual-list-img-" . $row['mteja_id'] . "' class='profile-available individual-list-img individual-list-img-" . $row['mteja_id'] . "' mteja_id='" . $row['mteja_id'] . "' mteja_profile='" . $row['mteja_profile'] . "' src='../mteja/mteja_profile/mteja_thumb_color/" . $row['mteja_thumb_color'] ."'></a>
+						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='individual-list-img-" . $row['mteja_id'] . "' class='profile-available individual-list-img individual-list-img-" . $row['mteja_id'] . "' mteja_id='" . $row['mteja_id'] . "' mteja_profile='" . $row['mteja_profile'] . "' src='../mteja/mteja_profile/mteja_thumb_color/" . $row['mteja_thumb_color'] ."'></a>
 					</div>
 
-						<a href='" . $row['username'] ."'> " . $row['mteja_full_name'] . "
+						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['mteja_full_name'] . "
 						<p id='grey'> " . $row['username'] ."</p>
 						</a>
 						<br>

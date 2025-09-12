@@ -1,6 +1,6 @@
 <?php
 sleep(2);
-include("connection.php");
+include("../../../database/connection.php");
 
 $requestPayLoad = file_get_contents("php://input");
 
@@ -8,7 +8,7 @@ $requestPayLoad = file_get_contents("php://input");
 $login_object = json_decode($requestPayLoad, true);
 
 function get_likes_user($login_object){
-include("connection.php");
+include("../../../database/connection.php");
 
      $response_fundis = [];
        
@@ -33,7 +33,7 @@ for($i = 0; $i < count($login_object['activation_hint']); $i++){
                   $response_fundi_data = [
             "status"=>"activation_successfully",
             "message"=>"activation successfully",
-           "mteja_id"=>$row_image_data[0], "mteja_status"=>$row_image_data[8]
+           "mteja_id"=>$row_image_data[0], "mteja_status"=>$row_image_data[7]
           ];
        
          $response_fundis[] = $response_fundi_data;

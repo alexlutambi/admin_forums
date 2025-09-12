@@ -1,11 +1,11 @@
 <?php
 class Fundi {
 	private $fundi;
-	private $con;
+	private $conn;
 
-	public function __construct($con, $fundi){
-		$this->con = $con;
-		$user_details_query = mysqli_query($con, "SELECT * FROM tbl_mafundi WHERE username='$fundi'");
+	public function __construct($conn, $fundi){
+		$this->con = $conn;
+		$user_details_query = mysqli_query($conn, "SELECT * FROM tbl_mafundi WHERE username='$fundi'");
 		$this->fundi = mysqli_fetch_array($user_details_query);
 	}
 

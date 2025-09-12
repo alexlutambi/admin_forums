@@ -1,11 +1,11 @@
 <?php
 class Post {
 	private $user_obj;
-	private $con;
+	private $conn;
 
-	public function __construct($con, $user){
-		$this->con = $con;
-		$this->user_obj = new User($con, $user);
+	public function __construct($conn, $user){
+		$this->con = $conn;
+		$this->user_obj = new User($conn, $user);
 	}
 
 	public function submitPost($body, $user_to, $imageName) {
@@ -172,7 +172,7 @@ class Post {
 				else {
 					$user_to_obj = new User($this->con, $row['user_to']);
 					$user_to_name = $user_to_obj->getFirstAndLastName();
-					$user_to = "to <a href='" . $row['user_to'] ."'>" . $user_to_name . "</a>";
+					$user_to = "to <a href='profile.php?profile_username=" . $row['user_to'] ."'>" . $user_to_name . "</a>";
 				}
 
 				//Check if user who posted, has their account closed
@@ -312,7 +312,7 @@ class Post {
 								</div>
 
 								<div class='posted_by' style='color:#ACACAC;'>
-									<a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+									<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 									$delete_button
 								</div>
 								<div id='post_body'>
@@ -517,7 +517,7 @@ class Post {
 								</div>
 
 								<div class='posted_by' style='color:#ACACAC;'>
-									<a href='$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+									<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 									$delete_button
 								</div>
 								<div id='post_body'>
@@ -599,7 +599,7 @@ class Post {
 				else {
 					$user_to_obj = new User($this->con, $row['user_to']);
 					$user_to_name = $user_to_obj->getFirstAndLastName();
-					$user_to = "to <a href='" . $row['user_to'] ."'>" . $user_to_name . "</a>";
+					$user_to = "to <a href='profile.php?profile_username=" . $row['user_to'] ."'>" . $user_to_name . "</a>";
 				}
 
 				//Check if user who posted, has their account closed
@@ -719,7 +719,7 @@ class Post {
 								</div>
 
 								<div class='posted_by' style='color:#ACACAC;'>
-									<a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+									<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 									$delete_button
 								</div>
 								<div id='post_body'>

@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost"; //replace it with your database server name
-$username = "root";  //replace it with your database username
-  $password = "";  //replace it with your database password
-  $dbname = "fundi_forums";
+$username = "fund_fundishop_user";  //replace it with your database username
+  $password = "20fundiForums@25#alisketech";  //replace it with your database password
+  $dbname = "fund_fundishop_db";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -11,7 +11,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 //database_connection.php
  
  //ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-$connect = new PDO("mysql:host=localhost;dbname=fundi_forums", "root", "");
+$connnect = new PDO("mysql:host=localhost;dbname=fund_fundishop_db", "fund_fundishop_user", "fundishop_password");
 
 
 ?>

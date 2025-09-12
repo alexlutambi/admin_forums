@@ -1,5 +1,5 @@
 <?php  
-require 'config/config.php';
+require '../database/connection.php';
 include("includes/classes/User.php");
 include("includes/classes/Fundi.php");
 include("includes/classes/Duka.php");
@@ -11,7 +11,7 @@ include("includes/classes/Notification.php");
 
 if (isset($_SESSION['username'])) {
 	$userLoggedIn = $_SESSION['username'];
-	$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
+	$user_details_query = mysqli_query($conn, "SELECT * FROM users WHERE username='$userLoggedIn'");
 	$user = mysqli_fetch_array($user_details_query);
 	
 }
@@ -73,20 +73,20 @@ else {
 		<nav>
 			<?php
 				//Unread messages 
-				$messages = new Message($con, $userLoggedIn);
+				$messages = new Message($conn, $userLoggedIn);
 				$num_messages = $messages->getUnreadNumber();
 
 				//Unread notifications 
-				$notifications = new Notification($con, $userLoggedIn);
+				$notifications = new Notification($conn, $userLoggedIn);
 				$num_notifications = $notifications->getUnreadNumber();
 
 				//Unread notifications 
-				$user_obj = new User($con, $userLoggedIn);
+				$user_obj = new User($conn, $userLoggedIn);
 				$num_requests = $user_obj->getNumberOfFriendRequests();
 			?>
 
 
-			<a href="<?php echo $userLoggedIn; ?>">
+			<a href="profile_admin.php?profile_username=<?php echo $userLoggedIn; ?>">
 				<?php echo $user['first_name']; ?>
 			</a>
 			<a href="index.php">

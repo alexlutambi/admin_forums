@@ -1,11 +1,11 @@
 <?php
 class Individual {
 	private $individual;
-	private $con;
+	private $conn;
 
-	public function __construct($con, $individual){
-		$this->con = $con;
-		$user_details_query = mysqli_query($con, "SELECT * FROM tbl_wateja WHERE username='$individual'");
+	public function __construct($conn, $individual){
+		$this->con = $conn;
+		$user_details_query = mysqli_query($conn, "SELECT * FROM tbl_wateja WHERE username='$individual'");
 		$this->individual = mysqli_fetch_array($user_details_query);
 	}
 

@@ -1,11 +1,11 @@
 <?php
 class Notification {
 	private $user_obj;
-	private $con;
+	private $conn;
 
-	public function __construct($con, $user){
-		$this->con = $con;
-		$this->user_obj = new User($con, $user);
+	public function __construct($conn, $user){
+		$this->con = $conn;
+		$this->user_obj = new User($conn, $user);
 	}
 
 	public function getUnreadNumber() {
@@ -121,7 +121,7 @@ class Notification {
 			$opened = $row['opened'];
 			$style = ($opened == 'no') ? "background-color: #DDEDFF;" : "";
 
-			$return_string .= "<a href='" . $row['link'] . "'> 
+			$return_string .= "<a href='profile.php?profile_username=" . $row['link'] . "'> 
 									<div class='resultDisplay resultDisplayNotification' style='" . $style . "'>
 										<div class='notificationsProfilePic'>
 											<img src='" . $user_data['profile_pic'] . "'>

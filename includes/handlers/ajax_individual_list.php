@@ -1,13 +1,13 @@
 <?php
-include("../../config/config.php");
+include("../../../database/connection.php");
 include("../../includes/classes/Individual.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];
 
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC LIMIT 3");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC LIMIT 3");
 
 	while($row = mysqli_fetch_array($usersReturnedQuery)) {
-		$user = new Individual($con, $userLoggedIn);
+		$user = new Individual($conn, $userLoggedIn);
 
 		if($row['username'] != $userLoggedIn)
 			$mutual_friends = $user->getMutualIndividualTokens($row['mteja_id']) . " friends in common";
@@ -24,7 +24,7 @@ $userLoggedIn = $_POST['userLoggedIn'];
 			$more_user_email = "...";
 		}
 		echo "<div class='resultDisplay fundiDisplay'>
-				<a href='" . $row['username'] . "' style='color: #1485BD'>
+				<a href='profile.php?profile_username=" . $row['username'] . "' style='color: #1485BD'>
 					<div class='liveSearchProfilePic'>
 						<img id='individual-list-img-" . $row['mteja_id'] . "' class='individual-list-img individual-list-img-" . $row['mteja_id'] . "' mteja_id='" . $row['mteja_id'] . "' mteja_profile='" . $row['mteja_profile'] . "' src='../mteja/mteja_profile/mteja_thumb_color/" . $row['mteja_thumb_color'] ."'>
 					</div>

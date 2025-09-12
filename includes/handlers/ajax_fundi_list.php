@@ -1,13 +1,13 @@
 <?php
-include("../../config/config.php");
+include("../../../database/connection.php");
 include("../../includes/classes/Fundi.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];
 
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC LIMIT 3");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_mafundi ORDER BY fundi_id DESC LIMIT 3");
 
 	while($row = mysqli_fetch_array($usersReturnedQuery)) {
-		$user = new Fundi($con, $userLoggedIn);
+		$user = new Fundi($conn, $userLoggedIn);
 
 		if($row['shop_name'] != $userLoggedIn)
 			$mutual_friends = $user->getMutualFundiTokens($row['fundi_id']) . " friends in common";
@@ -28,7 +28,7 @@ if(strlen($row['fundi_last_name']) > 10){
 			$more_shop_name = "...";
 		}
 		echo "<div class='resultDisplay fundiDisplay'>
-				<a href='" . $row['username'] . "' style='color: #1485BD'>
+				<a href='profile.php?profile_username=" . $row['username'] . "' style='color: #1485BD'>
 					<div class='liveSearchProfilePic'>
 						<img id='fundi-list-img-" . $row['fundi_id'] . "' class='fundi-list-img fundi-list-img-" . $row['fundi_id'] . "' fundi_id='" . $row['fundi_id'] . "' fundi_profile='" . $row['fundi_profile'] . "' src='../fundi/fundi_profile/fundi_thumb_color/" . $row['fundi_thumb_color'] ."'>
 					</div>

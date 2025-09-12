@@ -25,10 +25,10 @@ else {
 	else {
 
 if(is_int(filter_var($query, FILTER_VALIDATE_INT)) != null){
-$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_maduka WHERE duka_id LIKE '$query%' LIMIT 8");
+$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka WHERE duka_id LIKE '$query%' LIMIT 8");
 }
 else {
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_maduka WHERE shop_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka WHERE shop_name LIKE '%$query%' OR username LIKE '%$query%' LIMIT 8");
 }
 		//Check if results were found 
 		if(mysqli_num_rows($usersReturnedQuery) == 0)
@@ -41,7 +41,7 @@ else {
 		echo "<a href='search_fundi.php?q=" . $query ."&type=name'>Names</a>, <a href='search_fundi.php?q=" . $query ."&type=username'>Usernames</a><br><br><hr id='search_hr'>";
 
 		while($row = mysqli_fetch_array($usersReturnedQuery)) {
-			$user_obj = new Fundi($con, $user['username']);
+			$user_obj = new Fundi($conn, $user['username']);
 
 			$mutual_friends = "";
 
@@ -108,10 +108,10 @@ else {
 
 
 					<div class='result_profile_pic'>
-						<a href='" . $row['username'] ."'><img id='duka-list-img-" . $row['duka_id'] . "' class='profile-available duka-list-img duka-list-img-" . $row['duka_id'] . "' duka_id='" . $row['duka_id'] . "' duka_profile='" . $row['duka_profile'] . "' src='../duka/duka_logo_profile/duka_logo_thumb_color/" . $row['duka_thumb_color'] ."'></a>
+						<a href='profile.php?profile_username=" . $row['username'] ."'><img id='duka-list-img-" . $row['duka_id'] . "' class='profile-available duka-list-img duka-list-img-" . $row['duka_id'] . "' duka_id='" . $row['duka_id'] . "' duka_profile='" . $row['duka_profile'] . "' src='../duka/duka_logo_profile/duka_logo_thumb_color/" . $row['duka_thumb_color'] ."'></a>
 					</div>
 
-						<a href='" . $row['username'] ."'> " . $row['duka_full_name'] . "
+						<a href='profile.php?profile_username=" . $row['username'] ."'> " . $row['duka_full_name'] . "
 						<p id='grey'> " . $row['shop_name'] ."</p>
 						</a>
 						<br>

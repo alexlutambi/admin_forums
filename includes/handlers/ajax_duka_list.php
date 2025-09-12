@@ -1,13 +1,13 @@
 <?php
-include("../../config/config.php");
+include("../../../database/connection.php");
 include("../../includes/classes/Duka.php");
 
 $userLoggedIn = $_POST['userLoggedIn'];
 
-	$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC LIMIT 3");
+	$usersReturnedQuery = mysqli_query($conn, "SELECT * FROM tbl_maduka ORDER BY duka_id DESC LIMIT 3");
 
 	while($row = mysqli_fetch_array($usersReturnedQuery)) {
-		$user = new Duka($con, $userLoggedIn);
+		$user = new Duka($conn, $userLoggedIn);
 
 		if($row['shop_name'] != $userLoggedIn)
 			$mutual_friends = $user->getMutualDukaTokens($row['duka_id']) . " friends in common";
@@ -27,7 +27,7 @@ if(strlen($row['duka_last_name']) > 10){
 			$more_shop_name = "...";
 		}
 		echo "<div class='resultDisplay fundiDisplay'>
-				<a href='" . $row['username'] . "' style='color: #1485BD'>
+				<a href='profile.php?profile_username=" . $row['username'] . "' style='color: #1485BD'>
 					<div class='liveSearchProfilePic'>
 						<img id='duka-list-img-" . $row['duka_id'] . "' class='duka-list-img duka-list-img-" . $row['duka_id'] . "' duka_id='" . $row['duka_id'] . "' duka_profile='" . $row['duka_profile'] . "' src='../duka/duka_logo_profile/duka_logo_thumb_color/" . $row['duka_thumb_color'] ."'>
 					
