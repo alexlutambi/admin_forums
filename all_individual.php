@@ -12,7 +12,7 @@ include("includes/header.php");
 				$usersReturnedQuery = mysqli_query($con, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC");
 				$usersReturnedQueryAll = mysqli_query($con, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC");
 		
-
+echo "sjsjjs";
 		//Check if results were found 
 		if(mysqli_num_rows($usersReturnedQuery) == 0)
 			echo "We can't find anyone mteja ";
