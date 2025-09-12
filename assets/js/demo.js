@@ -1,53 +1,17 @@
 $(document).ready(function() {
 
 	console.log("demo loaded...");
-	
-	var btn_all_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
-
- for(var a = 0; a < btn_all_activate_deactivate_all.length; a++){
-    var btn_activate_deactivate_id = btn_all_activate_deactivate_all[a].id;
-      
-//console.log("details request by image");
-var fundi_list_container = document.getElementById(btn_activate_deactivate_id);
-fundi_list_container.addEventListener('click', function(){
-console.log("left_clicked id=>"+this.id);
-var product_id = document.getElementById(this.id);
-var account_type = product_id.getAttribute("account_type");
-
-if(document.getElementsByClassName('activation-loading').length == 0){
-	if(account_type == "fundi"){
-		var fundi_id = product_id.getAttribute("fundi_id");
-var fundi_status = product_id.getAttribute("fundi_status");
-
-load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
-	}else if(account_type == "duka"){
-		var duka_id = product_id.getAttribute("duka_id");
-var duka_status = product_id.getAttribute("duka_status");
-
-	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
-	}else if(account_type == "mteja"){
-			var mteja_id = product_id.getAttribute("mteja_id");
-var mteja_status = product_id.getAttribute("mteja_status");
-
-	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
-	}
-
-}
-
-
-})
-
-	}
 
 	var btn_default_password = document.getElementsByClassName('btn-default-password');
 
+	
       for(var s = 0; s < btn_default_password.length; s++){
        
         btn_default_password[s].addEventListener('click', function(){
       var product_id = document.getElementById(this.id);
 var account_type = product_id.getAttribute("account_type");
 var default_password_container = document.getElementById("default-password-container");
-
+//default password
 	if(account_type == "fundi"){
 		var fundi_id = product_id.getAttribute("fundi_id");
 get_user_set_default_password_alert(fundi_id, account_type, default_password_container, product_id);
@@ -2021,6 +1985,121 @@ output += '" class="btn btn-sm btn-danger complete-descount-default-password com
   output += '</div>';
   return output;
 }
+function get_details_message(admin_id, post_id){
+	 var details_messages = [];
+
+var details_message = {};
+details_message["username"] = "send_notification";
+details_message["sender_id"] = admin_id;
+details_message["receiver_id"] = admin_id;
+details_message["product_id"] = post_id;
+details_message["notification_action"] = "admin_notify";
+details_message["user_status"] = "admin";
+details_messages.push(details_message);
+
+return JSON.stringify(details_messages);
+}
+function get_send_notification(details_message, currentToken, post_id, post_img, body_message, container){
+	get_small_spinner(container);
+	var next_page = 1;
+
+  var product_hints = [];
+
+var product_hint = {};
+product_hint["action"] = "send_notification";
+product_hint["currentToken"] = currentToken;
+product_hint["post_id"] = post_id;
+product_hint["post_img"] = post_img;
+product_hint["body_message"] = body_message;
+product_hint["details_message"] = details_message;
+product_hint["topic"] = 'all_user';
+product_hint["title_message"] = 'Admin message';
+
+product_hints.push(product_hint);
+
+
+var action_quality = "includes/handlers/ajax_send_notification.php?page=" + next_page;
+
+var xhr_quality = new XMLHttpRequest();
+xhr_quality.open('POST', action_quality, true);
+
+
+xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr_quality.onreadystatechange = function () {
+if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+var result = xhr_quality.responseText;
+console.log('Result_notification: ' + result);
+container.innerHTML = 'Send Notification';
+
+var post_notification_container = document.getElementById("post-notification-container-"+post_id);
+get_notification_complete(post_id, post_notification_container, result);
+
+
+ }
+};
+xhr_quality.send(JSON.stringify({"notification_hint" : product_hints}));
+
+}
+ function get_notification_complete(post_id, container, result){
+    container.innerHTML = '';
+  var li_success_list = selectedNotificationNompleteLink(result);
+  container.innerHTML = li_success_list;
+  container.style.display = 'online';
+
+  	var cancel_complete_product_default_password = document.getElementsByClassName('cancel-complete-product-default-password-'+post_id);
+
+      for(var s = 0; s < cancel_complete_product_default_password.length; s++){
+       
+        cancel_complete_product_default_password[s].addEventListener('click', function(){
+      var product_id = document.getElementById(this.id);
+	  var post_id = product_id.getAttribute("post_id");
+	  
+	  var post_notification_container = document.getElementById("post-notification-container-"+post_id);
+	  post_notification_container.innerHTML = '';
+       });
+      }
+    }
+
+
+    function selectedNotificationNompleteLink(result){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+	    var json_result = JSON.parse(result);
+
+         for(var k = 0; k < json_result.length; k++){
+          var status = json_result[k].status;
+			var message = json_result[k].message;
+		var post_id = json_result[k].post_id;
+		output += '<div id="default-password-product-product-container-';
+  output += post_id;
+  output += '" class="column default-password-descount-product-container default-password-product-product-container-';
+  output += post_id;
+  output += '"><h3>';
+  output += message;
+  output += '</h3><div class="default-password-product-descount-action-container">';
+  output += '<button id="complete-product-default-password-';
+  output += post_id;
+  output += '" post_id="';
+  output += post_id;
+output += '" class="btn btn-sm btn-danger complete-descount-default-password complete-product-default-password-';
+  output += post_id;
+  output += '">Change</button>';
+  output += '<button id="cancel-complete-product-default-password-';
+  output += post_id;
+  output += '" post_id="';
+  output += post_id;
+  output += '" class="btn btn-sm btn-success cancel-complete-descount-default-password cancel-complete-product-default-password-';
+  output += post_id;
+  output += '">Cancel</button>';
+  output += '</div>';
+  output += '</div>';
+		}
+
+    return output;
+ }
  function get_small_spinner(add_shop_location){
     add_shop_location.innerHTML = '';
   var li_success_list = selectedSmallSpinnerLink();

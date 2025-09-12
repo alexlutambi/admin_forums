@@ -151,7 +151,11 @@ textarea:focus {
 	min-height: 75px;
 	cursor:pointer;
 }
-
+.content-post-bottom{
+	width: 100%;
+	margin-top: 0.25rem;
+	border-bottom: 1px solid;
+}
 .post_profile_pic {
 	float: left;
 	margin-right: 7px;
@@ -199,6 +203,7 @@ textarea:focus {
 }
 
 .newsfeedPostOptions {
+	width: 30rem;
 	padding: 0px;
 	text-decoration: none;
 	color:#20AAE5;
@@ -336,8 +341,8 @@ color: #00A3DD;
 	background-color: #0043f0;
 }
 .load-more-container{
-    width: 68%;
-    float: right;
+    width: 98%;
+    float: left;
     margin-left: 1%;
     margin-right: 1%;
 }

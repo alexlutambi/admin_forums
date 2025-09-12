@@ -28,7 +28,7 @@ $remained_pages = $number_of_pages - $page_start;
 				$usersReturnedQuery = mysqli_query($conn, $sql_individual_results);
 				$usersReturnedQueryAll = mysqli_query($conn, "SELECT * FROM tbl_wateja ORDER BY mteja_id DESC");
 		
-echo "sjsjjs";
+
 		//Check if results were found 
 		if(mysqli_num_rows($usersReturnedQuery) == 0)
 			echo "We can't find anyone mteja ";

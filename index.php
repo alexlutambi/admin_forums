@@ -37,7 +37,7 @@ if(isset($_POST['post'])){
 	}
 
 	if($uploadOk) {
-		$post = new Post($con, $userLoggedIn);
+		$post = new Post($conn, $userLoggedIn);
 		$post->submitPost($_POST['post_text'], 'none', $imageName);
 	}
 	else {
@@ -49,6 +49,9 @@ if(isset($_POST['post'])){
 }
 ?>
 <div class="main_column column">
+	<!-- <button onclick="trySampleRequest();">Try sample request</button> -->
+	
+  
 		<form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
 			<input type="file" name="fileToUpload" id="fileToUpload">
 			<textarea name="post_text" id="post_text" placeholder="Got Annauncement to say?"></textarea>
@@ -68,7 +71,7 @@ if(isset($_POST['post'])){
 <div class="user_details column">
 		<a href="profile_admin.php?profile_username=<?php echo $userLoggedIn; ?>">  <img src="<?php echo $user['profile_pic']; ?>"> </a>
 
-		<div class="user_details_left_right">
+		<div id="user_details_left_right" admin_id="<?php echo $user['id']; ?>" class="user_details_left_right">
 			<a href="profile_admin.php?profile_username=<?php echo $userLoggedIn; ?>">
 			<?php 
 			echo $user['first_name'] . " " . $user['last_name'];
@@ -126,7 +129,7 @@ if(isset($_POST['post'])){
 
 		<div class="trends">
 			<?php 
-			$query = mysqli_query($con, "SELECT * FROM trends ORDER BY hits DESC LIMIT 9");
+			$query = mysqli_query($conn, "SELECT * FROM trends ORDER BY hits DESC LIMIT 9");
 
 			foreach ($query as $row) {
 				
@@ -283,9 +286,71 @@ $(function(){
 
 </script>
 
-
-
-
 	</div>
 </body>
 </html>
+<script type="module">
+	// Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+	$(document).ready(function() {
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+    apiKey: "AIzaSyAMyja9kLOD0KAWpnltOIBwpzH8bPmuFf4",
+    authDomain: "fundishop-f5b04.firebaseapp.com",
+    projectId: "fundishop-f5b04",
+    storageBucket: "fundishop-f5b04.firebasestorage.app",
+    messagingSenderId: "296082741873",
+    appId: "1:296082741873:web:20993a747384ff1979d9d0",
+    measurementId: "G-LC49RKHG2N"
+  };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+		if ('Notification' in window) { // Check if the Notification API is supported
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      // Permission granted, notifications can be sent
+      console.log('Notification permission granted.');
+  navigator.serviceWorker.register("assets/js/sw.js").then(registration => {
+            getToken(messaging, {
+                serviceWorkerRegistration: registration,
+                vapidKey: 'BKrKCEfM048ErJINaK1zClbDRe4ZXmNAKP9hv7fVmTKSVXIAjmg1invhS62S_R1Gin0HP210sdn041MYDVj2Sdw' }).then((currentToken) => {
+                if (currentToken) {
+                    console.log("Token is: "+currentToken);
+					var fileToUpload = document.getElementById("fileToUpload");
+					  fileToUpload.setAttribute("currentToken", currentToken);
+                    // Send the token to your server and update the UI if necessary
+                    // ...
+                } else {
+                    // Show permission request UI
+                    console.log('No registration token available. Request permission to generate one.');
+                    // ...
+                }
+            }).catch((err) => {
+                console.log('An error occurred while retrieving token. ', err);
+                // ...
+            });
+        });
+    } else if (permission === 'denied') {
+      // Permission denied, notifications cannot be sent
+      console.log('Notification permission denied.');
+    } else if (permission === 'default') {
+      // User dismissed the prompt, permission is unknown
+      console.log('Notification permission dismissed.');
+    }
+  });
+} else {
+  console.log('Notification API not supported in this browser.');
+}
+
+	});
+
+    </script>

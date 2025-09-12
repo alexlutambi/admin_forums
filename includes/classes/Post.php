@@ -157,8 +157,12 @@ class Post {
 
 			$num_iterations = 0; //Number of results checked (not necasserily posted)
 			$count = 1;
+$count_check = 0;
+
 
 			while($row = mysqli_fetch_array($data_query)) {
+				$count_check = $count_check + 1;
+
 				$id = $row['id'];
 				$body = $row['body'];
 				$added_by = $row['added_by'];
@@ -322,24 +326,63 @@ class Post {
 									<br>
 									<br>
 								</div>
-
+								
+								<div class='post-main-reaction-container'>
+								
 								<div class='newsfeedPostOptions'>
 									Comments($comments_check_num)&nbsp;&nbsp;&nbsp;
 									<iframe src='like.php?post_id=$id' scrolling='no'></iframe>
 								</div>
-
+								<button id='btn-post-notification-send-$id' post_id='$id' post_img='$imagePath' added_by='$added_by' body_message='$body' class='btn-post-notification-send-$id btn-post-notification-send info' >Send Notification</button>
 							</div>
+							<div id='post-notification-container-$id' class='post-notification-container-$id post-notification-container'>
+								</div>
+								</div>
 							<div class='post_comment' id='toggleComment$id' style='display:none;'>
+							$count_check 
 								<iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
-							</div>
-							<hr>";
+							</div>";
 				}
 
+				?>
+				<?php 
+				if($count_check == mysqli_num_rows($data_query)){
+					?>
+					<script>
+								$(document).ready(function() {
+	var btn_post_notification_send = document.getElementsByClassName('btn-post-notification-send');
+
+		console.log("total_values=>"+btn_post_notification_send.length);
+		
+      for(var s = 0; s < btn_post_notification_send.length; s++){
+       
+        btn_post_notification_send[s].addEventListener('click', function(){
+      var product_id = document.getElementById(this.id);
+var body_main = document.getElementById("body-main");
+	  
+var post_img = body_main.getAttribute("server_link") + "fundiForums/fundi_smarts/admin_forums/" + product_id.getAttribute("post_img");
+console.log("post_img=>"+post_img);
+var post_id = product_id.getAttribute("post_id");
+var body_message = product_id.getAttribute("body_message");
+	var fileToUpload = document.getElementById("fileToUpload");
+	var currentToken = fileToUpload.getAttribute("currentToken");
+console.log("currentToken=>"+currentToken);
+
+var user_details_left_right = document.getElementById("user_details_left_right");
+var admin_id = fileToUpload.getAttribute("admin_id");
+
+get_send_notification(get_details_message(admin_id, post_id), currentToken, post_id, post_img, body_message, product_id);
+       });
+      }
+	});
+					</script>
+					<?php
+				}
 				?>
 				<script>
 
 					$(document).ready(function() {
-
+	
 						$('#post<?php echo $id; ?>').on('click', function() {
 							bootbox.confirm("Are you sure you want to delete this post?", function(result) {
 
@@ -515,7 +558,6 @@ class Post {
 								<div class='post_profile_pic'>
 									<img src='$profile_pic' width='50'>
 								</div>
-
 								<div class='posted_by' style='color:#ACACAC;'>
 									<a href='profile.php?profile_username=$added_by'> $first_name $last_name </a> &nbsp;&nbsp;&nbsp;&nbsp;$time_message
 									$delete_button
