@@ -800,7 +800,7 @@ $status = $payment['status'];
     </div>
       </div>
       </div>
-        <img id="loading" class="hide-content" src="assets/images/icons/loading.gif">
+        <img id="loading" src="assets/images/icons/loading.gif">
       </div>
       <div role="tabpanel" class="tab-pane" id="messages_div">
         <?php  

@@ -18,8 +18,8 @@ for($i = 0; $i < count($login_object['token_add_hint']); $i++){
     $mteja_id = $login_object['token_add_hint'][$i]['mteja_id'];
   $total_new_token = $login_object['token_add_hint'][$i]['total_new_token'];
     
-       if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tbl_mteja_kazi_jumla WHERE mteja_id = '$mteja_id';")) > 0){
-       if(mysqli_query($conn, "UPDATE tbl_mteja_kazi_jumla SET total_token = '$total_new_token' WHERE mteja_id = '$mteja_id';")){
+     
+    if(mysqli_query($conn, "UPDATE tbl_mteja_kazi_jumla SET total_token = '$total_new_token' WHERE mteja_id = '$mteja_id';")){
                     
   
         $sql_image = "SELECT * FROM tbl_mteja_kazi_jumla WHERE mteja_id = '$mteja_id' ORDER BY mteja_id ASC;";		
@@ -48,38 +48,7 @@ for($i = 0; $i < count($login_object['token_add_hint']); $i++){
            $response_fundis[] = $response_fundi_data;
        
     }
-      }else{
-        //register tokens
- if(mysqli_query($conn, "INSERT INTO tbl_mteja_kazi_jumla(mteja_id, total_token) VALUES('$mteja_id', '$total_new_token');")){
-                    
-  
-        $sql_image = "SELECT * FROM tbl_mteja_kazi_jumla WHERE mteja_id = '$mteja_id' ORDER BY mteja_id ASC;";		
-             
-        $result_image = mysqli_query($conn, $sql_image);
-        
-        while($row_image_data=mysqli_fetch_array($result_image)){
-       
-                  $response_fundi_data = [
-            "status"=>"token_add_successfully",
-            "message"=>"token add successfully",
-           "mteja_id"=>$row_image_data[1], "total_token"=>$row_image_data[2]
-          ];
-       
-         $response_fundis[] = $response_fundi_data;
-       
-        }
-          //product likes total starts
-     
-    }else {
-        $response_fundi_data = [
-            "status"=>"token add_failed",
-            "message"=>"token add failed"
-        ];
 
-           $response_fundis[] = $response_fundi_data;
-       
-    }
-       }
     
 }
 

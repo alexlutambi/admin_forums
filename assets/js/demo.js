@@ -2,16 +2,52 @@ $(document).ready(function() {
 
 	console.log("demo loaded...");
 
+	var btn_all_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
+
+ for(var a = 0; a < btn_all_activate_deactivate_all.length; a++){
+    var btn_activate_deactivate_id = btn_all_activate_deactivate_all[a].id;
+      
+//console.log("details request by image");
+var fundi_list_container = document.getElementById(btn_activate_deactivate_id);
+fundi_list_container.addEventListener('click', function(){
+console.log("left_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var account_type = product_id.getAttribute("account_type");
+
+if(document.getElementsByClassName('activation-loading').length == 0){
+	if(account_type == "fundi"){
+		var fundi_id = product_id.getAttribute("fundi_id");
+var fundi_status = product_id.getAttribute("fundi_status");
+
+load_all_active_de_activate_fundi_data(account_type, fundi_status, fundi_id, product_id);
+	}else if(account_type == "duka"){
+		var duka_id = product_id.getAttribute("duka_id");
+var duka_status = product_id.getAttribute("duka_status");
+
+	load_all_active_de_activate_duka_data(account_type, duka_status, duka_id, product_id);	
+	}else if(account_type == "mteja"){
+			var mteja_id = product_id.getAttribute("mteja_id");
+var mteja_status = product_id.getAttribute("mteja_status");
+
+	load_all_active_de_activate_individual_data(account_type, mteja_status, mteja_id, product_id);	
+	}
+
+}
+
+
+})
+
+	}
+
 	var btn_default_password = document.getElementsByClassName('btn-default-password');
 
-	
       for(var s = 0; s < btn_default_password.length; s++){
        
         btn_default_password[s].addEventListener('click', function(){
       var product_id = document.getElementById(this.id);
 var account_type = product_id.getAttribute("account_type");
 var default_password_container = document.getElementById("default-password-container");
-//default password
+
 	if(account_type == "fundi"){
 		var fundi_id = product_id.getAttribute("fundi_id");
 get_user_set_default_password_alert(fundi_id, account_type, default_password_container, product_id);

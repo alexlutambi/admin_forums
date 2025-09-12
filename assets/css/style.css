@@ -231,9 +231,7 @@ textarea:focus {
 	display: inline;
 	font-size: 14px;
 }
-.hide-content{
-	display: none;
-}
+
 .profile_left {
 	top: -10px;
 	width: 17%;
@@ -340,9 +338,36 @@ color: #00A3DD;
 .deep_blue {
 	background-color: #0043f0;
 }
-.load-more-container{
-    width: 98%;
+.post-main-reaction-container{
+	  width: 98%;
     float: left;
+    margin-left: 1%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+	display: grid;
+    height: auto;
+    grid-auto-flow: column;
+    grid-gap: 2px;
+}
+.post-main-reaction-container button{
+	width: 13rem;
+    height: 30px;
+    float: right;
+    border-radius: 5px;
+    margin: 7px 0 0 7px;
+    border: none;
+    color: #fff;
+}
+.post-notification-container{
+	 width: 98%;
+    float: left;
+    margin-left: 1%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.load-more-container{
+    width: 68%;
+    float: right;
     margin-left: 1%;
     margin-right: 1%;
 }
