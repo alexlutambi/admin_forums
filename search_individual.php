@@ -55,7 +55,7 @@ else {
 
 					if($user_obj->isFriend($row['username'])) {
 						$user_obj->removeFriend($row['username']);
-						header("Location: http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+						header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 					}
 					else if($user_obj->didReceiveRequest($row['username'])) {
 						header("Location: requests.php");
@@ -65,7 +65,7 @@ else {
 					}
 					else {
 						$user_obj->sendRequest($row['username']);
-						header("Location: http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+						header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 					}
 
 				}

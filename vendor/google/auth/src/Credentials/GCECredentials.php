@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -256,7 +256,7 @@ class GCECredentials extends CredentialsLoader implements
      */
     public static function getTokenUri($serviceAccountIdentity = null)
     {
-        $base = 'http://' . self::METADATA_IP . '/computeMetadata/';
+        $base = 'https://' . self::METADATA_IP . '/computeMetadata/';
         $base .= self::TOKEN_URI_PATH;
 
         if ($serviceAccountIdentity) {
@@ -278,7 +278,7 @@ class GCECredentials extends CredentialsLoader implements
      */
     public static function getClientNameUri($serviceAccountIdentity = null)
     {
-        $base = 'http://' . self::METADATA_IP . '/computeMetadata/';
+        $base = 'https://' . self::METADATA_IP . '/computeMetadata/';
         $base .= self::CLIENT_ID_URI_PATH;
 
         if ($serviceAccountIdentity) {
@@ -301,7 +301,7 @@ class GCECredentials extends CredentialsLoader implements
      */
     private static function getIdTokenUri($serviceAccountIdentity = null)
     {
-        $base = 'http://' . self::METADATA_IP . '/computeMetadata/';
+        $base = 'https://' . self::METADATA_IP . '/computeMetadata/';
         $base .= self::ID_TOKEN_URI_PATH;
 
         if ($serviceAccountIdentity) {
@@ -322,7 +322,7 @@ class GCECredentials extends CredentialsLoader implements
      */
     private static function getProjectIdUri()
     {
-        $base = 'http://' . self::METADATA_IP . '/computeMetadata/';
+        $base = 'https://' . self::METADATA_IP . '/computeMetadata/';
 
         return $base . self::PROJECT_ID_URI_PATH;
     }
@@ -334,7 +334,7 @@ class GCECredentials extends CredentialsLoader implements
      */
     private static function getUniverseDomainUri()
     {
-        $base = 'http://' . self::METADATA_IP . '/computeMetadata/';
+        $base = 'https://' . self::METADATA_IP . '/computeMetadata/';
 
         return $base . self::UNIVERSE_DOMAIN_URI_PATH;
     }
@@ -363,7 +363,7 @@ class GCECredentials extends CredentialsLoader implements
         $httpHandler = $httpHandler
             ?: HttpHandlerFactory::build(HttpClientCache::getHttpClient());
 
-        $checkUri = 'http://' . self::METADATA_IP;
+        $checkUri = 'https://' . self::METADATA_IP;
         for ($i = 1; $i <= self::MAX_COMPUTE_PING_TRIES; $i++) {
             try {
                 // Comment from: oauth2client/client.py

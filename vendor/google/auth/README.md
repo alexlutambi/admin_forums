@@ -10,7 +10,7 @@ authorization and authentication with Google APIs.
 ### Installing via Composer
 
 The recommended way to install the google auth library is through
-[Composer](http://getcomposer.org).
+[Composer](https://getcomposer.org).
 
 ```bash
 # Install Composer
@@ -347,14 +347,14 @@ See [CONTRIBUTING][contributing].
 Please
 [report bugs at the project on Github](https://github.com/google/google-auth-library-php/issues). Don't
 hesitate to
-[ask questions](http://stackoverflow.com/questions/tagged/google-auth-library-php)
-about the client or APIs on [StackOverflow](http://stackoverflow.com).
+[ask questions](https://stackoverflow.com/questions/tagged/google-auth-library-php)
+about the client or APIs on [StackOverflow](https://stackoverflow.com).
 
 [google-apis-php-client]: https://github.com/google/google-api-php-client
 [application default credentials]: https://cloud.google.com/docs/authentication/application-default-credentials
 [contributing]: https://github.com/google/google-auth-library-php/tree/main/.github/CONTRIBUTING.md
 [copying]: https://github.com/google/google-auth-library-php/tree/main/COPYING
 [Guzzle]: https://github.com/guzzle/guzzle
-[Guzzle 5]: http://docs.guzzlephp.org/en/5.3
+[Guzzle 5]: https://docs.guzzlephp.org/en/5.3
 [developer console]: https://console.developers.google.com
 [set-up-adc]: https://cloud.google.com/docs/authentication/provide-credentials-adc

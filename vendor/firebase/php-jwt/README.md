@@ -31,8 +31,8 @@ use Firebase\JWT\Key;
 
 $key = 'example_key';
 $payload = [
-    'iss' => 'http://example.org',
-    'aud' => 'http://example.com',
+    'iss' => 'https://example.org',
+    'aud' => 'https://example.com',
     'iat' => 1356999524,
     'nbf' => 1357000000
 ];
@@ -64,7 +64,7 @@ $decoded_array = (array) $decoded;
  * the signing and verifying servers. It is recommended that this leeway should
  * not be bigger than a few minutes.
  *
- * Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
+ * Source: https://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
  */
 JWT::$leeway = 60; // $leeway in seconds
 $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
@@ -82,8 +82,8 @@ use Firebase\JWT\JWT;
 
 $key = 'example_key';
 $payload = [
-    'iss' => 'http://example.org',
-    'aud' => 'http://example.com',
+    'iss' => 'https://example.org',
+    'aud' => 'https://example.com',
     'iat' => 1356999524,
     'nbf' => 1357000000
 ];
@@ -422,4 +422,4 @@ and not single quotes `''` in order to properly interpret the escaped characters
 
 License
 -------
-[3-Clause BSD](http://opensource.org/licenses/BSD-3-Clause).
+[3-Clause BSD](https://opensource.org/licenses/BSD-3-Clause).
