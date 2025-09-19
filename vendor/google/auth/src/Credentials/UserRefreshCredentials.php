@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +32,7 @@ use LogicException;
  * 'gcloud auth login' saves a file with these contents in well known
  * location
  *
- * @see [Application Default Credentials](https://goo.gl/mkAHpZ)
+ * @see [Application Default Credentials](http://goo.gl/mkAHpZ)
  */
 class UserRefreshCredentials extends CredentialsLoader implements GetQuotaProjectInterface
 {

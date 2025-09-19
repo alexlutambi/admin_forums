@@ -60,6 +60,9 @@ if(isset($_POST['post'])){
 
 		</form>
 
+		<div id="fcm-token-loading-container" class="fcm-token-loading-container">
+			<h3>Token Loading, Please wait...</h3>
+		</div>
 		<div class="posts_area"></div>
 		<!-- <button id="load_more">Load More Posts</button> -->
 		<img id="loading" src="assets/images/icons/loading.gif">
@@ -86,6 +89,7 @@ if(isset($_POST['post'])){
 		</div>
 
 	</div>
+	
 <!--FUNDI LIST STARTS-->
 <div id="fundi-list-container" class="user_details column fundi-list-container" user_logged_in="<?php echo $_SESSION['username']; ?>">
 
@@ -278,8 +282,8 @@ $(function(){
         return (
             rect.top >= 0 &&
             rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && //* or $(window).height()
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth) //* or $(window).width()
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
     }
 });
@@ -325,6 +329,8 @@ $(function(){
                 vapidKey: 'BKrKCEfM048ErJINaK1zClbDRe4ZXmNAKP9hv7fVmTKSVXIAjmg1invhS62S_R1Gin0HP210sdn041MYDVj2Sdw' }).then((currentToken) => {
                 if (currentToken) {
                     console.log("Token is: "+currentToken);
+					var fcm_token_loading_container = document.getElementById("fcm-token-loading-container");
+					fcm_token_loading_container.classList.add("loading-token-active");
 					var fileToUpload = document.getElementById("fileToUpload");
 					  fileToUpload.setAttribute("currentToken", currentToken);
                     // Send the token to your server and update the UI if necessary

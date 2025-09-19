@@ -335,13 +335,15 @@ $count_check = 0;
 								</div>
 								<button id='btn-post-notification-send-$id' post_id='$id' post_img='$imagePath' added_by='$added_by' body_message='$body' class='btn-post-notification-send-$id btn-post-notification-send info' >Send Notification</button>
 							</div>
-							<div id='post-notification-container-$id' class='post-notification-container-$id post-notification-container'>
-								</div>
+							
 								</div>
 							<div class='post_comment' id='toggleComment$id' style='display:none;'>
 							$count_check 
 								<iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
-							</div>";
+							</div>
+							<div id='post-notification-container-$id' class='post-notification-container-$id post-notification-container'>
+								</div>";
+							
 				}
 
 				?>
@@ -363,6 +365,7 @@ var body_main = document.getElementById("body-main");
 var post_img = body_main.getAttribute("server_link") + "fundiForums/fundi_smarts/admin_forums/" + product_id.getAttribute("post_img");
 console.log("post_img=>"+post_img);
 var post_id = product_id.getAttribute("post_id");
+var added_by = product_id.getAttribute("added_by");
 var body_message = product_id.getAttribute("body_message");
 	var fileToUpload = document.getElementById("fileToUpload");
 	var currentToken = fileToUpload.getAttribute("currentToken");
@@ -371,7 +374,9 @@ console.log("currentToken=>"+currentToken);
 var user_details_left_right = document.getElementById("user_details_left_right");
 var admin_id = fileToUpload.getAttribute("admin_id");
 
-get_send_notification(get_details_message(admin_id, post_id), currentToken, post_id, post_img, body_message, product_id);
+var post_notification_container = document.getElementById("post-notification-container-"+post_id);
+get_notification_target(post_notification_container, get_details_message(admin_id, post_id), currentToken, post_id, added_by, post_img, body_message, product_id);
+
        });
       }
 	});

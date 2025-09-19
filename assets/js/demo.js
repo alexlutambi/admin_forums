@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
 	console.log("demo loaded...");
+    // Example: Show spinner on button click
 
 	var btn_all_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
 
@@ -2021,7 +2022,7 @@ output += '" class="btn btn-sm btn-danger complete-descount-default-password com
   output += '</div>';
   return output;
 }
-function get_details_message(admin_id, post_id){
+function get_details_message(admin_id, post_id, response_target_forms){
 	 var details_messages = [];
 
 var details_message = {};
@@ -2030,11 +2031,89 @@ details_message["sender_id"] = admin_id;
 details_message["receiver_id"] = admin_id;
 details_message["product_id"] = post_id;
 details_message["notification_action"] = "admin_notify";
-details_message["user_status"] = "admin";
+details_message["user_status"] = response_target_forms;
 details_messages.push(details_message);
 
 return JSON.stringify(details_messages);
 }
+
+
+function get_target_forms(post_id){
+ var target_forms = [];
+
+var target_form = {};
+target_form["response_form_selected_form_mafundi"] =get_notification_target_fundi_form_complete(document.getElementById("mafundi-form-li-"+post_id).getAttribute("response_form_selected_form_mafundi"));
+target_form["response_form_selected_form_maduka"] = get_notification_target_duka_form_complete(document.getElementById("maduka-form-li-"+post_id).getAttribute("response_form_selected_form_maduka"));
+target_form["response_form_selected_form_individual"] = get_notification_target_individual_form_complete(document.getElementById("individual-form-li-"+post_id).getAttribute("response_form_selected_form_individual"));
+target_form["response_form_selected_form_all"] = get_notification_target_all_form_complete(document.getElementById("all-form-li-"+post_id).getAttribute("response_form_selected_form_all"));
+target_forms.push(target_form);
+
+return JSON.stringify(target_forms);
+}
+
+function get_notification_target_fundi_form_complete(response_form_selected_form_mafundi){
+console.log("response_form_selected_form_mafundi=>"+response_form_selected_form_mafundi);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_mafundi));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+
+}
+return tamarind_shops;
+ 
+	}
+	function get_notification_target_duka_form_complete(response_form_selected_form_maduka){
+console.log("response_form_selected_form_maduka=>"+response_form_selected_form_maduka);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_maduka));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);       
+}
+return tamarind_shops;
+ 
+	}
+	function get_notification_target_individual_form_complete(response_form_selected_form_individual){
+console.log("response_form_selected_form_individual=>"+response_form_selected_form_individual);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_individual));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+
+}
+return tamarind_shops;
+ 
+	}
+	function get_notification_target_all_form_complete(response_form_selected_form_all){
+console.log("response_form_selected_form_all=>"+response_form_selected_form_all);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_all));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+  var tamarind_shop = {};
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+}
+return tamarind_shops;
+ 
+	}
 function get_send_notification(details_message, currentToken, post_id, post_img, body_message, container){
 	get_small_spinner(container);
 	var next_page = 1;
@@ -2136,6 +2215,959 @@ output += '" class="btn btn-sm btn-danger complete-descount-default-password com
 
     return output;
  }
+
+  function get_notification_target(add_shop_location, details_message, currentToken, post_id, added_by, post_img, body_message, container){
+    add_shop_location.innerHTML = '';
+  var li_success_list = selectedNotificationTargetLink(details_message, currentToken, post_id, added_by, post_img, body_message);
+  add_shop_location.innerHTML = li_success_list;
+  add_shop_location.style.display = 'online';
+
+var btn_post_notification_complete = document.getElementsByClassName('btn-post-notification-complete-'+post_id);
+
+ for(var a = 0; a < btn_post_notification_complete.length; a++){
+    var btn_post_notification_complete_id = btn_post_notification_complete[a].id;
+     
+//console.log("details request by image");
+var btn_post_notification_complete_container = document.getElementById(btn_post_notification_complete_id);
+btn_post_notification_complete_container.addEventListener('click', function(){
+console.log("mafundi_noti_complete_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var post_id = product_id.getAttribute("post_id");
+var post_img = product_id.getAttribute("post_img");
+var body_message = product_id.getAttribute("body_message");
+
+var currentToken = document.getElementById("fileToUpload").getAttribute("currentToken");
+
+var post_notification_container = document.getElementById("post-notification-container-"+post_id);
+
+get_send_notification(get_details_message(0, post_id, get_target_forms(post_id)), currentToken, post_id, post_img, body_message, post_notification_container);
+
+})
+ }
+
+  var mafundi_form_li = document.getElementsByClassName('mafundi-form-li-'+post_id);
+
+ for(var a = 0; a < mafundi_form_li.length; a++){
+    var mafundi_form_li_id = mafundi_form_li[a].id;
+     
+//console.log("details request by image");
+var mafundi_form_li_container = document.getElementById(mafundi_form_li_id);
+mafundi_form_li_container.addEventListener('click', function(){
+console.log("mafundi_noti_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var post_id = product_id.getAttribute("post_id");
+console.log("post_id=>"+post_id);
+
+const target_user_selected_fundi = document.getElementById('target-user-selected-fundi-'+post_id);
+if(document.getElementsByClassName('target-user-selected-fundi-'+post_id+' hide-ul').length >0){
+target_user_selected_fundi.classList.remove("hide-ul");
+target_user_selected_fundi.classList.add("show-ul");
+var response_form_mafundi = product_id.getAttribute("response_form_mafundi");
+console.log("response_form_mafundi=>"+response_form_mafundi);
+
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+get_notification_target_fundi_form(post_id, notify_selected_option, response_form_mafundi);
+
+}else if(document.getElementsByClassName('target-user-selected-fundi-'+post_id+' show-ul').length >0){
+target_user_selected_fundi.classList.add("hide-ul");
+target_user_selected_fundi.classList.remove("show-ul");
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+if(document.getElementsByClassName('fundi-form-active-'+post_id).length >0){
+notify_selected_option.innerHTML = '';
+	product_id.setAttribute("response_form_selected_form_mafundi", encodeURIComponent(JSON.stringify([])));
+
+}
+
+}
+
+})
+
+	}
+   
+
+	var maduka_form_li = document.getElementsByClassName('maduka-form-li-'+post_id);
+
+ for(var a = 0; a < maduka_form_li.length; a++){
+    var maduka_form_li_id = maduka_form_li[a].id;
+     
+//console.log("details request by image");
+var maduka_form_li_container = document.getElementById(maduka_form_li_id);
+maduka_form_li_container.addEventListener('click', function(){
+console.log("maduka_noti_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var post_id = product_id.getAttribute("post_id");
+
+const target_user_selected_duka = document.getElementById('target-user-selected-duka-'+post_id);
+if(document.getElementsByClassName('target-user-selected-duka-'+post_id+' hide-ul').length >0){
+target_user_selected_duka.classList.remove("hide-ul");
+target_user_selected_duka.classList.add("show-ul");
+var response_form_maduka = product_id.getAttribute("response_form_maduka");
+console.log("response_form_maduka=>"+response_form_maduka);
+
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+get_notification_target_duka_form(post_id, notify_selected_option, response_form_maduka);
+
+}else if(document.getElementsByClassName('target-user-selected-duka-'+post_id+' show-ul').length >0){
+target_user_selected_duka.classList.add("hide-ul");
+target_user_selected_duka.classList.remove("show-ul");
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+if(document.getElementsByClassName('fundi-form-active-'+post_id).length >0){
+notify_selected_option.innerHTML = '';
+	product_id.setAttribute("response_form_selected_form_maduka", encodeURIComponent(JSON.stringify([])));
+
+}
+
+}
+
+})
+
+	}
+	var individual_form_li = document.getElementsByClassName('individual-form-li-'+post_id);
+
+ for(var a = 0; a < individual_form_li.length; a++){
+    var individual_form_li_id = individual_form_li[a].id;
+     
+//console.log("details request by image");
+var individual_form_li_container = document.getElementById(individual_form_li_id);
+individual_form_li_container.addEventListener('click', function(){
+console.log("individual_noti_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var post_id = product_id.getAttribute("post_id");
+
+const target_user_selected_individual = document.getElementById('target-user-selected-individual-'+post_id);
+if(document.getElementsByClassName('target-user-selected-individual-'+post_id+' hide-ul').length >0){
+target_user_selected_individual.classList.remove("hide-ul");
+target_user_selected_individual.classList.add("show-ul");
+var response_form_individual = product_id.getAttribute("response_form_individual");
+console.log("response_form_individual=>"+response_form_individual);
+
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+get_notification_target_individual_form(post_id, notify_selected_option, response_form_individual);
+
+}else if(document.getElementsByClassName('target-user-selected-individual-'+post_id+' show-ul').length >0){
+target_user_selected_individual.classList.add("hide-ul");
+target_user_selected_individual.classList.remove("show-ul");
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+if(document.getElementsByClassName('individual-form-active-'+post_id).length >0){
+notify_selected_option.innerHTML = '';
+	product_id.setAttribute("response_form_selected_form_individual", encodeURIComponent(JSON.stringify([])));
+
+}
+
+}
+
+})
+
+	}
+	var all_form_li = document.getElementsByClassName('all-form-li-'+post_id);
+
+ for(var a = 0; a < all_form_li.length; a++){
+    var all_form_li_id = all_form_li[a].id;
+     
+//console.log("details request by image");
+var all_form_li_container = document.getElementById(all_form_li_id);
+all_form_li_container.addEventListener('click', function(){
+console.log("all_noti_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var post_id = product_id.getAttribute("post_id");
+const target_user_selected_all = document.getElementById('target-user-selected-all-'+post_id);
+if(document.getElementsByClassName('target-user-selected-all-'+post_id+' hide-ul').length >0){
+target_user_selected_all.classList.remove("hide-ul");
+target_user_selected_all.classList.add("show-ul");
+var response_form_all = product_id.getAttribute("response_form_all");
+console.log("response_form_all=>"+response_form_all);
+
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+get_notification_target_all_form(post_id, notify_selected_option, response_form_all);
+
+}else if(document.getElementsByClassName('target-user-selected-all-'+post_id+' show-ul').length >0){
+target_user_selected_all.classList.add("hide-ul");
+target_user_selected_all.classList.remove("show-ul");
+const notify_selected_option = document.getElementById('notify-selected-option-'+post_id);
+if(document.getElementsByClassName('all-form-active-'+post_id).length >0){
+notify_selected_option.innerHTML = '';
+	product_id.setAttribute("response_form_selected_form_all", encodeURIComponent(JSON.stringify([])));
+
+}
+
+}
+
+})
+
+	}
+    }
+
+
+    function selectedNotificationTargetLink(details_message, currentToken, post_id, added_by, post_img, body_message){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+	//NOTIFICATION TARGET USER CONTAINER STARTS
+	
+	 output += '<div id="target-user-box-';
+	  output += post_id;
+	  output += '" class="target-user-box target-user-box-';
+	  	  output += post_id;
+	  output += ' target-user-box-btn target-user-box-btn-';
+	    output += post_id;
+	   output += ' notify-box notify-box-btn">';
+			output += '<h2>Target User</h2>';
+			output += '<ul id="target-user-ul" class="target-user-ul">';
+				output += '<li id="mafundi-form-li-';
+				output += post_id;
+				output += '" post_id="';
+				output += post_id;
+				output += '" class="mafundi-form-li-';
+				output += post_id;
+				output += ' mafundi-form-li" response_form_mafundi= "';
+  output += encodeURIComponent(JSON.stringify(get_decode_fundi_forms()));
+  output += '" response_form_selected_form_mafundi="';
+    output += encodeURIComponent(JSON.stringify([]));
+  output += '"><span>1</span>Mafundi<b id="target-user-selected-fundi-';
+  		output += post_id;
+  output += '" class="target-user-selected-fundi-';
+  output += post_id;
+  output += ' target-user-selected-fundi hide-ul"><i class="fa fa-check"></i></b></li>';
+				output += '<li id="maduka-form-li-';
+				output += post_id;
+				output += '" post_id="';
+				output += post_id;
+				output += '" class="maduka-form-li-';
+				output += post_id;
+				output += ' maduka-form-li" response_form_maduka= "';
+  output += encodeURIComponent(JSON.stringify(get_decode_duka_forms()));
+  output += '" response_form_selected_form_maduka="';
+    output += encodeURIComponent(JSON.stringify([]));
+  output += '"><span>2</span>Maduka<b id="target-user-selected-duka-';
+  output += post_id;
+    output += '" class="target-user-selected-duka-';
+	  output += post_id;
+	output += ' target-user-selected-duka hide-ul"><i class="fa fa-check"></i></b></li>';
+				output += '<li id="individual-form-li-';
+				output += post_id;
+				output += '" post_id="';
+				output += post_id;
+				output += '" class="individual-form-li-';
+				output += post_id;
+				output += ' individual-form-li" response_form_individual= "';
+  output += encodeURIComponent(JSON.stringify(get_decode_individual_forms()));
+  output += '" response_form_selected_form_individual="';
+  output += encodeURIComponent(JSON.stringify([]));
+    output += '"><span>3</span>Individual<b id="target-user-selected-individual-';
+		output += post_id;
+	output += '" class="target-user-selected-individual-';
+		output += post_id;
+	output += ' target-user-selected-individual hide-ul"><i class="fa fa-check"></i></b></li>';
+					output += '<li id="all-form-li-';
+						output += post_id;
+					output += '" post_id="';
+					output += post_id;
+					output += '" class="all-form-li-';
+					output += post_id;
+					output += ' all-form-li" response_form_all= "';
+  output += encodeURIComponent(JSON.stringify(get_decode_all_forms()));
+  output += '" response_form_selected_form_all="';
+    output += encodeURIComponent(JSON.stringify([]));
+    output += '"><span>4</span>All<b id="target-user-selected-all-';
+	output += post_id;
+    output += '" class="target-user-selected-all-';
+		output += post_id;
+	output += ' target-user-selected-all hide-ul"><i class="fa fa-check"></i></b></li>';
+			output += '</ul>';
+		 output += '</div>';
+		 	output += '<div id="notify-selected-option-';
+				output += post_id;
+				output += '" class="notify-selected-option-';
+					output += post_id;
+				output += ' notify-selected-option"></div>';
+			output += '<button id="btn-post-notification-complete-';
+			output += post_id;
+			output += '" post_id="';
+			output += post_id;
+			output += '" post_img="';
+			output += post_img;
+			output += '" added_by="';
+			output += added_by;
+			output += '" body_message="';
+			output += body_message;
+			output += '" class="btn-post-notification-complete-';
+			output += post_id;
+			output += ' btn-post-notification-complete success" >Complete</button>';
+		 // NOTIFICATION TARGET USER CONTAINER ENDS
+		
+    return output;
+ }
+
+ 
+ function get_notification_target_fundi_form(post_id, notify_selected_option, response_form_mafundi){
+    notify_selected_option.innerHTML = '';
+  var li_success_list = selectedNotificationTargetFundiFormLink(post_id, response_form_mafundi);
+  notify_selected_option.innerHTML = li_success_list;
+  notify_selected_option.style.display = 'online';
+
+   var target_user_selected_fundi_form_li = document.getElementsByClassName('target-user-selected-fundi-form-li-'+post_id);
+
+ for(var a = 0; a < target_user_selected_fundi_form_li.length; a++){
+    var target_user_selected_fundi_form_li_id = target_user_selected_fundi_form_li[a].id;
+     
+//console.log("details request by image");
+var target_user_selected_fundi_form_li_container = document.getElementById(target_user_selected_fundi_form_li_id);
+target_user_selected_fundi_form_li_container.addEventListener('click', function(){
+console.log("mafundi_noti_form_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var form_id = product_id.getAttribute("form_id");
+var post_id = product_id.getAttribute("post_id");
+var form_name = product_id.getAttribute("form_name");
+console.log("form_name=>"+form_name);
+
+const target_user_selected_fundi = document.getElementById('target-user-selected-fundi-form-'+post_id+'-'+form_id);
+
+if(document.getElementsByClassName('target-user-selected-fundi-form-'+post_id+'-'+form_id+' hide-ul').length >0){
+target_user_selected_fundi.classList.remove("hide-ul");
+target_user_selected_fundi.classList.add("show-ul");
+
+const mafundi_form_li = document.getElementById('mafundi-form-li-'+post_id);
+var response_form_selected_form_mafundi = mafundi_form_li.getAttribute("response_form_selected_form_mafundi");
+console.log("response_form_selected_form_mafundi=>"+response_form_selected_form_mafundi);
+
+mafundi_form_li.setAttribute("response_form_selected_form_mafundi", encodeURIComponent(JSON.stringify(get_notification_target_fundi_form_add(form_name, response_form_selected_form_mafundi))));
+
+}else if(document.getElementsByClassName('target-user-selected-fundi-form-'+post_id+'-'+form_id+' show-ul').length >0){
+target_user_selected_fundi.classList.add("hide-ul");
+target_user_selected_fundi.classList.remove("show-ul");
+const mafundi_form_li = document.getElementById('mafundi-form-li-'+post_id);
+var response_form_selected_form_mafundi = mafundi_form_li.getAttribute("response_form_selected_form_mafundi");
+console.log("response_form_selected_form_mafundi=>"+response_form_selected_form_mafundi);
+
+mafundi_form_li.setAttribute("response_form_selected_form_mafundi", encodeURIComponent(JSON.stringify(get_notification_target_fundi_form_remove(form_name, response_form_selected_form_mafundi))));
+
+}
+
+})
+
+	}
+    }
+
+	function get_notification_target_duka_form(post_id, notify_selected_option, response_form_maduka){
+    notify_selected_option.innerHTML = '';
+  var li_success_list = selectedNotificationTargetDukaFormLink(post_id, response_form_maduka);
+  notify_selected_option.innerHTML = li_success_list;
+  notify_selected_option.style.display = 'online';
+
+   var target_user_selected_duka_form_li = document.getElementsByClassName('target-user-selected-duka-form-li-'+post_id);
+
+ for(var a = 0; a < target_user_selected_duka_form_li.length; a++){
+    var target_user_selected_duka_form_li_id = target_user_selected_duka_form_li[a].id;
+     
+//console.log("details request by image");
+var target_user_selected_duka_form_li_container = document.getElementById(target_user_selected_duka_form_li_id);
+target_user_selected_duka_form_li_container.addEventListener('click', function(){
+console.log("maduka_noti_form_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var form_id = product_id.getAttribute("form_id");
+var form_name = product_id.getAttribute("form_name");
+console.log("form_name=>"+form_name);
+
+const target_user_selected_duka = document.getElementById('target-user-selected-duka-form-'+post_id+'-'+form_id);
+if(document.getElementsByClassName('target-user-selected-duka-form-'+post_id+'-'+form_id+' hide-ul').length >0){
+target_user_selected_duka.classList.remove("hide-ul");
+target_user_selected_duka.classList.add("show-ul");
+
+const maduka_form_li = document.getElementById('maduka-form-li-'+post_id);
+var response_form_selected_form_maduka = maduka_form_li.getAttribute("response_form_selected_form_maduka");
+console.log("response_form_selected_form_maduka=>"+response_form_selected_form_maduka);
+
+maduka_form_li.setAttribute("response_form_selected_form_maduka", encodeURIComponent(JSON.stringify(get_notification_target_duka_form_add(form_name, response_form_selected_form_maduka))));
+
+}else if(document.getElementsByClassName('target-user-selected-duka-form-'+post_id+'-'+form_id+' show-ul').length >0){
+target_user_selected_duka.classList.add("hide-ul");
+target_user_selected_duka.classList.remove("show-ul");
+const maduka_form_li = document.getElementById('maduka-form-li-'+post_id);
+var response_form_selected_form_maduka = maduka_form_li.getAttribute("response_form_selected_form_maduka");
+console.log("response_form_selected_form_maduka=>"+response_form_selected_form_maduka);
+
+maduka_form_li.setAttribute("response_form_selected_form_maduka", encodeURIComponent(JSON.stringify(get_notification_target_duka_form_remove(form_name, response_form_selected_form_maduka))));
+
+}
+
+})
+
+	}
+    }
+	function get_notification_target_individual_form(post_id, notify_selected_option, response_form_individual){
+    notify_selected_option.innerHTML = '';
+  var li_success_list = selectedNotificationTargetIndividualFormLink(post_id, response_form_individual);
+  notify_selected_option.innerHTML = li_success_list;
+  notify_selected_option.style.display = 'online';
+
+   var target_user_selected_individual_form_li = document.getElementsByClassName('target-user-selected-individual-form-li-'+post_id);
+
+ for(var a = 0; a < target_user_selected_individual_form_li.length; a++){
+    var target_user_selected_individual_form_li_id = target_user_selected_individual_form_li[a].id;
+     
+//console.log("details request by image");
+var target_user_selected_individual_form_li_container = document.getElementById(target_user_selected_individual_form_li_id);
+target_user_selected_individual_form_li_container.addEventListener('click', function(){
+console.log("individual_noti_form_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var form_id = product_id.getAttribute("form_id");
+var form_name = product_id.getAttribute("form_name");
+var post_id = product_id.getAttribute("post_id");
+console.log("form_name=>"+form_name+" : post_id=>"+post_id);
+
+const target_user_selected_individual = document.getElementById('target-user-selected-individual-form-'+post_id+'-'+form_id);
+if(document.getElementsByClassName('target-user-selected-individual-form-'+post_id+'-'+form_id+' hide-ul').length >0){
+target_user_selected_individual.classList.remove("hide-ul");
+target_user_selected_individual.classList.add("show-ul");
+
+const individual_form_li = document.getElementById('individual-form-li-'+post_id);
+var response_form_selected_form_individual = individual_form_li.getAttribute("response_form_selected_form_individual");
+console.log("response_form_selected_form_individual=>"+response_form_selected_form_individual);
+
+individual_form_li.setAttribute("response_form_selected_form_individual", encodeURIComponent(JSON.stringify(get_notification_target_individual_form_add(form_name, response_form_selected_form_individual))));
+
+}else if(document.getElementsByClassName('target-user-selected-individual-form-'+post_id+'-'+form_id+' show-ul').length >0){
+target_user_selected_individual.classList.add("hide-ul");
+target_user_selected_individual.classList.remove("show-ul");
+const individual_form_li = document.getElementById('individual-form-li-'+post_id);
+var response_form_selected_form_individual = individual_form_li.getAttribute("response_form_selected_form_individual");
+console.log("response_form_selected_form_individual=>"+response_form_selected_form_individual);
+
+individual_form_li.setAttribute("response_form_selected_form_individual", encodeURIComponent(JSON.stringify(get_notification_target_individual_form_remove(form_name, response_form_selected_form_individual))));
+
+}
+
+})
+
+	}
+    }
+	function get_notification_target_all_form(post_id, notify_selected_option, response_form_all){
+		console.log("response_form_all=>"+response_form_all);
+    notify_selected_option.innerHTML = '';
+  var li_success_list = selectedNotificationTargetAllFormLink(post_id, response_form_all);
+  notify_selected_option.innerHTML = li_success_list;
+  notify_selected_option.style.display = 'online';
+
+   var target_user_selected_all_form_li = document.getElementsByClassName('target-user-selected-all-form-li-'+post_id);
+
+ for(var a = 0; a < target_user_selected_all_form_li.length; a++){
+    var target_user_selected_all_form_li_id = target_user_selected_all_form_li[a].id;
+     
+//console.log("details request by image");
+var target_user_selected_all_form_li_container = document.getElementById(target_user_selected_all_form_li_id);
+target_user_selected_all_form_li_container.addEventListener('click', function(){
+console.log("all_noti_form_clicked id=>"+this.id);
+var product_id = document.getElementById(this.id);
+var form_id = product_id.getAttribute("form_id");
+var post_id = product_id.getAttribute("post_id");
+var form_name = product_id.getAttribute("form_name");
+console.log("form_name=>"+form_name+" post_id=>"+post_id);
+
+const target_user_selected_all = document.getElementById('target-user-selected-all-form-'+post_id+'-'+form_id);
+if(document.getElementsByClassName('target-user-selected-all-form'+post_id+'-'+form_id+' hide-ul').length >0){
+target_user_selected_all.classList.remove("hide-ul");
+target_user_selected_all.classList.add("show-ul");
+
+const all_form_li = document.getElementById('all-form-li-'+post_id);
+var response_form_selected_form_all = all_form_li.getAttribute("response_form_selected_form_all");
+console.log("response_form_selected_form_all=>"+response_form_selected_form_all);
+
+all_form_li.setAttribute("response_form_selected_form_all", encodeURIComponent(JSON.stringify(get_notification_target_all_form_add(form_name, response_form_selected_form_all))));
+
+}else if(document.getElementsByClassName('target-user-selected-all-form-'+post_id+'-'+form_id+' show-ul').length >0){
+target_user_selected_all.classList.add("hide-ul");
+target_user_selected_all.classList.remove("show-ul");
+const all_form_li = document.getElementById('all-form-li-'+post_id);
+var response_form_selected_form_all = all_form_li.getAttribute("response_form_selected_form_all");
+console.log("response_form_selected_form_all=>"+response_form_selected_form_all);
+
+all_form_li.setAttribute("response_form_selected_form_all", encodeURIComponent(JSON.stringify(get_notification_target_all_form_remove(form_name, response_form_selected_form_all))));
+
+}
+
+})
+
+	}
+    }
+
+	function get_notification_target_fundi_form_add(form_name, response_form_selected_form_mafundi){
+console.log("form_name=>"+form_name+"response_form_selected_form_mafundi=>"+response_form_selected_form_mafundi);
+
+var tamarind_shops = [];
+  var tamarind_shop = {};
+  tamarind_shop['form_name'] = form_name;
+  tamarind_shops.push(tamarind_shop); 
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_mafundi));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);        
+}
+return tamarind_shops;
+ 
+	}
+
+	function get_notification_target_duka_form_add(form_name, response_form_selected_form_maduka){
+console.log("form_name=>"+form_name+"response_form_selected_form_maduka=>"+response_form_selected_form_maduka);
+
+var tamarind_shops = [];
+  var tamarind_shop = {};
+  tamarind_shop['form_name'] = form_name;
+  tamarind_shops.push(tamarind_shop); 
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_maduka));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);        
+}
+return tamarind_shops;
+ 
+	}
+
+		function get_notification_target_individual_form_add(form_name, response_form_selected_form_individual){
+console.log("form_name=>"+form_name+"response_form_selected_form_individual=>"+response_form_selected_form_individual);
+
+var tamarind_shops = [];
+  var tamarind_shop = {};
+  tamarind_shop['form_name'] = form_name;
+  tamarind_shops.push(tamarind_shop); 
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_individual));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);        
+}
+return tamarind_shops;
+ 
+	}
+		function get_notification_target_all_form_add(form_name, response_form_selected_form_all){
+console.log("form_name=>"+form_name+"response_form_selected_form_all=>"+response_form_selected_form_all);
+
+var tamarind_shops = [];
+  var tamarind_shop = {};
+  tamarind_shop['form_name'] = form_name;
+  tamarind_shops.push(tamarind_shop); 
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_all));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);        
+}
+return tamarind_shops;
+ 
+	}
+	function get_notification_target_fundi_form_remove(form_name, response_form_selected_form_mafundi){
+console.log("form_name=>"+form_name+"response_form_selected_form_mafundi=>"+response_form_selected_form_mafundi);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_mafundi));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  if(json_form_mafundi[i].form_name != form_name){
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+  }   
+}
+return tamarind_shops;
+ 
+	}
+
+	function get_notification_target_duka_form_remove(form_name, response_form_selected_form_maduka){
+console.log("form_name=>"+form_name+"response_form_selected_form_maduka=>"+response_form_selected_form_maduka);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_maduka));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  if(json_form_mafundi[i].form_name != form_name){
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+  }   
+}
+return tamarind_shops;
+ 
+	}
+	function get_notification_target_individual_form_remove(form_name, response_form_selected_form_individual){
+console.log("form_name=>"+form_name+"response_form_selected_form_individual=>"+response_form_selected_form_individual);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_individual));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  if(json_form_mafundi[i].form_name != form_name){
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+  }   
+}
+return tamarind_shops;
+ 
+	}
+
+	function get_notification_target_all_form_remove(form_name, response_form_selected_form_all){
+console.log("form_name=>"+form_name+"response_form_selected_form_all=>"+response_form_selected_form_all);
+
+var tamarind_shops = [];
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_selected_form_all));
+	 
+for(var i = 0; i < json_form_mafundi.length; i++) {
+
+  var tamarind_shop = {};
+  
+  if(json_form_mafundi[i].form_name != form_name){
+  tamarind_shop['form_name'] = json_form_mafundi[i].form_name;
+  tamarind_shops.push(tamarind_shop);     
+  }   
+}
+return tamarind_shops;
+ 
+	}
+    function selectedNotificationTargetFundiFormLink(post_id, response_form_mafundi){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+     //NOTIFICATION TARGET FORM CONTAINER STARTS
+	 var json_form_mafundi = JSON.parse(decodeURIComponent(response_form_mafundi));
+	  output += '<div id="notify-box-';
+	 output += post_id; 
+	  output += '" class="notify-box notify-box-';
+	  output += post_id; 
+	  output += ' fundi-form-active-';
+	  output += post_id; 
+	    output += ' notify-box-btn-';
+	  output += post_id; 
+	   output += ' notify-box-btn">';
+			output += '<h2>Fundi Target Form</h2>';
+			
+			output += '<ul id="notify-ul-';
+			 output += post_id;
+			output += '" class="notify-ul-';
+			 output += post_id;
+			output += ' notify-ul">';
+for(var i = 1; i < json_form_mafundi.length; i++) {
+
+				output += '<li id="target-user-selected-fundi-form-li-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += '" post_id="';
+				output += post_id;
+				output += '" form_id="';
+				output += i;
+				output += '" form_name="';
+				output += json_form_mafundi[i].form_name;
+				output += '" class="target-user-selected-fundi-form-li-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-fundi-form-li-';
+					output += post_id;
+				output += ' target-user-selected-fundi-form-li">';
+				output += '<span>';
+				output += i;
+				output += '</span>';
+				output += json_form_mafundi[i].form_name;
+				output += '<b id="target-user-selected-fundi-form-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += '" form_name="';
+				output += json_form_mafundi[i].form_name;
+				output += '" class="target-user-selected-fundi-form-';
+					output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-fundi-form-';
+				output += post_id;
+				output += 'target-user-selected-fundi-form hide-ul"><i class="fa fa-check"></i></b></li>';
+		
+}
+	output += '</ul>';
+ output += '</div>';
+		 // NOTIFICATION TARGET FORM CONTAINER ENDS
+    return output;
+ }
+
+ function selectedNotificationTargetDukaFormLink(post_id, response_form_maduka){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+     //NOTIFICATION TARGET FORM CONTAINER STARTS
+	 var json_form_maduka = JSON.parse(decodeURIComponent(response_form_maduka));
+	  output += '<div id="notify-box-';
+	  output += post_id;
+	  output += '" class="notify-box notify-box-';
+	  output += post_id;
+	  output += ' duka-form-active notify-box-btn-';
+	  output += post_id;
+	  output += ' notify-box-btn">';
+			output += '<h2>Maduka Target Form</h2>';
+			
+			output += '<ul id="notify-ul-';
+			 output += post_id;
+			output += '" class="notify-ul-';
+			 output += post_id;
+			output += ' notify-ul">';
+for(var i = 1; i < json_form_maduka.length; i++) {
+
+				output += '<li id="target-user-selected-duka-form-li-';
+					 output += post_id;
+					output += '-';
+				output += i;
+				output += '" form_id="';
+				output += i;
+				output += '" form_name="';
+				output += json_form_maduka[i].form_name;
+				output += '" class="target-user-selected-duka-form-li-';
+					 output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-duka-form-li-';
+				 output += post_id;
+				output += ' target-user-selected-duka-form-li">';
+				output += '<span>';
+				output += i;
+				output += '</span>';
+				output += json_form_maduka[i].form_name;
+				output += '<b id="target-user-selected-duka-form-';
+					 output += post_id;
+				output += '-';
+				output += i;
+				output += '" form_name="';
+				output += json_form_maduka[i].form_name;
+				output += '" class="target-user-selected-duka-form-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-duka-form-';
+				output += post_id;
+				output += ' target-user-selected-duka-form hide-ul"><i class="fa fa-check"></i></b></li>';
+		
+}
+	output += '</ul>';
+ output += '</div>';
+		 // NOTIFICATION TARGET FORM CONTAINER ENDS
+    return output;
+ }
+  function selectedNotificationTargetIndividualFormLink(post_id, response_form_individual){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+     //NOTIFICATION TARGET FORM CONTAINER STARTS
+	 var json_form_individual = JSON.parse(decodeURIComponent(response_form_individual));
+	  output += '<div id="notify-box-';
+	  output += post_id;
+	  output += '" post_id="';
+	    output += post_id;
+	  output += '" class="notify-box notify-box-';
+	  output += post_id;
+	  output += ' individual-form-active-';
+	   output += post_id; 
+	  output += ' individual-form-active notify-box-btn-';
+	    output += post_id;
+	   output += ' notify-box-btn">';
+			output += '<h2>Individual Target Form</h2>';
+			
+			output += '<ul id="notify-ul-';
+			 output += post_id;
+			output += '" post_id="';
+			 output += post_id;
+			output += '" class="notify-ul-';
+			 output += post_id;
+			output += 'notify-ul">';
+for(var i = 1; i < json_form_individual.length; i++) {
+
+				output += '<li id="target-user-selected-individual-form-li-';
+				 output += post_id;
+				output += '-';
+				output += i;
+				output += '" post_id="';
+					 output += post_id;
+				output += '" form_id="';
+				output += i;
+				output += '" form_name="';
+				output += json_form_individual[i].form_name;
+				output += '" post_id="';
+				output += post_id;
+				output += '" class="target-user-selected-individual-form-li-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-individual-form-li-';
+				output += post_id;
+				output += ' target-user-selected-individual-form-li">';
+				output += '<span>';
+				output += i;
+				output += '</span>';
+				output += json_form_individual[i].form_name;
+				output += '<b id="target-user-selected-individual-form-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += '" form_name="';
+				output += json_form_individual[i].form_name;
+				output += '" class="target-user-selected-individual-form-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-individual-form hide-ul"><i class="fa fa-check"></i></b></li>';
+		
+}
+	output += '</ul>';
+ output += '</div>';
+		 // NOTIFICATION TARGET FORM CONTAINER ENDS
+    return output;
+ }
+  function selectedNotificationTargetAllFormLink(post_id, response_form_all){
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+    //console.log("success");
+    var output = '';
+     //NOTIFICATION TARGET FORM CONTAINER STARTS
+	 var json_form_all = JSON.parse(decodeURIComponent(response_form_all));
+	  output += '<div id="notify-box-';
+	 output += post_id; 
+	  output += '" post_id="';
+	 output += post_id; 
+	  output += '" class="notify-box notify-box-';
+	   output += post_id; 
+	  output += ' all-form-active all-form-active-';
+	     output += post_id; 
+	   output += ' notify-box-btn-';
+	      output += post_id; 
+	   output += ' notify-box-btn">';
+			output += '<h2>All Target Form</h2>';
+			
+			output += '<ul id="notify-ul-';
+			 output += post_id; 
+			output += '" post_id="';
+			 output += post_id; 
+			output += '" class="notify-ul-';
+			 output += post_id; 
+			output += ' notify-ul">';
+for(var i = 1; i < json_form_all.length; i++) {
+
+				output += '<li id="target-user-selected-all-form-li-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += '" form_id="';
+				output += i;
+				output += '" form_name="';
+				output += json_form_all[i].form_name;
+				output += '" class="target-user-selected-all-form-li-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-all-form-li">';
+				output += '<span>';
+				output += i;
+				output += '</span>';
+				output += json_form_all[i].form_name;
+				output += '<b id="target-user-selected-all-form-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += '" form_name="';
+				output += json_form_all[i].form_name;
+				output += '" class="target-user-selected-all-form-';
+				output += post_id;
+				output += '-';
+				output += i;
+				output += ' target-user-selected-all-form hide-ul"><i class="fa fa-check"></i></b></li>';
+		
+}
+	output += '</ul>';
+ output += '</div>';
+		 // NOTIFICATION TARGET FORM CONTAINER ENDS
+    return output;
+ }
+  function get_decode_fundi_forms(){
+
+var tamarind_shops = [];
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = "FundiNeedSpareFragment";
+  tamarind_shops.push(tamarind_shop);        
+ tamarind_shop['form_name'] = "AddNahitajiProductSokoniFundiFragment";
+  tamarind_shops.push(tamarind_shop);        
+ tamarind_shop['form_name'] = "AddNewProductSokoniFundiFragment";
+  tamarind_shops.push(tamarind_shop);        
+ tamarind_shop['form_name'] = "HomeAddRentingEquipmentFragment";
+  tamarind_shops.push(tamarind_shop);        
+
+return tamarind_shops;
+ }
+function get_decode_all_forms(){
+var tamarind_shops = [];
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = "HomeMainAccountFragment";
+  tamarind_shops.push(tamarind_shop);        
+
+return tamarind_shops;
+ }
+ function get_decode_individual_forms(){
+
+var tamarind_shops = [];
+
+  var tamarind_shop = {};
+  							
+  tamarind_shop['form_name'] = "HomeAddRentingEquipmentFragment";
+  tamarind_shops.push(tamarind_shop); 
+  tamarind_shop['form_name'] = "NahitajiFundiFragment";
+  tamarind_shops.push(tamarind_shop);        
+tamarind_shop['form_name'] = "AddFindProductSokoniMtejaFragment";
+  tamarind_shops.push(tamarind_shop);  
+  tamarind_shop['form_name'] = "AddMtejaProductSokoniUzaKwaFundiFragment";
+  tamarind_shops.push(tamarind_shop);          
+  
+return tamarind_shops;
+ }
+  function get_decode_duka_forms(){
+
+var tamarind_shops = [];
+
+  var tamarind_shop = {};
+  
+  tamarind_shop['form_name'] = "HomeAddRentingEquipmentFragment";
+  tamarind_shops.push(tamarind_shop);        
+  tamarind_shop['form_name'] = "DashBoardShopAddProductFragment";
+  tamarind_shops.push(tamarind_shop);
+return tamarind_shops;
+ }
+
  function get_small_spinner(add_shop_location){
     add_shop_location.innerHTML = '';
   var li_success_list = selectedSmallSpinnerLink();

@@ -32,8 +32,7 @@ else {
 	<script src="assets/js/demo.js"></script>
 	<script src="assets/js/jquery.Jcrop.js"></script>
 	<script src="assets/js/jcrop_bits.js"></script>
-
-
+<link href="assets/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
 	<!-- CSS -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
