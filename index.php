@@ -49,6 +49,22 @@ if(isset($_POST['post'])){
 }
 ?>
 <div class="main_column column">
+	<div class="center-action-main-container">
+	<h2>Fundi Actions</h2>
+	<div class="center-action-container">
+		<button id="btn-craft" class="btn-craft success" >Craft</button>
+	<button id="btn-address" class="btn-address info" >Address</button>
+	
+	</div>
+	<div id="center-action-selected-container" class="center-action-selected-container">
+		
+	</div>
+	<div id="center-sub-action-selected-container" class="center-sub-action-selected-container">
+		
+	</div>
+</div>
+</div>
+<div class="main_column column">
 	<!-- <button onclick="trySampleRequest();">Try sample request</button> -->
 	
   
