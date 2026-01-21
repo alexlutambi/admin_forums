@@ -2,7 +2,6 @@ $(document).ready(function() {
 
 	console.log("demo loaded...");
     // Example: Show spinner on button click
-//https://fundishop.co.tz/fundiForums/fundi_smarts/admin_forums/includes/handlers/ajax_send_notification.php?page=1
 
 	var btn_all_activate_deactivate_all = document.getElementsByClassName('btn-all-activate-deactivate');
 

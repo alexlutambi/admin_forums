@@ -310,69 +310,69 @@ $(function(){
 </body>
 </html>
 <script type="module">
-	// Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+// 	// Import the functions you need from the SDKs you need
+//         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+//         import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+//         // TODO: Add SDKs for Firebase products that you want to use
+//         // https://firebase.google.com/docs/web/setup#available-libraries
 
-	$(document).ready(function() {
+// 	$(document).ready(function() {
 
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-    apiKey: "AIzaSyAMyja9kLOD0KAWpnltOIBwpzH8bPmuFf4",
-    authDomain: "fundishop-f5b04.firebaseapp.com",
-    projectId: "fundishop-f5b04",
-    storageBucket: "fundishop-f5b04.firebasestorage.app",
-    messagingSenderId: "296082741873",
-    appId: "1:296082741873:web:20993a747384ff1979d9d0",
-    measurementId: "G-LC49RKHG2N"
-  };
+//         // Your web app's Firebase configuration
+//         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+//       const firebaseConfig = {
+//     apiKey: "AIzaSyAMyja9kLOD0KAWpnltOIBwpzH8bPmuFf4",
+//     authDomain: "fundishop-f5b04.firebaseapp.com",
+//     projectId: "fundishop-f5b04",
+//     storageBucket: "fundishop-f5b04.firebasestorage.app",
+//     messagingSenderId: "296082741873",
+//     appId: "1:296082741873:web:20993a747384ff1979d9d0",
+//     measurementId: "G-LC49RKHG2N"
+//   };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const messaging = getMessaging(app);
+//         // Initialize Firebase
+//         const app = initializeApp(firebaseConfig);
+//         const messaging = getMessaging(app);
 
-		if ('Notification' in window) { // Check if the Notification API is supported
-  Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
-      // Permission granted, notifications can be sent
-      console.log('Notification permission granted.');
-  navigator.serviceWorker.register("assets/js/sw.js").then(registration => {
-            getToken(messaging, {
-                serviceWorkerRegistration: registration,
-                vapidKey: 'BKrKCEfM048ErJINaK1zClbDRe4ZXmNAKP9hv7fVmTKSVXIAjmg1invhS62S_R1Gin0HP210sdn041MYDVj2Sdw' }).then((currentToken) => {
-                if (currentToken) {
-                    console.log("Token is: "+currentToken);
-					var fcm_token_loading_container = document.getElementById("fcm-token-loading-container");
-					fcm_token_loading_container.classList.add("loading-token-active");
-					var fileToUpload = document.getElementById("fileToUpload");
-					  fileToUpload.setAttribute("currentToken", currentToken);
-                    // Send the token to your server and update the UI if necessary
-                    // ...
-                } else {
-                    // Show permission request UI
-                    console.log('No registration token available. Request permission to generate one.');
-                    // ...
-                }
-            }).catch((err) => {
-                console.log('An error occurred while retrieving token. ', err);
-                // ...
-            });
-        });
-    } else if (permission === 'denied') {
-      // Permission denied, notifications cannot be sent
-      console.log('Notification permission denied.');
-    } else if (permission === 'default') {
-      // User dismissed the prompt, permission is unknown
-      console.log('Notification permission dismissed.');
-    }
-  });
-} else {
-  console.log('Notification API not supported in this browser.');
-}
+// 		if ('Notification' in window) { // Check if the Notification API is supported
+//   Notification.requestPermission().then((permission) => {
+//     if (permission === 'granted') {
+//       // Permission granted, notifications can be sent
+//       console.log('Notification permission granted.');
+//   navigator.serviceWorker.register("assets/js/sw.js").then(registration => {
+//             getToken(messaging, {
+//                 serviceWorkerRegistration: registration,
+//                 vapidKey: 'BKrKCEfM048ErJINaK1zClbDRe4ZXmNAKP9hv7fVmTKSVXIAjmg1invhS62S_R1Gin0HP210sdn041MYDVj2Sdw' }).then((currentToken) => {
+//                 if (currentToken) {
+//                     console.log("Token is: "+currentToken);
+// 					var fcm_token_loading_container = document.getElementById("fcm-token-loading-container");
+// 					fcm_token_loading_container.classList.add("loading-token-active");
+// 					var fileToUpload = document.getElementById("fileToUpload");
+// 					  fileToUpload.setAttribute("currentToken", currentToken);
+//                     // Send the token to your server and update the UI if necessary
+//                     // ...
+//                 } else {
+//                     // Show permission request UI
+//                     console.log('No registration token available. Request permission to generate one.');
+//                     // ...
+//                 }
+//             }).catch((err) => {
+//                 console.log('An error occurred while retrieving token. ', err);
+//                 // ...
+//             });
+//         });
+//     } else if (permission === 'denied') {
+//       // Permission denied, notifications cannot be sent
+//       console.log('Notification permission denied.');
+//     } else if (permission === 'default') {
+//       // User dismissed the prompt, permission is unknown
+//       console.log('Notification permission dismissed.');
+//     }
+//   });
+// } else {
+//   console.log('Notification API not supported in this browser.');
+// }
 
-	});
+// 	});
 
     </script>
