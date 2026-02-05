@@ -2,29 +2,38 @@ $(document).ready(function() {
 
 	console.log("demo loaded...");
     // Example: Show spinner on button click
-var btn_craft = document.getElementById("btn-craft");
-btn_craft.addEventListener('click', function(){
-	console.log("btn_craft id=>"+this.id);
-	var product_id = document.getElementById(this.id);
+var btn_craft = document.getElementsByClassName('btn-craft');
+
+    for(var i = 0; i < btn_craft.length; i++){
+  btn_craft[i].addEventListener('click', function(){
+console.log("btn_craft id=>"+this.id);
+	var btn_craft_id = document.getElementById(this.id);
 	
 	var center_sub_action_selected_container = document.getElementById("center-sub-action-selected-container");
 	center_sub_action_selected_container.innerHTML = '';
 	var center_action_selected_container = document.getElementById("center-action-selected-container");
-	load_craft_data(btn_craft, center_action_selected_container);
+	load_craft_data(btn_craft_id, center_action_selected_container);
 
 })
 
-var btn_address = document.getElementById("btn-address");
-btn_address.addEventListener('click', function(){
+	}
+
+
+	 var btn_address = document.getElementsByClassName('btn-address');
+
+    for(var i = 0; i < btn_address.length; i++){
+  btn_address[i].addEventListener('click', function(){
 	console.log("btn_address id=>"+this.id);
-	var product_id = document.getElementById(this.id);
+	var btn_address_id = document.getElementById(this.id);
 	var center_sub_action_selected_container = document.getElementById("center-sub-action-selected-container");
 	center_sub_action_selected_container.innerHTML = '';
 	var center_action_selected_container = document.getElementById("center-action-selected-container");
 	
-	load_address_data(btn_craft, center_action_selected_container);
+	load_address_data(btn_address_id, center_action_selected_container);
 
 })
+
+	}
 function load_craft_data(btn_craft, container){
 		btn_craft.classList.remove("activation-loading");
 		var user_details_left_right =  document.getElementById("user_details_left_right");
