@@ -218,7 +218,7 @@ get_fundi_details_add_craft(center_sub_action_selected_container, admin_id);
 	var btn_craft_icon_update_container = document.getElementById(btn_craft_icon_update_id);
 
     var admin_id = btn_craft_icon_update_container.getAttribute('admin_id');
-
+console.log("admin_id=>"+admin_id);
 		Array.prototype.forEach.call(document.querySelectorAll('.btn-craft-icon-add-'+admin_id), function (button) {
   var admin_id = button.getAttribute("admin_id");
   
