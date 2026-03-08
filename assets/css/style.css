@@ -523,6 +523,9 @@ align-items: center;
 .hide-ul{
 	display: none;
 }
+.hide-input{
+	display: none !important;
+}
 .notify-box ul:hover li{
 opacity: 0.2;
 }
@@ -709,7 +712,7 @@ content: "";
 	width: 100%;
 }
 .center-equipment-action-selected-header table tr td:first-of-type{
-	width: 70%;
+	width: 60%;
 	margin-top: 0.25rem;
 }
 .center-equipment-action-selected-header table tr td:first-of-type p{
@@ -751,6 +754,21 @@ border: 1px solid var(--color-danger);
 border: 1px solid var(--color-success);
     background-color: var(--color-success);
 }
+ .center-equipment-action-selected-header table tr td .btn-craft-icon-update{
+height: 50px;
+    border-radius: 25px;
+    margin: 1px 12px 0 2px;
+	cursor: pointer;
+    float: left;
+}
+.center-equipment-action-selected-input table tr td .btn-craft-icon-add {
+    height: 100px;
+    border-radius: 25px;
+    margin: 1px 12px 0 2px;
+	cursor: pointer;
+    float: left;
+}
+
 .center-equipment-action-selected-header table tr td .btn-country-update, .center-equipment-action-selected-header table tr td .btn-country-region-update{
 border: 1px solid var(--color-success);
     background-color: var(--color-success);

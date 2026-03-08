@@ -2,7 +2,8 @@ $(document).ready(function() {
 
 	console.log("demo loaded...");
     // Example: Show spinner on button click
-var btn_craft = document.getElementsByClassName('btn-craft');
+
+  var btn_craft = document.getElementsByClassName('btn-craft');
 
     for(var i = 0; i < btn_craft.length; i++){
   btn_craft[i].addEventListener('click', function(){
@@ -172,10 +173,12 @@ var professional = craft_display_container_action.getAttribute("professional");
 var professional_btn = craft_display_container_action.getAttribute("professional_btn");
 var professional_hint = craft_display_container_action.getAttribute("professional_hint");
 var professional_header = craft_display_container_action.getAttribute("professional_header");
+var professional_icon = craft_display_container_action.getAttribute("professional_icon");
+var professional_icon_color_thumb = craft_display_container_action.getAttribute("professional_icon_color_thumb");
 var total_fundi = craft_display_container_action.getAttribute("total_fundi");
 var is_active = craft_display_container_action.getAttribute("is_active");
 var center_sub_action_selected_container = document.getElementById("center-sub-action-selected-container");
-get_fundi_details_craft(center_sub_action_selected_container, is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header);
+get_fundi_details_craft(center_sub_action_selected_container, is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header, professional_icon, professional_icon_color_thumb);
 })
 
 	}
@@ -207,6 +210,36 @@ get_fundi_details_add_craft(center_sub_action_selected_container, admin_id);
   var li_success_list = selectedFundiCraftAddDetailsLink(admin_id);
   container.innerHTML = li_success_list;
   container.style.display = 'online';
+
+  var btn_craft_icon_update = document.getElementsByClassName('btn-craft-icon-add');
+
+    for(var i = 0; i < btn_craft_icon_update.length; i++){
+ var btn_craft_icon_update_id = btn_craft_icon_update[i].id;
+	var btn_craft_icon_update_container = document.getElementById(btn_craft_icon_update_id);
+
+    var admin_id = btn_craft_icon_update_container.getAttribute('admin_id');
+
+		Array.prototype.forEach.call(document.querySelectorAll('.btn-craft-icon-add-'+admin_id), function (button) {
+  var admin_id = button.getAttribute("admin_id");
+  
+  const hiddenInput = button.parentElement.querySelector('.file-upload-craft-icon-add__input-'+admin_id);
+  
+  button.addEventListener('click', function(){
+    console.log("clicked select new icon"+admin_id);
+
+   hiddenInput.click();
+
+ });
+ hiddenInput.addEventListener('change', function(){
+  console.log("admin_id=>"+admin_id+" : "+hiddenInput.files);
+
+  var file_input = $('#selected-craft-icon-add-'+admin_id);
+  get_encode_selected_new_craft_icon(admin_id, file_input);
+ });
+    });
+
+
+	}
   var fundi_add_craft_btn = document.getElementsByClassName('fundi-add-craft-btn');
 
     for(var i = 0; i < fundi_add_craft_btn.length; i++){
@@ -223,7 +256,14 @@ get_fundi_details_add_craft(center_sub_action_selected_container, admin_id);
 	 var professional_header= document.getElementById("professional-header-value-"+admin_id).value;
 	 
 	 if(document.getElementsByClassName('activation-loading').length == 0){
-get_add_fundi_craft(fundi_add_craft_btn_action, admin_id, professional, professional_hint, professional_btn, professional_header);
+
+		if(document.getElementById("btn-craft-icon-add-"+admin_id).getAttribute("is_craft_icon_selected") > 0){
+			
+get_add_fundi_craft(fundi_add_craft_btn_action, admin_id, professional, professional_hint, professional_btn, professional_header, get_decode_new_image(decodeURIComponent(document.getElementById("btn-craft-icon-add-"+admin_id).getAttribute("response_craft_icon"))));
+		}else{
+			alert('Please select professional icon');
+		}
+		
 
 
 	 }
@@ -253,6 +293,52 @@ var professional_header = btn_craft_update_action.getAttribute("professional_hea
 get_fundi_update_details_craft(center_equipment_action_selected_input, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header);
 
 })
+
+	}
+
+	var btn_craft_icon_update = document.getElementsByClassName('btn-craft-icon-update');
+
+    for(var i = 0; i < btn_craft_icon_update.length; i++){
+
+	var btn_craft_icon_update_id = btn_craft_icon_update[i].id;
+	var btn_craft_icon_update_container = document.getElementById(btn_craft_icon_update_id);
+    
+    var professional_id = btn_craft_icon_update_container.getAttribute('professional_id');
+
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+ var professional_icon = btn_craft_icon_update_container.getAttribute("professional_icon");
+var professional_icon_color_thumb = btn_craft_icon_update_container.getAttribute("professional_icon_color_thumb");
+ 
+var real_image_url = server_link+"fundiForums/fundi_smarts/admin_forums/assets/images/professional_icons/"+professional_icon;
+ var destination = professional_id+"_"+professional_icon;
+    var qulity = 10;
+     var thumb_image_url = server_link+"fundiForums/fundi_smarts/admin_forums/assets/images/professional_icons/img_resolution.php?image_url="+professional_icon+"&&width=100&&height=100&&destination="+destination+"&&qulity="+qulity;
+   
+	 if(professional_icon != "no icon"){
+ get_display_thumb_image(server_link, professional_id, thumb_image_url, real_image_url, btn_craft_icon_update_container);
+
+	 }
+
+		Array.prototype.forEach.call(document.querySelectorAll('.btn-craft-icon-update-'+professional_id), function (button) {
+  var professional_id = button.getAttribute("professional_id");
+  
+  const hiddenInput = button.parentElement.querySelector('.file-upload-craft-icon-update__input-'+professional_id);
+  
+  button.addEventListener('click', function(){
+    console.log("clicked select icon"+professional_id);
+ 
+   hiddenInput.click();  
+
+ });
+ hiddenInput.addEventListener('change', function(){
+  console.log("professional_id=>"+professional_id+" : "+hiddenInput.files);
+
+  var file_input = $('#selected-craft-icon-update-'+professional_id);
+  get_encode_selected_craft_icon(professional_id, file_input);
+ });
+    });
 
 	}
 
@@ -703,7 +789,7 @@ xhr_quality.send(JSON.stringify({"craft_hint" : product_hints}));
 
 
 }
-	function get_add_fundi_craft(btn_craft, admin_id, professional, professional_hint, professional_btn, professional_header){
+	function get_add_fundi_craft(btn_craft, admin_id, professional, professional_hint, professional_btn, professional_header, response_craft_icon){
 		console.log("add craft now professional=>"+professional);
 
 		
@@ -722,6 +808,7 @@ product_hint["professional"] = professional;
 product_hint["professional_hint"] = professional_hint;
 product_hint["professional_btn"] = professional_btn;
 product_hint["professional_header"] = professional_header;
+product_hint["response_craft_icon"] = response_craft_icon;
 product_hints.push(product_hint);
 
 
@@ -754,6 +841,22 @@ load_craft_data(btn_craft, center_action_selected_container);
 xhr_quality.send(JSON.stringify({"craft_hint" : product_hints}));
 	}
 
+	function get_decode_new_image(response_craft_icon){
+	 var image_passports = [];
+    
+	var json_icon = JSON.parse(response_craft_icon);
+	for(var x = 0; x < json_icon.length; x++){
+	console.log("new_icon=>"+json_icon[x].icon_bgr);
+    var image_passport = {};
+    image_passport["admin_id"] = json_icon[x].admin_id;
+    image_passport["icon_bgr"] = json_icon[x].icon_bgr;
+    image_passport["icon_img"] = json_icon[x].icon_img;
+    image_passports.push(image_passport);
+    
+    
+	}
+	return image_passports;
+	}
 function get_add_fundi_country(btn_craft, admin_id, country, name_code){
 		console.log("add county now country=>"+country+" : name_code=>"+name_code);
 
@@ -854,6 +957,26 @@ var server_link = body_main.getAttribute("server_link");
 		output += '</td>';
 		output += '</tr>';
 			output += '<tr>';
+		output += '<td>';
+  output += '<img src="';
+	output += server_link;
+	output += 'fundiForums/fundi_smarts/admin_forums/assets/images/icons/fundi_forums_icon.png" alt="craft icon" id="btn-craft-icon-add-';
+output += admin_id;
+output += '" admin_id="';
+output += admin_id;
+output += '" is_craft_icon_selected="0" class="btn-craft-icon-add-';
+output += admin_id;
+output += ' btn-craft-icon-add">';
+ output += '<input type="file" class="hide-input file-upload-craft-icon-add__input-';
+        output += admin_id;
+        output += '" id="selected-craft-icon-add-';
+        output += admin_id;
+        output += '" admin_id="';
+        output += admin_id;
+        output += '" accept="image/*, .jpg, .gif, .png, .jpeg"/>';
+		output += '</td>';
+		output += '</tr>';
+				output += '<tr>';
 		output += '<td>';
         output += '<button id="fundi-add-craft-btn-';
 		output += admin_id;
@@ -974,7 +1097,11 @@ var json_container_data = JSON.parse(json_product_color_array[c].container_data)
    output += json_container_data[cd].professional_hint;
      output += '" professional_header="';
    output += json_container_data[cd].professional_header;
-      output += '" total_fundi="';
+   output += '" professional_icon="';
+   output += json_container_data[cd].professional_icon;
+   output += '" professional_icon_color_thumb="';
+   output += json_container_data[cd].professional_icon_color_thumb;
+   output += '" total_fundi="';
    output += json_container_data[cd].total_fundi;
   output += '" class="craft-display-container ';
   if(json_container_data[cd].is_active == 1){
@@ -1109,9 +1236,9 @@ output += admin_id;
 		
     return output;
  }
-  function get_fundi_details_craft(container, is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header){
+  function get_fundi_details_craft(container, is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header, professional_icon, professional_icon_color_thumb){
     container.innerHTML = '';
-  var li_success_list = selectedFundiCraftDetailsLink(is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header);
+  var li_success_list = selectedFundiCraftDetailsLink(is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header, professional_icon, professional_icon_color_thumb);
   container.innerHTML = li_success_list;
   container.style.display = 'online';
  var center_equipment_action_selected_sub = document.getElementById("center-equipment-action-selected-sub-"+professional_id);
@@ -1162,7 +1289,50 @@ get_fundi_update_details_craft(center_equipment_action_selected_input, total_fun
 })
 
 	}
+var btn_craft_icon_update = document.getElementsByClassName('btn-craft-icon-update');
 
+    for(var i = 0; i < btn_craft_icon_update.length; i++){
+ var btn_craft_icon_update_id = btn_craft_icon_update[i].id;
+	var btn_craft_icon_update_container = document.getElementById(btn_craft_icon_update_id);
+    
+    var professional_id = btn_craft_icon_update_container.getAttribute('professional_id');
+var body_main = document.getElementById("body-main");
+var server_link = body_main.getAttribute("server_link");
+
+ var professional_icon = btn_craft_icon_update_container.getAttribute("professional_icon");
+var professional_icon_color_thumb = btn_craft_icon_update_container.getAttribute("professional_icon_color_thumb");
+ 
+var real_image_url = server_link+"fundiForums/fundi_smarts/admin_forums/assets/images/professional_icons/"+professional_icon;
+ var destination = professional_id+"_"+professional_icon;
+    var qulity = 10;
+     var thumb_image_url = server_link+"fundiForums/fundi_smarts/admin_forums/assets/images/professional_icons/img_resolution.php?image_url="+professional_icon+"&&width=100&&height=100&&destination="+destination+"&&qulity="+qulity;
+   
+	 if(professional_icon != "no icon"){
+ get_display_thumb_image(server_link, professional_id, thumb_image_url, real_image_url, btn_craft_icon_update_container);
+
+	 }
+	
+		Array.prototype.forEach.call(document.querySelectorAll('.btn-craft-icon-update-'+professional_id), function (button) {
+  var professional_id = button.getAttribute("professional_id");
+  
+  const hiddenInput = button.parentElement.querySelector('.file-upload-craft-icon-update__input-'+professional_id);
+  
+  button.addEventListener('click', function(){
+    console.log("clicked select icon"+professional_id);
+
+   hiddenInput.click();
+
+ });
+ hiddenInput.addEventListener('change', function(){
+  console.log("professional_id=>"+professional_id+" : "+hiddenInput.files);
+
+  var file_input = $('#selected-craft-icon-update-'+professional_id);
+  get_encode_selected_craft_icon(professional_id, file_input);
+ });
+    });
+
+
+	}
 var btn_craft_delete = document.getElementsByClassName('btn-craft-delete');
 
     for(var i = 0; i < btn_craft_delete.length; i++){
@@ -1212,7 +1382,244 @@ get_fundi_activate_deativate_craft(center_action_selected_container, 1, btn_craf
 
 	}
     }
+	function get_encode_selected_craft_icon(professional_id, file_input){
 
+
+  var total_files = file_input[0].files.length;
+  for(var count = 0; count < total_files; count++)
+    {
+        var file_name = file_input[0].files[count].name;
+  
+        var extension = file_name.split('.').pop().toLowerCase();
+  
+        if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
+        {
+             alert('Invalid Image File');
+
+            $('#selected-craft-icon-update-'+professional_id).val('');
+
+            return false;
+        }
+  
+
+        var file_size = file_input[0].files[count].size;
+  
+  //1000000 => 1GB
+  
+        const reader = new FileReader();
+  
+  var file_resize = file_input[0].files[count];
+  
+  
+  reader.readAsDataURL(file_resize);
+  image_single = {}
+  
+  reader.onload = function (event) {
+  console.log("resize starts");
+  const imgElement = document.createElement("img");
+  imgElement.src = event.target.result;
+  
+  imgElement.onload = function (e) {
+  const canvas = document.createElement("canvas");
+  const MAX_WIDTH = 400;
+  
+  const scaleSize = MAX_WIDTH / e.target.width;
+  canvas.width = MAX_WIDTH;
+  canvas.height = e.target.height * scaleSize;
+  
+  const ctx = canvas.getContext("2d");
+  
+  ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+  
+  const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+  
+  
+  
+  // you can send srcEncoded to the server
+//console.log("srcEncoded=>"+srcEncoded);
+  
+  //Save logo image
+  
+  var p = ctx.getImageData(7, 7, 1, 1).data;
+  var hex = "RGB = " + p[0]+", "+p[1]+", "+p[2];
+  
+  //console.log("red=>"+p[0]);
+  //console.log("green=>"+p[1]);
+  //console.log("red=>"+p[2]);
+  
+  var image_bgr = get_craft_icon_bgr_color_list(1, p[0], p[1], p[2]);
+  //console.log("professional_id=>"+professional_id+" : image=>"+srcEncoded);
+
+   document.querySelector("#btn-craft-icon-update-"+professional_id).src = srcEncoded;
+ 
+  var user_personal_details_profile = document.getElementById("btn-craft-icon-update-"+professional_id);
+
+  var professional_icon = user_personal_details_profile.getAttribute("professional_icon");
+  var professional_icon_color_thumb = user_personal_details_profile.getAttribute("professional_icon_color_thumb");
+
+  get_uploaded_craft_icon(professional_id, get_craft_icon_list(professional_icon_color_thumb, professional_icon, professional_id, image_bgr, srcEncoded));
+
+
+  };
+  }
+    }
+  }
+	function get_encode_selected_new_craft_icon(admin_id, file_input){
+
+  var total_files = file_input[0].files.length;
+  for(var count = 0; count < total_files; count++)
+    {
+        var file_name = file_input[0].files[count].name;
+  
+        var extension = file_name.split('.').pop().toLowerCase();
+  
+        if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
+        {
+             alert('Invalid Image File');
+
+            $('#selected-craft-icon-add-'+admin_id).val('');
+
+            return false;
+        }
+  
+        var file_size = file_input[0].files[count].size;
+  
+  //1000000 => 1GB
+  
+        const reader = new FileReader();
+  
+  var file_resize = file_input[0].files[count];
+  
+  reader.readAsDataURL(file_resize);
+  image_single = {}
+  
+  reader.onload = function (event) {
+  console.log("resize starts");
+  const imgElement = document.createElement("img");
+  imgElement.src = event.target.result;
+  
+  imgElement.onload = function (e) {
+  const canvas = document.createElement("canvas");
+  const MAX_WIDTH = 400;
+  
+  const scaleSize = MAX_WIDTH / e.target.width;
+  canvas.width = MAX_WIDTH;
+  canvas.height = e.target.height * scaleSize;
+  
+  const ctx = canvas.getContext("2d");
+  
+  ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+  
+  const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+  
+  
+  
+  // you can send srcEncoded to the server
+//console.log("srcEncoded=>"+srcEncoded);
+  
+  //Save logo image
+  var p = ctx.getImageData(7, 7, 1, 1).data;
+  var hex = "RGB = " + p[0]+", "+p[1]+", "+p[2];
+  
+  //console.log("red=>"+p[0]);
+  //console.log("green=>"+p[1]);
+  //console.log("red=>"+p[2]);
+  
+  var image_bgr = get_craft_icon_bgr_color_list(1, p[0], p[1], p[2]);
+  //console.log("professional_id=>"+professional_id+" : image=>"+srcEncoded);
+
+    var user_details_left_right = document.getElementById("user_details_left_right");
+	var admin_id = user_details_left_right.getAttribute("admin_id");
+  console.log("craft_admin_id=>"+admin_id);
+   document.querySelector("#btn-craft-icon-add-"+admin_id).src = srcEncoded;
+
+  var user_personal_details_profile = document.getElementById("btn-craft-icon-add-"+admin_id);
+
+  var admin_id = user_personal_details_profile.getAttribute("admin_id");
+  var professional_icon_color_thumb = user_personal_details_profile.getAttribute("professional_icon_color_thumb");
+
+  var btn_craft_icon_add = document.getElementById("btn-craft-icon-add-"+admin_id);
+
+ btn_craft_icon_add.setAttribute("response_craft_icon",  encodeURIComponent(JSON.stringify(get_craft_new_icon_list(admin_id, image_bgr, srcEncoded))));
+btn_craft_icon_add.setAttribute("is_craft_icon_selected", 1);
+  };
+  }
+    }
+  }
+var loading_progress_online_data = false;
+   function get_uploaded_craft_icon(professional_id, response_user_profile_details) {
+    
+    if(loading_progress_online_data){ return; }
+    loading_progress_online_data = true;
+    
+    var btn_craft_icon_update =  document.getElementById("btn-craft-icon-update-"+professional_id);
+
+    get_small_spinner(btn_craft_icon_update);
+
+      var action_quality = "includes/handlers/ajax_update_craft_icon.php";
+
+    var xhr_quality = new XMLHttpRequest();
+    xhr_quality.open('POST', action_quality, true);
+    
+    
+    xhr_quality.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+    xhr_quality.onreadystatechange = function () {
+      if(xhr_quality.readyState == 4 && xhr_quality.status == 200) {
+        var result = xhr_quality.responseText;
+      console.log('Result_update_craft_icon: ' + result);
+
+      btn_craft_icon_update.innerHTML = 'Update Icon';
+
+      var json_result = JSON.parse(result);
+      loading_progress_online_data = false;
+       
+      }
+    };
+    xhr_quality.send(JSON.stringify({"reg_user_profile_details" : response_user_profile_details}));
+    
+    }
+
+
+	   function get_craft_new_icon_list(admin_id, image_bgr, srcEncoded){
+
+    var image_passports = [];
+    
+    var image_passport = {};
+    image_passport["admin_id"] = admin_id;
+    image_passport["icon_bgr"] = image_bgr;
+    image_passport["icon_img"] = srcEncoded;
+    image_passports.push(image_passport);
+    
+    return image_passports;
+    }
+   function get_craft_icon_list(professional_icon_color_thumb, professional_icon, professional_id, image_bgr, srcEncoded){
+
+    var image_passports = [];
+    
+    var image_passport = {};
+    image_passport["professional_id"] = professional_id;
+    image_passport["professional_icon"] = "../customer_v1/profile_employee/"+professional_icon;
+    image_passport["professional_icon_color_thumb"] = "../customer_v1/profile_employee/logo_thumb_color/"+professional_icon_color_thumb;
+    image_passport["icon_bgr"] = image_bgr;
+    image_passport["icon_img"] = srcEncoded;
+    image_passports.push(image_passport);
+    
+    return image_passports;
+    }
+   function get_craft_icon_bgr_color_list(count, red, green, blue){
+    
+    image_bgrs = [];
+    
+    var image_bgr = {};
+    image_bgr["image_color_position"] = count;
+    image_bgr["red"] = red;
+    image_bgr["green"] = green;
+    image_bgr["blue"] = blue;
+        
+    image_bgrs.push(image_bgr);
+      
+    return image_bgrs;
+    }
   function get_fundi_details_country(container,  is_active, total_fundi, country_id, country_name, name_code){
     container.innerHTML = '';
   var li_success_list = selectedFundiCountryDetailsLink(is_active, total_fundi, country_id, country_name, name_code);
@@ -3798,7 +4205,7 @@ var server_link = body_main.getAttribute("server_link");
 		
     return output;
  }
-    function selectedFundiCraftDetailsLink(is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header){
+    function selectedFundiCraftDetailsLink(is_active, total_fundi, professional_id, professional, professional_btn, professional_hint, professional_header, professional_icon, professional_icon_color_thumb){
 var body_main = document.getElementById("body-main");
 var server_link = body_main.getAttribute("server_link");
 
@@ -3843,7 +4250,40 @@ output += professional;
    output += total_fundi;
 output += '" class="btn-craft-update-';
 output += professional_id;
-output += ' btn-craft-update">Update</button></td><td><button id="btn-craft-activate-';
+output += ' btn-craft-update">Update</button></td><td>';
+  output += '<img src="';
+	output += server_link;
+	output += 'fundiForums/fundi_smarts/admin_forums/assets/images/icons/fundi_forums_icon.png" alt="craft icon" id="btn-craft-icon-update-';
+output += professional_id;
+output += '" professional_id="';
+output += professional_id;
+output += '" professional="';
+output += professional;
+ output += '" professional="';
+  output += professional;
+  output += '" professional_btn="';
+  output += professional_btn;
+  output += '" professional_hint="';
+   output += professional_hint;
+     output += '" professional_header="';
+   output += professional_header;
+      output += '" total_fundi="';
+   output += total_fundi;
+  output += '" professional_icon="';
+   output += professional_icon;
+     output += '" professional_icon_color_thumb="';
+   output += professional_icon_color_thumb;
+output += '" class="btn-craft-icon-update-';
+output += professional_id;
+output += ' btn-craft-icon-update">';
+ output += '<input type="file" class="hide-input file-upload-craft-icon-update__input-';
+        output += professional_id;
+        output += '" id="selected-craft-icon-update-';
+        output += professional_id;
+        output += '" professional_id="';
+        output += professional_id;
+        output += '" accept="image/*, .jpg, .gif, .png, .jpeg"/>';
+		output += '</td><td><button id="btn-craft-activate-';
 output += professional_id;
 output += '" professional="';
 output += professional;

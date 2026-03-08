@@ -44,7 +44,11 @@ $color_count = $color_count + 1;
 array_push($tamarind_customer_request_colors, array(
             "professional_id"=>$row_professionals[0],"professional"=>$row_professionals[1],
 	"is_active"=>$row_professionals[2],"professional_hint"=>$row_professionals[3],"professional_header"=>$row_professionals[4],
+<<<<<<< HEAD
+	"professional_btn"=>$row_professionals[5],"professional_icon"=>$row_professionals[6],"professional_icon_color_thumb"=>$row_professionals[7],"professional_icon_color"=>$row_professionals[8],"created"=>$row_professionals[9],"total_fundi"=>$row_professionals[10]));
+=======
 	"professional_btn"=>$row_professionals[5],"created"=>$row_professionals[6],"total_fundi"=>$row_professionals[7]));
+>>>>>>> e0991101553c9bbc799074abd8b24991c2fd7271
 
 if($color_count == $display_limit){
 
